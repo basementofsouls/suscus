@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model categories {
+  id           Int            @id @default(autoincrement())
+  name         String         @unique @db.VarChar(100)
+  created_at   DateTime?      @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime?      @default(now()) @db.Timestamptz(6)
+  publications publications[]
+}
+
+model comments {
+  id             Int          @id @default(autoincrement())
+  user_id        Int
+  publication_id Int
+  content        String
+  created_at     DateTime?    @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime?    @default(now()) @db.Timestamptz(6)
+  publications   publications @relation(fields: [publication_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users          users        @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model orders {
+  id                            Int       @id @default(autoincrement())
+  user_id                       Int
+  artist_id                     Int
+  reference                     String?
+  description                   String?
+  status                        String    @db.VarChar(10)
+  created_at                    DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at                    DateTime? @default(now()) @db.Timestamptz(6)
+  users_orders_artist_idTousers users     @relation("orders_artist_idTousers", fields: [artist_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  users_orders_user_idTousers   users     @relation("orders_user_idTousers", fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model publications {
+  id          Int         @id @default(autoincrement())
+  artist_id   Int
+  title       String      @db.VarChar(255)
+  image_url   String
+  description String?
+  category_id Int?
+  created_at  DateTime?   @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime?   @default(now()) @db.Timestamptz(6)
+  comments    comments[]
+  users       users       @relation(fields: [artist_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  categories  categories? @relation(fields: [category_id], references: [id], onUpdate: NoAction)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model users {
+  id                             Int            @id @default(autoincrement())
+  username                       String         @unique @db.VarChar(50)
+  email                          String         @unique @db.VarChar(100)
+  password                       String         @db.VarChar(255)
+  avatar                         String?
+  role                           String         @db.VarChar(10)
+  created_at                     DateTime?      @default(now()) @db.Timestamptz(6)
+  updated_at                     DateTime?      @default(now()) @db.Timestamptz(6)
+  comments                       comments[]
+  orders_orders_artist_idTousers orders[]       @relation("orders_artist_idTousers")
+  orders_orders_user_idTousers   orders[]       @relation("orders_user_idTousers")
+  publications                   publications[]
+}
