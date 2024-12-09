@@ -1,7 +1,6 @@
 import { UsersService } from './users.service';
-export declare class AppController {
+export declare class UsersController {
     private readonly userService;
     constructor(userService: UsersService);
-    getHello(): string;
-    getHello2(): string;
+    getProfile(req: any): any;
 }

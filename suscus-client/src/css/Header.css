@@ -1,0 +1,13 @@
+.header {
+  padding: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+.header-ul {
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+  list-style-type: none;
+  gap: 24px;
+}

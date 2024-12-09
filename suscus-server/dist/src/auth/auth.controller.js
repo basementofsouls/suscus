@@ -22,12 +22,10 @@ let AuthController = class AuthController {
         this.usersService = usersService;
     }
     async register(body) {
-        return this.usersService.createUser(body.username, body.email, body.password);
+        return await this.usersService.createUser(body.username, body.email, body.password);
     }
-    async login(body) {
-        return this.authService.validateUser(body.email, body.password).then(user => {
-            return this.authService.login(user);
-        });
+    async login(signInDto) {
+        return this.authService.login(signInDto.email, signInDto.password);
     }
 };
 exports.AuthController = AuthController;
@@ -39,6 +37,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "register", null);
 __decorate([
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.Post)('login'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),

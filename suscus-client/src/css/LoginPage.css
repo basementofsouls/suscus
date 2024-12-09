@@ -1,0 +1,32 @@
+.login-page {
+  display: flex;
+  flex-direction: row;
+  text-align: left;
+  min-height: 100vh;
+}
+.login-page-form-column {
+  min-width: 630px;
+  background-color: #1c1d21;
+
+  flex-direction: column;
+  display: flex;
+
+  justify-content: center;
+  justify-items: center;
+}
+.login-page-form {
+  margin: auto;
+}
+.login-page-info {
+  margin-top: 147px;
+  margin-left: 274px;
+}
+.login-page-form-top {
+  margin-bottom: 48px;
+}
+.login-page-form-title {
+  margin-bottom: 12px;
+}
+.login-page-form-subtitle {
+  color: rgba(255, 255, 255, 0.7);
+}

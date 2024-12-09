@@ -18,10 +18,7 @@ export declare class AuthController {
         created_at: Date | null;
         updated_at: Date | null;
     }>;
-    login(body: {
-        email: string;
-        password: string;
-    }): Promise<{
+    login(signInDto: Record<string, any>): Promise<{
         access_token: string;
     }>;
 }

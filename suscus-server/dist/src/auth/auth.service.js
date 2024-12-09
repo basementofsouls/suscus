@@ -14,6 +14,7 @@ const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const users_service_1 = require("../users/users.service");
 const bcrypt = require("bcrypt");
+const constants_1 = require("../constants/constants");
 let AuthService = class AuthService {
     constructor(usersService, jwtService) {
         this.usersService = usersService;
@@ -22,14 +23,23 @@ let AuthService = class AuthService {
     async validateUser(email, password) {
         const user = await this.usersService.findByEmail(email);
         if (user && (await bcrypt.compare(password, user.password))) {
-            const { password, ...result } = user;
+            const { ...result } = user;
             return result;
         }
         throw new common_1.UnauthorizedException('Invalid credentials');
     }
-    async login(user) {
-        const payload = { username: user.username, sub: user.id };
-        return { access_token: this.jwtService.sign(payload) };
+    async login(email, pass) {
+        const user = await this.usersService.findByEmail(email);
+        const isMatch = await bcrypt.compare(pass, user.password);
+        if (!isMatch) {
+            throw new common_1.UnauthorizedException();
+        }
+        const payload = { sub: user.id, username: user.username };
+        return {
+            access_token: await this.jwtService.signAsync(payload, {
+                secret: constants_1.jwtConstants.secret,
+            }),
+        };
     }
 };
 exports.AuthService = AuthService;

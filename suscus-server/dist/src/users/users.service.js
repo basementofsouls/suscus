@@ -24,7 +24,7 @@ let UsersService = class UsersService {
                 username,
                 email,
                 password: hashedPassword,
-                role: 'user'
+                role: 'user',
             },
         });
     }

@@ -8,12 +8,13 @@ export declare class AuthService {
         id: number;
         username: string;
         email: string;
+        password: string;
         avatar: string | null;
         role: string;
         created_at: Date | null;
         updated_at: Date | null;
     }>;
-    login(user: any): Promise<{
+    login(email: string, pass: string): Promise<{
         access_token: string;
     }>;
 }
