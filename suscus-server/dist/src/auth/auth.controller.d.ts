@@ -1,5 +1,6 @@
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
+import { Request, Response } from 'express';
 export declare class AuthController {
     private authService;
     private usersService;
@@ -8,17 +9,14 @@ export declare class AuthController {
         username: string;
         email: string;
         password: string;
-    }): Promise<{
-        id: number;
-        username: string;
+    }, response: Response): Promise<Response<any, Record<string, any>>>;
+    login(body: {
         email: string;
         password: string;
-        avatar: string | null;
-        role: string;
-        created_at: Date | null;
-        updated_at: Date | null;
-    }>;
-    login(signInDto: Record<string, any>): Promise<{
+    }, response: Response): Promise<Response<any, Record<string, any>>>;
+    refreshToken(request: Request): Promise<{
         access_token: string;
+        user: import("../models/IUser").default;
     }>;
+    logout(response: Response): Promise<Response<any, Record<string, any>>>;
 }

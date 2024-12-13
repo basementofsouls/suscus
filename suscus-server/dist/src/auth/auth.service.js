@@ -34,12 +34,50 @@ let AuthService = class AuthService {
         if (!isMatch) {
             throw new common_1.UnauthorizedException();
         }
-        const payload = { sub: user.id, username: user.username };
-        return {
-            access_token: await this.jwtService.signAsync(payload, {
-                secret: constants_1.jwtConstants.secret,
-            }),
+        const payload = {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            role: user.role,
         };
+        const access_token = await this.jwtService.signAsync(payload, {
+            secret: constants_1.jwtConstants.secret,
+            expiresIn: constants_1.jwtConstants.expiresIn,
+        });
+        const refresh_token = await this.jwtService.signAsync(payload, {
+            secret: constants_1.jwtConstants.refreshSecret,
+            expiresIn: constants_1.jwtConstants.expiresInRefrash,
+        });
+        return {
+            user,
+            access_token,
+            refresh_token,
+        };
+    }
+    async refreshToken(refreshToken) {
+        try {
+            const payload = await this.jwtService.verifyAsync(refreshToken, {
+                secret: constants_1.jwtConstants.refreshSecret,
+            });
+            const user = await this.usersService.findById(payload.id);
+            const newPayload = {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+            };
+            const newAccessToken = await this.jwtService.signAsync(newPayload, {
+                secret: constants_1.jwtConstants.secret,
+                expiresIn: '15m',
+            });
+            return {
+                access_token: newAccessToken,
+                user: { ...newPayload, avatar: user.avatar },
+            };
+        }
+        catch (e) {
+            throw new common_1.UnauthorizedException('Invalid refresh token');
+        }
     }
 };
 exports.AuthService = AuthService;

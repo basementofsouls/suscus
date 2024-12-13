@@ -34,6 +34,32 @@ let UsersService = class UsersService {
     async findById(id) {
         return this.prisma.users.findUnique({ where: { id } });
     }
+    async updateProfile(id, data) {
+        const user = await this.prisma.users.findUnique({ where: { id } });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        console.log(data.profile);
+        const { profile } = data;
+        const updatedData = {};
+        if (profile?.role == 'artist' && user.role == 'user') {
+            updatedData.role = profile.role;
+        }
+        if (profile?.avatar) {
+            updatedData.avatar = profile.avatar;
+        }
+        if (profile?.username) {
+            updatedData.username = profile.username;
+        }
+        if (profile?.password) {
+            const hashedPassword = await bcrypt.hash(profile.password, 10);
+            updatedData.password = hashedPassword;
+        }
+        return await this.prisma.users.update({
+            where: { id },
+            data: updatedData,
+        });
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([

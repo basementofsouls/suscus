@@ -11,20 +11,13 @@ const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const prisma_module_1 = require("../../prisma/prisma.module");
 const users_controller_1 = require("./users.controller");
-const jwt_1 = require("@nestjs/jwt");
-const constants_1 = require("../constants/constants");
+const auth_module_1 = require("../auth/auth.module");
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
 exports.UsersModule = UsersModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            jwt_1.JwtModule.register({
-                secret: constants_1.jwtConstants.secret,
-                signOptions: { expiresIn: '60s' },
-            }),
-            prisma_module_1.PrismaModule,
-        ],
+        imports: [prisma_module_1.PrismaModule, auth_module_1.AuthModule],
         providers: [users_service_1.UsersService],
         controllers: [users_controller_1.UsersController],
         exports: [users_service_1.UsersService],

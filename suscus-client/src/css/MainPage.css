@@ -1,0 +1,17 @@
+.main-page {
+  height: 100%;
+  max-width: 1920px;
+  background-color: #1c1d21;
+}
+
+.main-page-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex: 1;
+}
+.main-page-gallery {
+  height: 660px;
+
+  margin-top: 32px;
+}

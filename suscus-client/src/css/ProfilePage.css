@@ -1,0 +1,29 @@
+.profile-page {
+  height: 100%;
+  background-color: #1c1d21;
+  background-image: url("../../public/profile-bg.svg");
+  background-size: cover;
+}
+.profile-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.profile-header {
+  background-color: #26272c;
+  display: flex;
+  flex-direction: row;
+}
+.profile-page-content {
+  margin: 78px 0 0 66px;
+}
+.profile-avatar {
+  border-radius: 300px;
+}
+.profile-top-block {
+  display: flex;
+}
+.profile-gallery-block {
+  transform: scale(0.5); /* Масштаб и центрирование */
+  transform-origin: top left;
+}

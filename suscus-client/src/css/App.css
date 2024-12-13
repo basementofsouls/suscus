@@ -1,6 +1,13 @@
 #root {
 }
 
+.app-wrapper {
+  display: flex;
+}
+.content {
+  flex: 1;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;

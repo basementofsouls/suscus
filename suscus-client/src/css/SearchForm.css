@@ -1,0 +1,8 @@
+.search-form {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  margin-top: 32px;
+  gap: 20px;
+  padding: 0 10px;
+}

@@ -1,5 +1,6 @@
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
+import IUser from 'src/models/IUser';
 export declare class AuthService {
     private usersService;
     private jwtService;
@@ -15,6 +16,12 @@ export declare class AuthService {
         updated_at: Date | null;
     }>;
     login(email: string, pass: string): Promise<{
+        user: IUser;
         access_token: string;
+        refresh_token: string;
+    }>;
+    refreshToken(refreshToken: string): Promise<{
+        access_token: string;
+        user: IUser;
     }>;
 }

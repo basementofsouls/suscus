@@ -21,29 +21,77 @@ let AuthController = class AuthController {
         this.authService = authService;
         this.usersService = usersService;
     }
-    async register(body) {
-        return await this.usersService.createUser(body.username, body.email, body.password);
+    async register(body, response) {
+        const user = await this.usersService.createUser(body.username, body.email, body.password);
+        if (user) {
+            const { access_token, refresh_token } = await this.authService.login(body.email, body.password);
+            response.cookie('refresh_token', refresh_token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'strict',
+            });
+            return response.send({ user, access_token });
+        }
+        return response
+            .send({ error: 'Неудачная попытка регистрации' })
+            .status(404);
     }
-    async login(signInDto) {
-        return this.authService.login(signInDto.email, signInDto.password);
+    async login(body, response) {
+        const { user, access_token, refresh_token } = await this.authService.login(body.email, body.password);
+        response.cookie('refresh_token', refresh_token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'strict',
+        });
+        return response.send({ user, access_token });
+    }
+    async refreshToken(request) {
+        const refreshToken = request.cookies['refresh_token'];
+        const response = await this.authService.refreshToken(refreshToken);
+        return response;
+    }
+    async logout(response) {
+        response.clearCookie('refresh_token', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'strict',
+        });
+        return response.send({ message: 'Logged out successfully' });
     }
 };
 exports.AuthController = AuthController;
 __decorate([
     (0, common_1.Post)('register'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "register", null);
 __decorate([
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, common_1.Post)('login'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.Get)('refresh-token'),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], AuthController.prototype, "login", null);
+], AuthController.prototype, "refreshToken", null);
+__decorate([
+    (0, common_1.Post)('logout'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "logout", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService,

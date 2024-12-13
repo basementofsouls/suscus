@@ -1,18 +1,21 @@
-import { useState } from "react";
-import { authLogin } from "../services/auth.services";
+import { useContext, useState } from "react";
 import "../css/loginForm.css";
+import { useNavigate } from "react-router-dom";
+import { Context } from "../main";
+import { observer } from "mobx-react-lite";
 
 const LoginForm: React.FC = () => {
   const [form, setForm] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
+  const { store } = useContext(Context);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const data = await authLogin(form);
+      await store.login(form.email, form.password);
 
-      if (data.access_token) {
-        localStorage.setItem("token", data.access_token);
-        alert("Login successful!");
+      if (store.isAuth) {
+        navigate("/gallery");
       } else {
         alert("Error during login.");
       }
@@ -43,4 +46,4 @@ const LoginForm: React.FC = () => {
   );
 };
 
-export default LoginForm;
+export default observer(LoginForm);
