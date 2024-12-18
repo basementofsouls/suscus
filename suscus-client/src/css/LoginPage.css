@@ -3,6 +3,7 @@
   flex-direction: row;
   text-align: left;
   min-height: 100vh;
+  max-width: 1000px;
 }
 .login-page-form-column {
   min-width: 630px;

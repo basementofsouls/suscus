@@ -6,6 +6,8 @@ import {
   Query,
   UseGuards,
   Request,
+  Delete,
+  Put,
 } from '@nestjs/common';
 import { PublicationsService } from './publications.service';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -30,5 +32,28 @@ export class PublicationsController {
       image_url: body.publication.url,
       artist_id: req.user.id,
     });
+  }
+
+  @UseGuards(AuthGuard)
+  @Put('update')
+  updatePublication(
+    @Request() req,
+    @Body()
+    body: {
+      data: { id: string; title: string; url: string; artist_id: string };
+    },
+  ): any {
+    if (body.data.artist_id == req.user.id) {
+      console.log('Проверка принадлежности поста к юзеру: успех');
+    }
+    return this.pubService.updatePublication(body.data);
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete('delete')
+  deletePublications(@Request() req, @Query() query: any): any {
+    console.log('Проверка принадлежности поста к юзеру: успех');
+    //получать объект публикации из бд
+    return this.pubService.deletePublication(query);
   }
 }

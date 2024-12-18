@@ -9,7 +9,24 @@ export declare class PublicationsService {
         title: string;
         image_url: string;
         description: string | null;
-        category_id: number | null;
+        created_at: Date | null;
+        updated_at: Date | null;
+    }>;
+    updatePublication(data: any): Promise<{
+        id: number;
+        artist_id: number;
+        title: string;
+        image_url: string;
+        description: string | null;
+        created_at: Date | null;
+        updated_at: Date | null;
+    }>;
+    deletePublication(query: any): Promise<{
+        id: number;
+        artist_id: number;
+        title: string;
+        image_url: string;
+        description: string | null;
         created_at: Date | null;
         updated_at: Date | null;
     }>;

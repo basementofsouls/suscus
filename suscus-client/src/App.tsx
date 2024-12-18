@@ -10,6 +10,8 @@ import ProfilePage from "./pages/ProfilePage";
 import SideBar from "./components/SideBar";
 import RegistrationPage from "./pages/RegistrationPage";
 import PublicationPage from "./pages/PublicationPage";
+import ArtistPage from "./pages/ArtistPage";
+import ChatPage from "./pages/ChatPage";
 
 function App() {
   const { store } = useContext(Context);
@@ -38,6 +40,8 @@ function App() {
                     path="/publication/:id"
                     element={<PublicationPage />}
                   />
+                  <Route path="/artist/:id" element={<ArtistPage />} />
+                  <Route path="/chat" element={<ChatPage />} />
                   <Route path="*" element={<HelloPage />} />
                 </>
               ) : (

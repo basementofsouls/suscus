@@ -29,4 +29,16 @@ export default class PublicationService {
       .get<any>(`publications/search?id=${id}`)
       .then((response) => response);
   }
+
+  static async updatePublication(data: any): Promise<AxiosResponse<any>> {
+    return $api
+      .put<any>(`publications/update`, { data })
+      .then((response) => response);
+  }
+
+  static async deletePublication(id: number): Promise<AxiosResponse<any>> {
+    return $api
+      .delete<any>(`publications/delete?id=${id}`)
+      .then((response) => response);
+  }
 }

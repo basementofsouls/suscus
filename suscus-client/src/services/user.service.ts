@@ -7,4 +7,9 @@ export default class UserService {
       .post<any>("users/change", { profile })
       .then((response) => response);
   }
+  static async getUser(id: any): Promise<AxiosResponse<any>> {
+    return $api
+      .get<any>(`users/user/`, { params: { id } })
+      .then((response) => response);
+  }
 }

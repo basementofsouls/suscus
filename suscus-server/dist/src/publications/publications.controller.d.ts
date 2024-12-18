@@ -9,4 +9,13 @@ export declare class PublicationsController {
             url: string;
         };
     }): any;
+    updatePublication(req: any, body: {
+        data: {
+            id: string;
+            title: string;
+            url: string;
+            artist_id: string;
+        };
+    }): any;
+    deletePublications(req: any, query: any): any;
 }

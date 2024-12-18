@@ -25,6 +25,9 @@ let UsersController = class UsersController {
     getProfile(req) {
         return req.user;
     }
+    getUser(id) {
+        return this.userService.findById(parseInt(id));
+    }
     async updatePrtofile(req, body) {
         await this.userService.updateProfile(req.user.id, body);
         const refreshToken = req.cookies['refresh_token'];
@@ -40,6 +43,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getProfile", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Get)('user'),
+    __param(0, (0, common_1.Query)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "getUser", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Post)('change'),

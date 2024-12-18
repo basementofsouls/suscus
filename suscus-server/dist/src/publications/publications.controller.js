@@ -30,6 +30,16 @@ let PublicationsController = class PublicationsController {
             artist_id: req.user.id,
         });
     }
+    updatePublication(req, body) {
+        if (body.data.artist_id == req.user.id) {
+            console.log('Проверка принадлежности поста к юзеру: успех');
+        }
+        return this.pubService.updatePublication(body.data);
+    }
+    deletePublications(req, query) {
+        console.log('Проверка принадлежности поста к юзеру: успех');
+        return this.pubService.deletePublication(query);
+    }
 };
 exports.PublicationsController = PublicationsController;
 __decorate([
@@ -49,6 +59,24 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Object)
 ], PublicationsController.prototype, "createPublication", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Put)('update'),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Object)
+], PublicationsController.prototype, "updatePublication", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Delete)('delete'),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Object)
+], PublicationsController.prototype, "deletePublications", null);
 exports.PublicationsController = PublicationsController = __decorate([
     (0, common_1.Controller)('publications'),
     __metadata("design:paramtypes", [publications_service_1.PublicationsService])

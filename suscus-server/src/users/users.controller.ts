@@ -5,6 +5,7 @@ import {
   Request,
   Post,
   Body,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from '../auth/auth.guard';
@@ -21,6 +22,11 @@ export class UsersController {
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
+  }
+  @UseGuards(AuthGuard)
+  @Get('user')
+  getUser(@Query('id') id: string) {
+    return this.userService.findById(parseInt(id));
   }
   @UseGuards(AuthGuard)
   @Post('change')

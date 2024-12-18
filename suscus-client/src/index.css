@@ -56,11 +56,28 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
+
+.button-purple {
+  padding: 12px 0px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #9c6fe4;
+  color: #ffffff;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover,
+.button-purple {
   opacity: 0.8;
 }
 button:focus,
-button:focus-visible {
+button:focus-visible,
+.button-purple:focus,
+.button-purple:focus-visible {
   opacity: 0.5;
 }
 

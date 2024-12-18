@@ -1,18 +1,25 @@
 import { AxiosResponse } from "axios";
 import $api from "../http/http";
 
-export default class PublicationService {
+export default class CommentsService {
   static async getPublicationComments(
-    id: number
+    id: string
   ): Promise<Promise<AxiosResponse<any>>> {
-    return $api.get<any>(`comments/${id}`).then((response) => response);
+    return $api.get<any>(`comments/all?id=${id}`).then((response) => response);
   }
-  static async createComment(
-    id: number,
-    comment: string
-  ): Promise<Promise<AxiosResponse<any>>> {
+  static async createComment(data: any): Promise<Promise<AxiosResponse<any>>> {
     return $api
-      .post<any>(`comments/${id}`, { comment })
+      .post<any>(`comments/create/`, { data })
+      .then((response) => response);
+  }
+  static async updateComment(data: any): Promise<Promise<AxiosResponse<any>>> {
+    return $api
+      .put<any>(`comments/update/`, { data })
+      .then((response) => response);
+  }
+  static async deleteComment(id): Promise<Promise<AxiosResponse<any>>> {
+    return $api
+      .delete<any>(`comments/delete?id=${id}`)
       .then((response) => response);
   }
 }

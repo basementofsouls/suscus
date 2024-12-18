@@ -53,8 +53,18 @@ let PublicationsService = class PublicationsService {
                 title: data.title,
                 image_url: data.image_url,
                 description: data.description ? data.cdescriptionategory_id : null,
-                category_id: data.category_id ? data.category_id : null,
             },
+        });
+    }
+    async updatePublication(data) {
+        return await this.prisma.publications.update({
+            where: { id: data.id },
+            data,
+        });
+    }
+    async deletePublication(query) {
+        return this.prisma.publications.delete({
+            where: { id: parseInt(query.id) },
         });
     }
 };

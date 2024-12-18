@@ -6,6 +6,9 @@
 }
 .content {
   flex: 1;
+  max-width: 1840px;
+  height: 100vh;
+  overflow-y: hidden;
 }
 
 .logo {
