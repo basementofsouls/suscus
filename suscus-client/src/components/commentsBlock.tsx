@@ -59,12 +59,12 @@ const CommentsBlock = ({ publicationId }) => {
         ></input>
         <div onClick={handlerCreateComment}>Create</div>
       </div>
-      <div>
+      <div className="comments-block-list">
         {comments.length > 0
           ? comments.map((e: any) => {
               return (
-                <div key={e.id}>
-                  <div>
+                <div key={e.id} className="comments-block-comment">
+                  <div className="comments-block-comment-row">
                     <p>user id: {e.user_id}</p>
                     {e.user_id == store.user.id ||
                     store.user.role == "moderator" ? (

@@ -1,0 +1,16 @@
+.comments-block-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: scroll;
+  height: 350px;
+  width: 600px;
+}
+.comments-block-comment {
+  padding: 8px;
+  border: solid 1px #9c6fe4;
+}
+.comments-block-comment-row {
+  display: flex;
+  justify-content: space-between;
+}

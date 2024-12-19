@@ -12,12 +12,11 @@ const GalleryList: React.FC<GalleryListProps> = ({ publications }) => {
       {publications
         ? publications.map((e: Publication) => {
             return (
-              <>
+              <div key={e.id} className="gallery-item">
                 <Link to={`/publication/${e.id}`}>
-                  <div className="gallery-item" key={e.id}>
-                    <img className="gallery-image" src={e.image_url} />
-                    <p className="gallery-item-title">{e.title}</p>
-                    {/*
+                  <img className="gallery-image" src={e.image_url} />
+                  <p className="gallery-item-title">{e.title}</p>
+                  {/*
                     <p>{e.artist_id}</p>
                     <p>{e.category_id}</p>
                     <p>{e.created_at}</p>
@@ -25,9 +24,8 @@ const GalleryList: React.FC<GalleryListProps> = ({ publications }) => {
                     <p>{e.id}</p>
                     <p>{e.updated_at}</p>
                    */}
-                  </div>
                 </Link>
-              </>
+              </div>
             );
           })
         : ""}

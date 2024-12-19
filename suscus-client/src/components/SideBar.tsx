@@ -26,7 +26,7 @@ const SideBar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/blank">
+          <Link to="/orders">
             <img src="/ico/blank.svg" className="navbar-ico" />
           </Link>
         </li>

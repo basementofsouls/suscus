@@ -2,11 +2,17 @@ import { useState, useRef } from "react";
 import "../css/CreatePublicationForm.css";
 import { observer } from "mobx-react-lite";
 import PublicationService from "../services/publication.service";
+import CategoriesList from "./categoriesList";
 
 const CreatePublicationForm: React.FC = () => {
-  const [form, setForm] = useState({ title: "", url: "" });
+  const [categories, setCategories] = useState<Array<number>>([]);
   const [OpenPopUp, isOpenPopUp] = useState<boolean>(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
+
+  const [form, setForm] = useState({
+    title: "",
+    file: null as File | null,
+  });
 
   const handleChangePopUpState = () => {
     if (OpenPopUp) {
@@ -20,7 +26,15 @@ const CreatePublicationForm: React.FC = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      await PublicationService.createPublication(form);
+      const formData = new FormData();
+      formData.append("title", form.title);
+      if (form.file) {
+        formData.append("file", form.file);
+      }
+      if (categories.length > 0) {
+        formData.append("categories", JSON.stringify(categories));
+      }
+      await PublicationService.createPublication(formData);
     } catch (error) {
       console.error(error);
       alert("Error during login.");
@@ -41,14 +55,16 @@ const CreatePublicationForm: React.FC = () => {
             className="create-publication-form-input"
           />
           <input
-            type="url"
-            placeholder="url"
-            value={form.url}
-            onChange={(e) => setForm({ ...form, url: e.target.value })}
+            type="file"
+            accept="image/*"
+            onChange={(e) =>
+              setForm({ ...form, file: e.target.files?.[0] || null })
+            }
             className="create-publication-form-input"
           />
           <button type="submit">Create</button>
         </form>
+        <CategoriesList setSearchCategories={setCategories} />
       </dialog>
     </>
   );

@@ -6,7 +6,6 @@ import { Publication } from "../models/response/Publicatinos.response";
 import CreatePublicationForm from "../components/CreatePublicationForm";
 import { observer } from "mobx-react-lite";
 import GalleryList from "../components/GalleryList";
-import UpdateProfileForm from "../components/UpdateProfileForm";
 
 const ProfilePage = () => {
   const { store } = useContext(Context);
@@ -65,7 +64,6 @@ const ProfilePage = () => {
                   ""
                 )}
               </div>
-              <UpdateProfileForm />
             </div>
           </div>
 

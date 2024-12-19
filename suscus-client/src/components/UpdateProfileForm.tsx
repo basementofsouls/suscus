@@ -7,8 +7,8 @@ const UpdateProfileForm: React.FC = () => {
   const { store } = useContext(Context);
   const [form, setForm] = useState({
     username: "",
-    avatar: "",
     password: "",
+    file: null as File | null,
   });
   const [OpenPopUp, isOpenPopUp] = useState<boolean>(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -25,7 +25,14 @@ const UpdateProfileForm: React.FC = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      await store.update(form);
+      const formData = new FormData();
+      formData.append("username", form.username);
+      formData.append("password", form.password);
+      if (form.file) {
+        formData.append("file", form.file);
+        console.log(form.file);
+      }
+      await store.update(formData);
     } catch (error) {
       console.error(error);
       alert("Error during login.");
@@ -46,17 +53,18 @@ const UpdateProfileForm: React.FC = () => {
             className="create-publication-form-input"
           />
           <input
-            type="avatar"
-            placeholder="avatar"
-            value={form.avatar}
-            onChange={(e) => setForm({ ...form, avatar: e.target.value })}
-            className="create-publication-form-input"
-          />
-          <input
             type="password"
             placeholder="password"
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
+            className="create-publication-form-input"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) =>
+              setForm({ ...form, file: e.target.files?.[0] || null })
+            }
             className="create-publication-form-input"
           />
           <button type="submit">Create</button>

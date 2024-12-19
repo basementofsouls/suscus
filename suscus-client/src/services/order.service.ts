@@ -6,6 +6,10 @@ export default class OrderService {
     return $api.get<any>("orders/my").then((response) => response);
   }
 
+  static async getArtistOrders(): Promise<AxiosResponse<any>> {
+    return $api.get<any>("orders/artist").then((response) => response);
+  }
+
   static async createOrder(formData: any): Promise<AxiosResponse<any>> {
     return $api
       .post<any>("orders/create", formData, {

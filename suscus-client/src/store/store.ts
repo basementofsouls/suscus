@@ -74,7 +74,7 @@ export default class Store {
       this.setLoading(false);
     }
   }
-  //TODO добавить loading
+
   async checkAuth() {
     this.setLoading(true);
     try {
@@ -88,6 +88,8 @@ export default class Store {
         localStorage.setItem("access_token", resp.data.access_token);
         this.setAuth(true);
         this.setUser(resp.data.user);
+      } else {
+        this.setAuth(false);
       }
     } catch (e: any) {
       console.log(e.response?.data?.message);

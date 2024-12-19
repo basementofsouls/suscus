@@ -1,6 +1,7 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../css/SearchForm.css";
 import { observer } from "mobx-react-lite";
+import CategoriesList from "./categoriesList";
 
 export interface SearchFormProps {
   setSearch: any;
@@ -8,25 +9,36 @@ export interface SearchFormProps {
 
 const SearchForm: React.FC<SearchFormProps> = ({ setSearch }) => {
   const searchRef = useRef(null);
+  const [selectedCategories, setSelectedCategories] = useState<Array<number>>(
+    []
+  );
+  const [title, setTitle] = useState("");
+
   const handleOnChangeSearch = async (e: any) => {
-    try {
-      setSearch({ title: searchRef.current.value });
-    } catch (error) {
-      console.error(error);
-      alert("Error during login.");
-    }
+    setTitle(searchRef?.current?.value);
   };
 
+  useEffect(() => {
+    setSearch({
+      title: title,
+      categories: selectedCategories,
+    });
+  }, [title, selectedCategories]);
+
   return (
-    <form className="search-form">
-      <input
-        ref={searchRef}
-        type="search"
-        placeholder="search"
-        onChange={handleOnChangeSearch}
-        className="search-form-input"
-      />
-    </form>
+    <div className="search-block">
+      <form className="search-form">
+        <input
+          ref={searchRef}
+          type="search"
+          placeholder="search"
+          onChange={handleOnChangeSearch}
+          className="search-form-input"
+        />
+      </form>
+
+      <CategoriesList setSearchCategories={setSelectedCategories} />
+    </div>
   );
 };
 

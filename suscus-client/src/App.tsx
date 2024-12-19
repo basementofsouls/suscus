@@ -11,7 +11,8 @@ import SideBar from "./components/SideBar";
 import RegistrationPage from "./pages/RegistrationPage";
 import PublicationPage from "./pages/PublicationPage";
 import ArtistPage from "./pages/ArtistPage";
-import ChatPage from "./pages/ChatPage";
+import SettingsPage from "./pages/SettingsPage";
+import OrdersPage from "./pages/OrdersPage";
 
 function App() {
   const { store } = useContext(Context);
@@ -19,6 +20,19 @@ function App() {
   useEffect(() => {
     store.checkAuth();
   }, []);
+
+  useEffect(() => {
+    if (
+      !store.isAuth &&
+      !(
+        window.location.pathname == "/home" ||
+        window.location.pathname.includes("/login") ||
+        window.location.pathname.includes("/registration")
+      )
+    ) {
+      window.location.href = "/home";
+    }
+  }, [store.isAuth]);
 
   if (store.isLoading) {
     return <div>Loading</div>;
@@ -41,8 +55,9 @@ function App() {
                     element={<PublicationPage />}
                   />
                   <Route path="/artist/:id" element={<ArtistPage />} />
-                  <Route path="/chat" element={<ChatPage />} />
-                  <Route path="*" element={<HelloPage />} />
+                  <Route path="/orders" element={<OrdersPage />} />
+                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="*" element={<MainPage />} />
                 </>
               ) : (
                 ""

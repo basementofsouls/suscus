@@ -14,15 +14,15 @@ const PublicationPage = () => {
     {} as Publication
   );
 
+  const [changeDiscription, setChangeDiscription] = useState(false);
+
   const handlerUpdatePublication = async () => {
-    const { data } = PublicationService.updatePublication(publication);
-    console.log(data);
+    await PublicationService.updatePublication(publication);
+    setChangeDiscription(false);
   };
   const handlerDeletePublication = async () => {
-    const { data } = PublicationService.deletePublication(id);
-    if (data.id > 0) {
-      navigate("/gallery");
-    }
+    if (id) await PublicationService.deletePublication(id);
+    navigate("/gallery");
   };
 
   useEffect(() => {
@@ -40,36 +40,76 @@ const PublicationPage = () => {
   }, [id]); // Добавлено id в зависимости useEffect
 
   return (
-    <div className="main-page">
+    <div className="publication-page">
       {publication ? (
-        <div>
-          <div>
+        <>
+          <div className="publication-page-header">
             <p>{publication.title}</p>
           </div>
-          <div className="main-page-block">
-            <div>
-              <img src={publication.image_url} alt={publication.title} />
-              {publication.artist_id || store.user.role == "moderator" ? (
-                <p onClick={handlerDeletePublication}>Удалить</p>
-              ) : (
-                ""
-              )}
-              {publication.artist_id ? (
-                <p onClick={handlerUpdatePublication}>Изменить</p>
-              ) : (
-                ""
-              )}
-              <div>
-                <p>{publication.title}</p>
-                <p>{publication.description}</p>
+          <div className="publication-page-block">
+            <div className="publication-page-column">
+              <img
+                src={publication.image_url}
+                alt={publication.title}
+                className="publication-page-image"
+              />
+            </div>
+            <div className="publication-page-column">
+              <div className="publication-page-comments">
+                <CommentsBlock publicationId={id} />
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="publication-page-footer">
+              <div className="publication-page-footer-row">
                 <Link to={`${"/artist/" + publication.artist_id}`}>
                   Artist Profile
                 </Link>
+                {publication.artist_id == store.user.id ? (
+                  <div
+                    onClick={() => {
+                      setChangeDiscription(true);
+                    }}
+                  >
+                    Изменить
+                  </div>
+                ) : (
+                  ""
+                )}
+                {changeDiscription ? (
+                  <p onClick={handlerUpdatePublication}>Сохранить</p>
+                ) : (
+                  ""
+                )}
+
+                {publication.artist_id == store.user.id ||
+                store.user.role == "moderator" ? (
+                  <p onClick={handlerDeletePublication}>Удалить</p>
+                ) : (
+                  ""
+                )}
               </div>
-              <CommentsBlock publicationId={id} />
+              {changeDiscription ? (
+                <input
+                  value={publication.description}
+                  onChange={(e) => {
+                    setPublication({
+                      ...publication,
+                      description: e.target.value,
+                    });
+                  }}
+                />
+              ) : (
+                <p className="publication-page-description">
+                  {publication?.description?.slice(0, 200) ||
+                    "Описание недоступно"}
+                </p>
+              )}
+              <p></p>
             </div>
           </div>
-        </div>
+        </>
       ) : (
         "No publication found"
       )}
