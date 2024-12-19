@@ -3,6 +3,7 @@ export declare class OrdersService {
     private prisma;
     constructor(prisma: PrismaService);
     getOrders(user_id: any): any;
+    getArtistOrders(user_id: any): any;
     createOrder(data: any): import(".prisma/client").Prisma.Prisma__ordersClient<{
         id: number;
         user_id: number;

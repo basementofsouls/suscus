@@ -12,12 +12,13 @@ const users_service_1 = require("./users.service");
 const prisma_module_1 = require("../../prisma/prisma.module");
 const users_controller_1 = require("./users.controller");
 const auth_module_1 = require("../auth/auth.module");
+const file_module_1 = require("../file/file.module");
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
 exports.UsersModule = UsersModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule, auth_module_1.AuthModule],
+        imports: [prisma_module_1.PrismaModule, auth_module_1.AuthModule, file_module_1.FileModule],
         providers: [users_service_1.UsersService],
         controllers: [users_controller_1.UsersController],
         exports: [users_service_1.UsersService],

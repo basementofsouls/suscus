@@ -19,12 +19,15 @@ let OrdersService = class OrdersService {
     getOrders(user_id) {
         return this.prisma.orders.findMany({ where: { user_id } });
     }
+    getArtistOrders(user_id) {
+        return this.prisma.orders.findMany({ where: { artist_id: user_id } });
+    }
     createOrder(data) {
         return this.prisma.orders.create({
             data: {
                 artist_id: data.artist_id,
                 user_id: data.user_id,
-                reference: data.image,
+                reference: data.image_url,
                 description: data.description,
                 status: 'created',
             },

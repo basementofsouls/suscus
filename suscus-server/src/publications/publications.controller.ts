@@ -8,13 +8,20 @@ import {
   Request,
   Delete,
   Put,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { PublicationsService } from './publications.service';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { FileService } from 'src/file/file.service';
 
 @Controller('publications')
 export class PublicationsController {
-  constructor(private readonly pubService: PublicationsService) {}
+  constructor(
+    private readonly pubService: PublicationsService,
+    private readonly fileService: FileService,
+  ) {}
 
   @UseGuards(AuthGuard)
   @Get('search')
@@ -23,14 +30,27 @@ export class PublicationsController {
   }
   @UseGuards(AuthGuard)
   @Post('create')
-  createPublication(
+  @UseInterceptors(
+    FileInterceptor('file', {
+      limits: { fileSize: 500 * 1024 * 1024 }, // Лимит 500 МБ
+    }),
+  )
+  async createPublication(
     @Request() req,
-    @Body() body: { publication: { title: string; url: string } },
-  ): any {
+    @UploadedFile() file: Express.Multer.File,
+    @Body()
+    body: {
+      title: string;
+      categories: string;
+    },
+  ) {
+    const link = await this.fileService.uploadFile(file);
+
     return this.pubService.createPublication({
-      title: body.publication.title,
-      image_url: body.publication.url,
+      title: body.title,
+      image_url: link,
       artist_id: req.user.id,
+      categories: JSON.parse(body.categories),
     });
   }
 
@@ -51,9 +71,18 @@ export class PublicationsController {
 
   @UseGuards(AuthGuard)
   @Delete('delete')
-  deletePublications(@Request() req, @Query() query: any): any {
-    console.log('Проверка принадлежности поста к юзеру: успех');
-    //получать объект публикации из бд
-    return this.pubService.deletePublication(query);
+  async deletePublications(@Request() req, @Query() query: any) {
+    const publication = await this.pubService.getPublications({
+      id: query.id,
+    });
+    //Проверка существует ли публикация и (роль = модератои или публикация принадлежит пользователю сделавшему запрос)\
+    if (
+      publication[0] &&
+      (req.user.role == 'moderator' || publication[0].artist_id == req.user.id)
+    ) {
+      return this.pubService.deletePublication(query);
+    } else {
+      return { message: 'Не доступа' };
+    }
   }
 }

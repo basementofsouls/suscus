@@ -5,6 +5,12 @@ import { PrismaService } from 'prisma/prisma.service';
 export class CommentsService {
   constructor(private prisma: PrismaService) {}
 
+  async getComment(id) {
+    return await this.prisma.comments.findMany({
+      where: { id: parseInt(id) },
+    });
+  }
+
   async getComments(query: any) {
     return await this.prisma.comments.findMany({
       where: { publication_id: parseInt(query.id) },

@@ -36,8 +36,15 @@ let CommentsController = class CommentsController {
         }
         return this.commentsService.updateComment(body.data);
     }
-    deleteComment(query) {
-        return this.commentsService.deleteComment(query);
+    async deleteComment(req, query) {
+        const commet = await this.commentsService.getComment(query.id);
+        if (commet[0] &&
+            (req.user.role == 'moderator' || req.user.id == commet[0].user_id)) {
+            return this.commentsService.deleteComment(query);
+        }
+        else {
+            return { message: 'Не доступа' };
+        }
     }
 };
 exports.CommentsController = CommentsController;
@@ -70,10 +77,11 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Delete)('delete'),
-    __param(0, (0, common_1.Query)()),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Object)
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
 ], CommentsController.prototype, "deleteComment", null);
 exports.CommentsController = CommentsController = __decorate([
     (0, common_1.Controller)('comments'),

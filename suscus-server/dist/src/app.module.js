@@ -15,17 +15,23 @@ const auth_module_1 = require("./auth/auth.module");
 const publications_module_1 = require("./publications/publications.module");
 const orders_module_1 = require("./orders/orders.module");
 const comments_module_1 = require("./comments/comments.module");
+const categories_module_1 = require("./categories/categories.module");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            config_1.ConfigModule.forRoot({
+                isGlobal: true,
+            }),
             auth_module_1.AuthModule,
             users_module_1.UsersModule,
             publications_module_1.PublicationsModule,
             orders_module_1.OrdersModule,
             comments_module_1.CommentsModule,
+            categories_module_1.СategoriesModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

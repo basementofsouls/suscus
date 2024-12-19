@@ -33,7 +33,7 @@ export declare class UsersService {
         created_at: Date | null;
         updated_at: Date | null;
     }>;
-    updateProfile(id: number, data: any): Promise<{
+    updateProfile(id: number, profile: any): Promise<{
         id: number;
         username: string;
         email: string;

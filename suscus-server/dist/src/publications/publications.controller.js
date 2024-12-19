@@ -16,18 +16,23 @@ exports.PublicationsController = void 0;
 const common_1 = require("@nestjs/common");
 const publications_service_1 = require("./publications.service");
 const auth_guard_1 = require("../auth/auth.guard");
+const platform_express_1 = require("@nestjs/platform-express");
+const file_service_1 = require("../file/file.service");
 let PublicationsController = class PublicationsController {
-    constructor(pubService) {
+    constructor(pubService, fileService) {
         this.pubService = pubService;
+        this.fileService = fileService;
     }
     getMyPublications(query) {
         return this.pubService.getPublications(query);
     }
-    createPublication(req, body) {
+    async createPublication(req, file, body) {
+        const link = await this.fileService.uploadFile(file);
         return this.pubService.createPublication({
-            title: body.publication.title,
-            image_url: body.publication.url,
+            title: body.title,
+            image_url: link,
             artist_id: req.user.id,
+            categories: JSON.parse(body.categories),
         });
     }
     updatePublication(req, body) {
@@ -36,9 +41,17 @@ let PublicationsController = class PublicationsController {
         }
         return this.pubService.updatePublication(body.data);
     }
-    deletePublications(req, query) {
-        console.log('Проверка принадлежности поста к юзеру: успех');
-        return this.pubService.deletePublication(query);
+    async deletePublications(req, query) {
+        const publication = await this.pubService.getPublications({
+            id: query.id,
+        });
+        if (publication[0] &&
+            (req.user.role == 'moderator' || publication[0].artist_id == req.user.id)) {
+            return this.pubService.deletePublication(query);
+        }
+        else {
+            return { message: 'Не доступа' };
+        }
     }
 };
 exports.PublicationsController = PublicationsController;
@@ -53,11 +66,15 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Post)('create'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
+        limits: { fileSize: 500 * 1024 * 1024 },
+    })),
     __param(0, (0, common_1.Request)()),
-    __param(1, (0, common_1.Body)()),
+    __param(1, (0, common_1.UploadedFile)()),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Object)
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", Promise)
 ], PublicationsController.prototype, "createPublication", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
@@ -75,10 +92,11 @@ __decorate([
     __param(1, (0, common_1.Query)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Object)
+    __metadata("design:returntype", Promise)
 ], PublicationsController.prototype, "deletePublications", null);
 exports.PublicationsController = PublicationsController = __decorate([
     (0, common_1.Controller)('publications'),
-    __metadata("design:paramtypes", [publications_service_1.PublicationsService])
+    __metadata("design:paramtypes", [publications_service_1.PublicationsService,
+        file_service_1.FileService])
 ], PublicationsController);
 //# sourceMappingURL=publications.controller.js.map

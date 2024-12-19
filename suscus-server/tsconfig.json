@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "NodeNext", // Поддержка ESM и CommonJS
+    "moduleResolution": "NodeNext", // Поддержка ESM и CommonJS
+    "esModuleInterop": true, // Поддержка CommonJS модулей
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,

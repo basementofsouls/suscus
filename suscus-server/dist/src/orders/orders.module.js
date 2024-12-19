@@ -12,12 +12,13 @@ const auth_module_1 = require("../auth/auth.module");
 const prisma_module_1 = require("../../prisma/prisma.module");
 const orders_controller_1 = require("./orders.controller");
 const orders_service_1 = require("./orders.service");
+const file_module_1 = require("../file/file.module");
 let OrdersModule = class OrdersModule {
 };
 exports.OrdersModule = OrdersModule;
 exports.OrdersModule = OrdersModule = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.AuthModule, prisma_module_1.PrismaModule],
+        imports: [auth_module_1.AuthModule, prisma_module_1.PrismaModule, file_module_1.FileModule],
         controllers: [orders_controller_1.OrdersController],
         providers: [orders_service_1.OrdersService],
     })

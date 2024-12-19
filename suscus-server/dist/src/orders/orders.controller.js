@@ -17,20 +17,29 @@ const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const auth_guard_1 = require("../auth/auth.guard");
 const orders_service_1 = require("./orders.service");
+const file_service_1 = require("../file/file.service");
 let OrdersController = class OrdersController {
-    constructor(ordersService) {
+    constructor(ordersService, fileService) {
         this.ordersService = ordersService;
+        this.fileService = fileService;
     }
     getOrders(req, query) {
         return this.ordersService.getOrders(req.user.id);
     }
-    createOrder(req, file, body) {
+    getArtistOrders(req, query) {
+        return this.ordersService.getArtistOrders(req.user.id);
+    }
+    async createOrder(req, file, body) {
         const { artistId, description } = body;
+        if (req.user.id == artistId) {
+            return { message: 'Вы не можете сделать заказ сами у себя' };
+        }
+        const link = await this.fileService.uploadFile(file);
         return this.ordersService.createOrder({
             user_id: parseInt(req.user.id),
             artist_id: parseInt(artistId),
             description: description,
-            image: file.fieldname,
+            image_url: link,
         });
     }
     updareOrders(req, body) {
@@ -53,6 +62,15 @@ __decorate([
 ], OrdersController.prototype, "getOrders", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Get)('artist'),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Object)
+], OrdersController.prototype, "getArtistOrders", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Post)('create'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
         limits: { fileSize: 500 * 1024 * 1024 },
@@ -62,7 +80,7 @@ __decorate([
     __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object, Object]),
-    __metadata("design:returntype", Object)
+    __metadata("design:returntype", Promise)
 ], OrdersController.prototype, "createOrder", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
@@ -75,6 +93,7 @@ __decorate([
 ], OrdersController.prototype, "updareOrders", null);
 exports.OrdersController = OrdersController = __decorate([
     (0, common_1.Controller)('orders'),
-    __metadata("design:paramtypes", [orders_service_1.OrdersService])
+    __metadata("design:paramtypes", [orders_service_1.OrdersService,
+        file_service_1.FileService])
 ], OrdersController);
 //# sourceMappingURL=orders.controller.js.map

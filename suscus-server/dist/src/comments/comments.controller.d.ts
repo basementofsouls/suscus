@@ -17,5 +17,14 @@ export declare class CommentsController {
             publication_id: number;
         };
     }): any;
-    deleteComment(query: any): any;
+    deleteComment(req: any, query: any): Promise<{
+        id: number;
+        created_at: Date | null;
+        updated_at: Date | null;
+        publication_id: number;
+        user_id: number;
+        content: string;
+    } | {
+        message: string;
+    }>;
 }

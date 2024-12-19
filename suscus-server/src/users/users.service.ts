@@ -28,13 +28,14 @@ export class UsersService {
     return this.prisma.users.findUnique({ where: { id } });
   }
 
-  async updateProfile(id: number, data: any) {
+  async updateProfile(id: number, profile: any) {
     const user = await this.prisma.users.findUnique({ where: { id } });
     if (!user) {
       throw new Error('User not found');
     }
-    console.log(data.profile);
-    const { profile } = data;
+
+    //TODO по хорошему удалять старые изо из бд
+
     const updatedData: any = {};
     if (profile?.role == 'artist' && user.role == 'user') {
       updatedData.role = profile.role;

@@ -16,6 +16,11 @@ let CommentsService = class CommentsService {
     constructor(prisma) {
         this.prisma = prisma;
     }
+    async getComment(id) {
+        return await this.prisma.comments.findMany({
+            where: { id: parseInt(id) },
+        });
+    }
     async getComments(query) {
         return await this.prisma.comments.findMany({
             where: { publication_id: parseInt(query.id) },

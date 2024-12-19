@@ -5,36 +5,74 @@ import { PrismaService } from 'prisma/prisma.service';
 export class PublicationsService {
   constructor(private prisma: PrismaService) {}
 
-  getPublications(query: any): any {
+  async getPublications(query: any) {
     let publications;
     try {
+      const filters: any = {};
+
+      // Фильтр по artist_id
       if (query?.artist_id) {
-        const artist_id = parseInt(query.artist_id);
-        publications = this.prisma.publications.findMany({
-          where: { artist_id: artist_id },
-        });
-      } else if (query?.id) {
-        const id = parseInt(query.id);
-        publications = this.prisma.publications.findMany({
-          where: { id: id },
-        });
-      } else if (query?.title) {
-        publications = this.prisma.publications.findMany({
-          where: { title: { contains: query.title } },
-        });
-      } else {
-        publications = this.prisma.publications.findMany();
+        const artistId = parseInt(query.artist_id);
+        if (!isNaN(artistId)) {
+          filters.artist_id = artistId;
+        } else {
+          throw new Error('Invalid artist_id');
+        }
       }
+
+      // Фильтр по id
+      if (query?.id) {
+        const id = parseInt(query.id);
+        if (!isNaN(id)) {
+          filters.id = id;
+        } else {
+          throw new Error('Invalid id');
+        }
+      }
+
+      // Фильтр по title
+      if (query?.title) {
+        filters.title = { contains: query.title, mode: 'insensitive' };
+      }
+
+      // Фильтр по категориям
+      if (query?.categories) {
+        // Преобразуем строку категорий в массив чисел
+        const categoryIds = Array.isArray(query.categories)
+          ? query.categories
+              .map((id: any) => parseInt(id))
+              .filter((id: number) => !isNaN(id))
+          : query.categories
+              .split(',')
+              .map((id: any) => parseInt(id))
+              .filter((id: number) => !isNaN(id));
+
+        if (categoryIds.length > 0) {
+          filters.publication_categories = {
+            some: {
+              category_id: { in: categoryIds },
+            },
+          };
+        }
+      }
+
+      // Выполняем запрос с учетом фильтров
+      publications = await this.prisma.publications.findMany({
+        where: filters,
+        include: {
+          publication_categories: true, // Включаем категории в результат (если нужно)
+        },
+      });
 
       return publications;
     } catch (e: any) {
-      console.log('getPublications Error', e.message);
+      console.error('getPublications Error:', e.message);
       return null;
     }
   }
 
   async createPublication(data: any) {
-    return this.prisma.publications.create({
+    const publication = await this.prisma.publications.create({
       data: {
         artist_id: data.artist_id,
         title: data.title,
@@ -42,18 +80,34 @@ export class PublicationsService {
         description: data.description ? data.cdescriptionategory_id : null,
       },
     });
+    if (data.categories.length > 0) {
+      for (const id of data.categories) {
+        await this.prisma.publication_categories.create({
+          data: {
+            publication_id: publication.id,
+            category_id: id,
+          },
+        });
+      }
+    }
+    return publication;
   }
 
   async updatePublication(data) {
     return await this.prisma.publications.update({
       where: { id: data.id },
-      data,
+      data: { description: data.description },
     });
   }
 
   async deletePublication(query: any) {
-    return this.prisma.publications.delete({
-      where: { id: parseInt(query.id) },
-    });
+    try {
+      const resp = this.prisma.publications.delete({
+        where: { id: parseInt(query.id) },
+      });
+      return resp;
+    } catch (e: any) {
+      return e;
+    }
   }
 }

@@ -59,7 +59,15 @@ export class CommentsController {
 
   @UseGuards(AuthGuard)
   @Delete('delete')
-  deleteComment(@Query() query: any): any {
-    return this.commentsService.deleteComment(query);
+  async deleteComment(@Request() req, @Query() query: any) {
+    const commet = await this.commentsService.getComment(query.id);
+    if (
+      commet[0] &&
+      (req.user.role == 'moderator' || req.user.id == commet[0].user_id)
+    ) {
+      return this.commentsService.deleteComment(query);
+    } else {
+      return { message: 'Не доступа' };
+    }
   }
 }

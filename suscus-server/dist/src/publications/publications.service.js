@@ -16,38 +16,63 @@ let PublicationsService = class PublicationsService {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    getPublications(query) {
+    async getPublications(query) {
         let publications;
         try {
+            const filters = {};
             if (query?.artist_id) {
-                const artist_id = parseInt(query.artist_id);
-                publications = this.prisma.publications.findMany({
-                    where: { artist_id: artist_id },
-                });
+                const artistId = parseInt(query.artist_id);
+                if (!isNaN(artistId)) {
+                    filters.artist_id = artistId;
+                }
+                else {
+                    throw new Error('Invalid artist_id');
+                }
             }
-            else if (query?.id) {
+            if (query?.id) {
                 const id = parseInt(query.id);
-                publications = this.prisma.publications.findMany({
-                    where: { id: id },
-                });
+                if (!isNaN(id)) {
+                    filters.id = id;
+                }
+                else {
+                    throw new Error('Invalid id');
+                }
             }
-            else if (query?.title) {
-                publications = this.prisma.publications.findMany({
-                    where: { title: { contains: query.title } },
-                });
+            if (query?.title) {
+                filters.title = { contains: query.title, mode: 'insensitive' };
             }
-            else {
-                publications = this.prisma.publications.findMany();
+            if (query?.categories) {
+                const categoryIds = Array.isArray(query.categories)
+                    ? query.categories
+                        .map((id) => parseInt(id))
+                        .filter((id) => !isNaN(id))
+                    : query.categories
+                        .split(',')
+                        .map((id) => parseInt(id))
+                        .filter((id) => !isNaN(id));
+                if (categoryIds.length > 0) {
+                    filters.publication_categories = {
+                        some: {
+                            category_id: { in: categoryIds },
+                        },
+                    };
+                }
             }
+            publications = await this.prisma.publications.findMany({
+                where: filters,
+                include: {
+                    publication_categories: true,
+                },
+            });
             return publications;
         }
         catch (e) {
-            console.log('getPublications Error', e.message);
+            console.error('getPublications Error:', e.message);
             return null;
         }
     }
     async createPublication(data) {
-        return this.prisma.publications.create({
+        const publication = await this.prisma.publications.create({
             data: {
                 artist_id: data.artist_id,
                 title: data.title,
@@ -55,17 +80,34 @@ let PublicationsService = class PublicationsService {
                 description: data.description ? data.cdescriptionategory_id : null,
             },
         });
+        if (data.categories.length > 0) {
+            for (const id of data.categories) {
+                await this.prisma.publication_categories.create({
+                    data: {
+                        publication_id: publication.id,
+                        category_id: id,
+                    },
+                });
+            }
+        }
+        return publication;
     }
     async updatePublication(data) {
         return await this.prisma.publications.update({
             where: { id: data.id },
-            data,
+            data: { description: data.description },
         });
     }
     async deletePublication(query) {
-        return this.prisma.publications.delete({
-            where: { id: parseInt(query.id) },
-        });
+        try {
+            const resp = this.prisma.publications.delete({
+                where: { id: parseInt(query.id) },
+            });
+            return resp;
+        }
+        catch (e) {
+            return e;
+        }
     }
 };
 exports.PublicationsService = PublicationsService;
