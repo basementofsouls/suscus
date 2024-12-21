@@ -7,7 +7,6 @@
 .settings-block {
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 .settings-header {
   background-color: #26272c;
@@ -17,23 +16,8 @@
 }
 .settings-page-content {
   display: flex;
-  margin: 78px 0 0 66px;
-  justify-content: space-between;
-}
-.settings-avatar {
-  border-radius: 300px;
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-}
-.settings-top-block {
-  display: flex;
-}
-.settings-top-block-right-column {
-  margin: 0 0 0 24px;
-
-  display: flex;
-  flex-direction: column;
+  justify-content: space-around;
+  margin-top: 72px;
 }
 .settings-page-buttons {
   display: flex;

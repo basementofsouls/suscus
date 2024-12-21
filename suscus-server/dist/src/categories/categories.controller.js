@@ -37,15 +37,15 @@ let СategoriesController = class СategoriesController {
     }
     updareCategorie(req, body) {
         if (req.user.role == 'moderator') {
-            return this.сategoriesService.updateCategorie(body.data);
+            return this.сategoriesService.updateCategorie(body);
         }
         else {
             return { emssage: 'Нет доступа' };
         }
     }
     async deleteCategorie(req, query) {
-        const commet = await this.сategoriesService.getCurrentCategories(query.id);
-        if (commet[0] && req.user.role == 'moderator') {
+        const comment = await this.сategoriesService.getCurrentCategories(parseInt(query.id));
+        if (comment && req.user.role == 'moderator') {
             return this.сategoriesService.deleteCategorie(query.id);
         }
         else {

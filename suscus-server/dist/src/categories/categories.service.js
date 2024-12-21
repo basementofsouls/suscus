@@ -38,9 +38,9 @@ let СategoriesService = class СategoriesService {
             data: { name: data.name },
         });
     }
-    async deleteCategorie(query) {
+    async deleteCategorie(id) {
         return await this.prisma.categories.delete({
-            where: { id: parseInt(query.id) },
+            where: { id: parseInt(id) },
         });
     }
 };

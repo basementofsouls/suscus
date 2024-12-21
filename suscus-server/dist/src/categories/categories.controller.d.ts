@@ -10,15 +10,14 @@ export declare class СategoriesController {
         };
     }): any;
     updareCategorie(req: any, body: {
-        data: {
-            name: string;
-        };
+        id: string;
+        name: string;
     }): any;
     deleteCategorie(req: any, query: any): Promise<{
         id: number;
+        name: string;
         created_at: Date | null;
         updated_at: Date | null;
-        name: string;
     } | {
         message: string;
     }>;

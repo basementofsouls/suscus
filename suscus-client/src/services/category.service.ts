@@ -20,7 +20,7 @@ export default class CategoryService {
 
   static async updateCategory(data: any): Promise<AxiosResponse<any>> {
     return $api
-      .post<any>("categories/update", data)
+      .put<any>("categories/update", data)
       .then((response) => response);
   }
 

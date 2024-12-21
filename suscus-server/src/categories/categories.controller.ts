@@ -46,10 +46,10 @@ export class СategoriesController {
   @Put('update')
   updareCategorie(
     @Request() req,
-    @Body() body: { data: { name: string } },
+    @Body() body: { id: string; name: string },
   ): any {
     if (req.user.role == 'moderator') {
-      return this.сategoriesService.updateCategorie(body.data);
+      return this.сategoriesService.updateCategorie(body);
     } else {
       return { emssage: 'Нет доступа' };
     }
@@ -58,8 +58,11 @@ export class СategoriesController {
   @UseGuards(AuthGuard)
   @Delete('delete')
   async deleteCategorie(@Request() req, @Query() query: any) {
-    const commet = await this.сategoriesService.getCurrentCategories(query.id);
-    if (commet[0] && req.user.role == 'moderator') {
+    const comment = await this.сategoriesService.getCurrentCategories(
+      parseInt(query.id),
+    );
+
+    if (comment && req.user.role == 'moderator') {
       return this.сategoriesService.deleteCategorie(query.id);
     } else {
       return { message: 'Не доступа' };

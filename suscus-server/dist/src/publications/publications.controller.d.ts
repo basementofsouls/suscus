@@ -10,12 +10,12 @@ export declare class PublicationsController {
         categories: string;
     }): Promise<{
         id: number;
+        created_at: Date | null;
+        updated_at: Date | null;
         artist_id: number;
         title: string;
         image_url: string;
         description: string | null;
-        created_at: Date | null;
-        updated_at: Date | null;
     }>;
     updatePublication(req: any, body: {
         data: {

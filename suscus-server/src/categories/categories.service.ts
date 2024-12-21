@@ -32,9 +32,9 @@ export class СategoriesService {
     });
   }
 
-  async deleteCategorie(query: any) {
+  async deleteCategorie(id: any) {
     return await this.prisma.categories.delete({
-      where: { id: parseInt(query.id) },
+      where: { id: parseInt(id) },
     });
   }
 }

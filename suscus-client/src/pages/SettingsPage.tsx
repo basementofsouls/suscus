@@ -8,21 +8,10 @@ import CategoryService from "../services/category.service";
 
 const SettingsPage = () => {
   const { store } = useContext(Context);
+  const [categorys, setCategorys] = useState<Array<any>>([]);
+  const [changeCategory, setChangeCategory] = useState({} as any);
+  const [changeCategoryId, setChangeCategoryId] = useState(-1);
 
-  const [user, setUser] = useState(store.user);
-
-  useEffect(() => {
-    setUser(store.user);
-  }, [store.user]);
-
-  const handlerBeArtistClick = async () => {
-    await store.update({ role: "artist" });
-  };
-
-  const [categorys, setCategorys] = useState([]);
-  const handlerDeleteCategoryClick = async () => {
-    await store.update({ role: "artist" });
-  };
   useEffect(() => {
     const fetchCategory = async () => {
       const { data } = await CategoryService.getAllCategory();
@@ -33,7 +22,28 @@ const SettingsPage = () => {
     fetchCategory();
   }, []);
 
-  useEffect(() => {}, []);
+  const handleChangeCategory = (id) => {
+    setChangeCategory(categorys.filter((e) => e.id == id)[0]);
+    setChangeCategoryId(id);
+  };
+
+  const handlerUpdateCategory = async () => {
+    try {
+      console.log(changeCategory);
+      const { data } = await CategoryService.updateCategory(changeCategory);
+      const newCategorys = categorys;
+      newCategorys[categorys.findIndex((e) => e.id == changeCategoryId)] = data;
+      setCategorys(newCategorys);
+    } catch (e: any) {
+      console.log(e);
+    }
+    setChangeCategoryId(-1);
+  };
+
+  const handleDeleteCategory = async (id: string) => {
+    const { data } = await CategoryService.deleteCategory(id);
+    setCategorys(categorys.filter((e) => e.id != data.id));
+  };
 
   return (
     <div className="settings-page">
@@ -42,13 +52,6 @@ const SettingsPage = () => {
           <h2>Settings Page </h2>
         </div>
         <div className="settings-page-content">
-          <div className="settings-block">
-            {user.role === "user" ? (
-              <button onClick={handlerBeArtistClick}>BeArtist</button>
-            ) : (
-              ""
-            )}
-          </div>
           <UpdateProfileForm />
           <div className="settings-block">
             {store.user.role == "moderator" ? (
@@ -59,13 +62,47 @@ const SettingsPage = () => {
                   {categorys
                     ? categorys.map((e: any) => {
                         return (
-                          <div key={e.id} className="categorie-item">
-                            <div className="categorie-item-buttons">
-                              <p>X</p>
-                              <p>Изменить</p>
-                              <p>Сохранить</p>
+                          <div key={e.id} className="comments-block-comment">
+                            <div className="comments-block-comment-row">
+                              <p>id:{e.id}</p>
+                              <div className="buttons-row">
+                                {changeCategoryId != e.id ? (
+                                  <div
+                                    onClick={() => {
+                                      handleChangeCategory(e.id);
+                                    }}
+                                  >
+                                    change
+                                  </div>
+                                ) : (
+                                  ""
+                                )}
+                                <p
+                                  onClick={() => {
+                                    handleDeleteCategory(e.id);
+                                  }}
+                                >
+                                  X
+                                </p>
+                              </div>
                             </div>
-                            <p>{e.name}</p>
+
+                            {changeCategoryId == e.id ? (
+                              <div>
+                                <input
+                                  onChange={(e) => {
+                                    setChangeCategory({
+                                      ...changeCategory,
+                                      name: e.target.value,
+                                    });
+                                  }}
+                                  value={`${changeCategory?.name}`}
+                                ></input>
+                                <div onClick={handlerUpdateCategory}>Save</div>
+                              </div>
+                            ) : (
+                              <p className="comment-text">{e.name}</p>
+                            )}
                           </div>
                         );
                       })

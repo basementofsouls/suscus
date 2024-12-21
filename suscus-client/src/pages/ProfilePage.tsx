@@ -72,6 +72,12 @@ const ProfilePage = () => {
                 MyPortfolio
               </button>
 
+              {user.role != "user" ? (
+                <button onClick={handlerBeArtistClick}>BeArtist</button>
+              ) : (
+                ""
+              )}
+
               {user.role === "artist" ? <CreatePublicationForm /> : ""}
             </div>
           </div>
