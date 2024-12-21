@@ -6,10 +6,14 @@ const Header = () => {
       <nav>
         <ul className="header-ul">
           <li>
-            <a href="/login">Sign In</a>
+            <a href="/login" className="button-sign-in">
+              Sign In
+            </a>
           </li>
           <li>
-            <a href="/registration">Sign Up</a>
+            <a href="/registration" className="button-sign-up">
+              Sign Up
+            </a>
           </li>
         </ul>
       </nav>

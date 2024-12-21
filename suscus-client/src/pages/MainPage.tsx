@@ -25,7 +25,9 @@ const MainPage = () => {
         <div className="main-page-gallery">
           <GalleryList publications={publications} />
         </div>
-        <SearchForm setSearch={setSearch} />
+        <div className="main-page-search">
+          <SearchForm setSearch={setSearch} />
+        </div>
       </div>
     </div>
   );

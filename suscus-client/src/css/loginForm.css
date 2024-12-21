@@ -6,3 +6,9 @@
   width: 380px;
   margin-bottom: 24px;
 }
+
+.category-form {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}

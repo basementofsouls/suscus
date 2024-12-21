@@ -48,7 +48,7 @@ const RegistrationForm: React.FC = () => {
         onChange={(e) => setForm({ ...form, password: e.target.value })}
         className="login-form-input"
       />
-      <button type="submit">Login</button>
+      <button type="submit">Sign up</button>
     </form>
   );
 };

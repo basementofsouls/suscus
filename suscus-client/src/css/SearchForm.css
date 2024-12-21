@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 20%;
 }
 
 .search-form {
@@ -18,4 +17,8 @@
 }
 .categorie.selected {
   color: white;
+}
+.search-categories {
+  padding: 8px;
+  overflow-y: auto;
 }

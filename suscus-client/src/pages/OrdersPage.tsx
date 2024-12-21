@@ -29,7 +29,6 @@ const OrdersPage = () => {
   return (
     <div className="order-page">
       <div className="order-page-block">
-        <div>Orders Page</div>
         <div className="order-list">
           <div className="order-list-column">
             <h3>Работник</h3>
@@ -40,7 +39,7 @@ const OrdersPage = () => {
                       <p>{e.artist_id}</p>
                       <p>{e.description}</p>
                       <p>{e.status}</p>
-                      <img src={e.reference} />
+                      <img className="order-image" src={e.reference} />
                     </div>
                   );
                 })
@@ -56,7 +55,7 @@ const OrdersPage = () => {
                       <p>Status: {e.status}</p>
                       <p>Description:</p>
                       <p>{e.description}</p>
-                      <img src={e.reference} />
+                      <img className="order-image" src={e.reference} />
                     </div>
                   );
                 })

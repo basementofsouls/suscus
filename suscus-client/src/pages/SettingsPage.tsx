@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import "../css/ProfilePage.css";
+import "../css/settingsPage.css";
 import { Context } from "../main";
 import { observer } from "mobx-react-lite";
 import UpdateProfileForm from "../components/UpdateProfileForm";
@@ -36,13 +36,13 @@ const SettingsPage = () => {
   useEffect(() => {}, []);
 
   return (
-    <div className="profile-page">
-      <div className="profile-page-block">
-        <div className="profile-header">
+    <div className="settings-page">
+      <div className="settings-page-block">
+        <div className="settings-header">
           <h2>Settings Page </h2>
         </div>
-        <div className="profile-page-content">
-          <div className="profile-top-block">
+        <div className="settings-page-content">
+          <div className="settings-block">
             {user.role === "user" ? (
               <button onClick={handlerBeArtistClick}>BeArtist</button>
             ) : (
@@ -50,23 +50,31 @@ const SettingsPage = () => {
             )}
           </div>
           <UpdateProfileForm />
-          <div>
-            <CategoryForm />
-            <div>
-              <h4>Существующие категории</h4>
-              {categorys
-                ? categorys.map((e: any) => {
-                    return (
-                      <div key={e.id}>
-                        <p>{e.name}</p>
-                        <p>X</p>
-                        <p>Изменить</p>
-                        <p>Сохранить</p>
-                      </div>
-                    );
-                  })
-                : ""}
-            </div>
+          <div className="settings-block">
+            {store.user.role == "moderator" ? (
+              <div>
+                <CategoryForm />
+                <div className="categories-list">
+                  <h4>Существующие категории</h4>
+                  {categorys
+                    ? categorys.map((e: any) => {
+                        return (
+                          <div key={e.id} className="categorie-item">
+                            <div className="categorie-item-buttons">
+                              <p>X</p>
+                              <p>Изменить</p>
+                              <p>Сохранить</p>
+                            </div>
+                            <p>{e.name}</p>
+                          </div>
+                        );
+                      })
+                    : ""}
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>

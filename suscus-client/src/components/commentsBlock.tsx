@@ -49,7 +49,7 @@ const CommentsBlock = ({ publicationId }) => {
 
   return (
     <div className="CommentsBlock">
-      <div>
+      <div className="create-comment-block">
         <input
           type="text"
           placeholder="comment"
@@ -65,16 +65,30 @@ const CommentsBlock = ({ publicationId }) => {
               return (
                 <div key={e.id} className="comments-block-comment">
                   <div className="comments-block-comment-row">
-                    <p>user id: {e.user_id}</p>
+                    <p>id:{e.user_id}</p>
                     {e.user_id == store.user.id ||
                     store.user.role == "moderator" ? (
-                      <p
-                        onClick={() => {
-                          handleDeleteComment(e.id);
-                        }}
-                      >
-                        X
-                      </p>
+                      <div className="buttons-row">
+                        {store.user.id == e.user_id &&
+                        changeCommentId != e.id ? (
+                          <div
+                            onClick={() => {
+                              handleChangeComment(e.id);
+                            }}
+                          >
+                            change
+                          </div>
+                        ) : (
+                          ""
+                        )}
+                        <p
+                          onClick={() => {
+                            handleDeleteComment(e.id);
+                          }}
+                        >
+                          X
+                        </p>
+                      </div>
                     ) : (
                       ""
                     )}
@@ -94,19 +108,7 @@ const CommentsBlock = ({ publicationId }) => {
                       <div onClick={handlerUpdateComment}>Save</div>
                     </div>
                   ) : (
-                    <p>comment: {e.content}</p>
-                  )}
-
-                  {store.user.id == e.user_id && changeCommentId != e.id ? (
-                    <div
-                      onClick={() => {
-                        handleChangeComment(e.id);
-                      }}
-                    >
-                      change
-                    </div>
-                  ) : (
-                    ""
+                    <p className="comment-text">{e.content.slice(0, 200)}</p>
                   )}
                 </div>
               );

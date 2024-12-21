@@ -1,46 +1,52 @@
-.profile-page {
+.artist-page {
   height: 100%;
   background-color: #1c1d21;
-  background-image: url("../../public/profile-bg.svg");
+  background-image: url("../../public/artist-bg.svg");
   background-size: cover;
 }
-.profile-block {
+.artist-block {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.profile-header {
+.artist-page-block {
+}
+.artist-header {
   background-color: #26272c;
   display: flex;
-  flex-direction: row-reverse;
-  padding: 12px 22px 12px 0px;
+  flex-direction: row;
+  padding: 12px 0 12px 22px;
 }
-.profile-page-content {
+.artist-page-content {
   display: flex;
   margin: 78px 0 0 66px;
   justify-content: space-between;
 }
-.profile-avatar {
+.artist-avatar {
   border-radius: 300px;
   width: 200px;
   height: 200px;
   object-fit: cover;
 }
-.profile-top-block {
+.artist-top-block {
   display: flex;
 }
-.profile-top-block-right-column {
+.artist-top-block-right-column {
   margin: 0 0 0 24px;
 
   display: flex;
   flex-direction: column;
 }
-.profile-page-buttons {
+.artist-page-buttons {
   display: flex;
   gap: 12px;
   margin-top: 24px;
 }
-.profile-gallery-block {
+
+.artist-gallery-block {
   width: 60%;
   height: 460px;
+}
+.artist-page-buttons {
+  margin-top: 24px;
 }

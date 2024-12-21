@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import LoginForm from "../components/loginForm";
 import WelcomeBlock from "../components/WelcomeBlock";
 import "../css/LoginPage.css";
@@ -14,6 +15,9 @@ const Login = () => {
             </p>
           </div>
           <LoginForm />
+          <Link to="/registration">
+            <p className="link-gray">sign up</p>
+          </Link>
         </div>
       </div>
       <div className="login-page-info">

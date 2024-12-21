@@ -11,3 +11,30 @@
   list-style-type: none;
   gap: 24px;
 }
+.button-sign-in {
+  background-color: #1e1e1e;
+  padding: 12px 52px;
+  border-radius: 12px;
+  border: 1px solid rgba(51, 52, 55, 0.1);
+  color: white;
+}
+.button-sign-up {
+  background-color: rgba(51, 52, 55, 0.1);
+  padding: 12px 52px;
+  border-radius: 12px;
+  border: 1px solid #1e1e1e;
+  color: white;
+}
+.button-sign-in:visited,
+.button-sign-up:visited {
+  text-decoration: none;
+  color: white;
+}
+.button-sign-in:hover,
+.button-sign-up:hover {
+  opacity: 0.8;
+}
+.button-sign-in:active,
+.button-sign-up:active {
+  opacity: 0.5;
+}

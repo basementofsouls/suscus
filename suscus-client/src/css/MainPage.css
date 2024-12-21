@@ -14,4 +14,8 @@
   height: 660px;
 
   margin-top: 32px;
+  width: 80%;
+}
+.main-page-search {
+  width: 20%;
 }

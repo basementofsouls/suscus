@@ -1,27 +1,31 @@
-import { useEffect, useState } from "react";
-import "../css/ProfilePage.css";
+import { useContext, useEffect, useState } from "react";
+import "../css/AtritstPage.css";
 import PublicationService from "../services/publication.service";
 import { Publication } from "../models/response/Publicatinos.response";
-import { observer } from "mobx-react-lite";
 import GalleryList from "../components/GalleryList";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import UserService from "../services/user.service";
 import OrderForm from "../components/orderForm";
+import { Context } from "../main";
+import { User } from "../types/types";
 
 const ArtistPage = () => {
+  const { store } = useContext(Context);
   const { id } = useParams();
+  const [artist, setArtist] = useState<User>({} as User);
+  const navigate = useNavigate();
 
   const [publications, setPublications] = useState<Array<Publication>>(
     [] as Array<Publication>
   );
 
-  const [artist, setArtist] = useState();
-
   const handlerGetMyPublicationsClick = async () => {
-    const resp = await PublicationService.searchPublications(1, {
-      artist_id: id,
-    });
-    setPublications(resp.data);
+    if (id) {
+      const resp = await PublicationService.searchPublications(1, {
+        artist_id: id,
+      });
+      setPublications(resp.data);
+    }
   };
 
   const handlerGetUser = async () => {
@@ -31,35 +35,43 @@ const ArtistPage = () => {
 
   useEffect(() => {
     handlerGetUser();
+    handlerGetMyPublicationsClick();
   }, []);
 
-  return (
-    <div className="profile-page">
-      <div className="profile-page-block">
-        <div className="profile-header">
-          <h2>Artist Page </h2>
-        </div>
-        <div className="profile-page-content">
-          <div className="profile-top-block">
-            {artist?.avatar ? (
-              <img
-                className="profile-avatar"
-                src={artist.avatar}
-                alt="avatar"
-              />
-            ) : (
-              ""
-            )}
-            {artist?.username ? artist.username : "no data"}
+  useEffect(() => {
+    if (id == store.user.id.toString()) {
+      navigate("/profile");
+    }
+  }, [store, id]);
 
-            <div>
-              <button onClick={handlerGetMyPublicationsClick}>Portfolio</button>
+  return (
+    <div className="artist-page">
+      <div className="artist-page-block">
+        <div className="artist-header">
+          <h2>{artist?.username ? artist.username : "no data"}</h2>
+        </div>
+        <div className="artist-page-content">
+          <div>
+            <div className="artist-top-block">
+              {artist?.avatar ? (
+                <img
+                  className="artist-avatar"
+                  src={artist.avatar}
+                  alt="avatar"
+                />
+              ) : (
+                ""
+              )}
+              {artist?.username ? artist.username : "no data"}
+            </div>
+
+            <div className="artist-page-buttons">
+              <OrderForm id={id} />
             </div>
           </div>
 
-          <div className="profile-gallery-block">
+          <div className="artist-gallery-block">
             {publications ? <GalleryList publications={publications} /> : ""}
-            <OrderForm />
           </div>
         </div>
       </div>
@@ -67,4 +79,4 @@ const ArtistPage = () => {
   );
 };
 
-export default observer(ArtistPage);
+export default ArtistPage;

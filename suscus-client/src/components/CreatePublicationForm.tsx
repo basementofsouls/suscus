@@ -43,7 +43,9 @@ const CreatePublicationForm: React.FC = () => {
 
   return (
     <>
-      <div onClick={handleChangePopUpState}>+</div>
+      <div onClick={handleChangePopUpState} className="button-purple">
+        +
+      </div>
       <dialog className="popup" ref={dialogRef}>
         <form onSubmit={handleSubmit} className="create-publication-form">
           <div onClick={handleChangePopUpState}>X</div>

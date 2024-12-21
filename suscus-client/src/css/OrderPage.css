@@ -9,7 +9,6 @@
   justify-content: space-around;
 }
 .order-list-column {
-  border: solid 1px #9c6fe4;
   border-radius: 11px;
   padding: 10px;
 }
@@ -17,4 +16,9 @@
   border: solid 1px #9c6fe4;
   border-radius: 11px;
   padding: 8px;
+}
+.order-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
 }

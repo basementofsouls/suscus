@@ -1,5 +1,5 @@
-import { useState, useRef, useContext } from "react";
-import "../css/CreatePublicationForm.css";
+import { useState, useContext } from "react";
+import "../css/UpdateProfileForm.css";
 import { observer } from "mobx-react-lite";
 import { Context } from "../main";
 
@@ -10,17 +10,6 @@ const UpdateProfileForm: React.FC = () => {
     password: "",
     file: null as File | null,
   });
-  const [OpenPopUp, isOpenPopUp] = useState<boolean>(false);
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  const handleChangePopUpState = () => {
-    if (OpenPopUp) {
-      dialogRef.current?.close();
-    } else {
-      dialogRef.current?.showModal();
-    }
-    isOpenPopUp(!OpenPopUp);
-  };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -41,35 +30,31 @@ const UpdateProfileForm: React.FC = () => {
 
   return (
     <>
-      <div onClick={handleChangePopUpState}>update</div>
-      <dialog className="popup" ref={dialogRef}>
-        <form onSubmit={handleSubmit} className="create-publication-form">
-          <div onClick={handleChangePopUpState}>X</div>
-          <input
-            type="username"
-            placeholder="username"
-            value={form.username}
-            onChange={(e) => setForm({ ...form, username: e.target.value })}
-            className="create-publication-form-input"
-          />
-          <input
-            type="password"
-            placeholder="password"
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            className="create-publication-form-input"
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) =>
-              setForm({ ...form, file: e.target.files?.[0] || null })
-            }
-            className="create-publication-form-input"
-          />
-          <button type="submit">Create</button>
-        </form>
-      </dialog>
+      <form onSubmit={handleSubmit} className="update-profile-form">
+        <input
+          type="username"
+          placeholder="username"
+          value={form.username}
+          onChange={(e) => setForm({ ...form, username: e.target.value })}
+          className="update-profile-form-input"
+        />
+        <input
+          type="password"
+          placeholder="password"
+          value={form.password}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          className="update-profile-form-input"
+        />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) =>
+            setForm({ ...form, file: e.target.files?.[0] || null })
+          }
+          className="update-profile-form-input"
+        />
+        <button type="submit">Сохранить</button>
+      </form>
     </>
   );
 };

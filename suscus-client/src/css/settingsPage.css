@@ -1,46 +1,61 @@
-.profile-page {
+.settings-page {
   height: 100%;
   background-color: #1c1d21;
-  background-image: url("../../public/profile-bg.svg");
+  background-image: url("../../public/settings-bg.svg");
   background-size: cover;
 }
-.profile-block {
+.settings-block {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.profile-header {
+.settings-header {
   background-color: #26272c;
   display: flex;
   flex-direction: row-reverse;
   padding: 12px 22px 12px 0px;
 }
-.profile-page-content {
+.settings-page-content {
   display: flex;
   margin: 78px 0 0 66px;
   justify-content: space-between;
 }
-.profile-avatar {
+.settings-avatar {
   border-radius: 300px;
   width: 200px;
   height: 200px;
   object-fit: cover;
 }
-.profile-top-block {
+.settings-top-block {
   display: flex;
 }
-.profile-top-block-right-column {
+.settings-top-block-right-column {
   margin: 0 0 0 24px;
 
   display: flex;
   flex-direction: column;
 }
-.profile-page-buttons {
+.settings-page-buttons {
   display: flex;
   gap: 12px;
   margin-top: 24px;
 }
-.profile-gallery-block {
+.settings-gallery-block {
   width: 60%;
   height: 460px;
+}
+.categories-list {
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.categorie-item {
+  padding: 8px;
+  border: 1px solid #9c6fe4;
+}
+.categorie-item-buttons {
+  display: flex;
+  gap: 8px;
 }

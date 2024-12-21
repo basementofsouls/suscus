@@ -1,11 +1,14 @@
 import { useState, useRef } from "react";
 import "../css/CreatePublicationForm.css";
-import { observer } from "mobx-react-lite";
 import OrderService from "../services/order.service";
 
-const OrderForm: React.FC = () => {
+type OrderFormProto = {
+  id: string | number | undefined;
+};
+
+const OrderForm: React.FC<OrderFormProto> = ({ id }) => {
   const [form, setForm] = useState({
-    artistId: "",
+    artistId: id,
     description: "",
     file: null as File | null, // Поле для файла
   });
@@ -26,7 +29,7 @@ const OrderForm: React.FC = () => {
 
     // Формирование FormData для отправки файла и данных
     const formData = new FormData();
-    formData.append("artistId", form.artistId);
+    if (form.artistId) formData.append("artistId", form.artistId.toString());
     formData.append("description", form.description);
     if (form.file) {
       formData.append("file", form.file);
@@ -45,18 +48,23 @@ const OrderForm: React.FC = () => {
 
   return (
     <>
-      <div onClick={handleChangePopUpState}>Create Order</div>
+      <div className="button-purple" onClick={handleChangePopUpState}>
+        Create Order
+      </div>
       <dialog className="popup" ref={dialogRef}>
         <form onSubmit={handleSubmit} className="create-publication-form">
           <div onClick={handleChangePopUpState}>X</div>
 
-          <input
-            type="text"
-            placeholder="Artist ID"
-            value={form.artistId}
-            onChange={(e) => setForm({ ...form, artistId: e.target.value })}
-            className="create-publication-form-input"
-          />
+          {/*
+            <input
+              type="text"
+              placeholder="Artist ID"
+              value={form.artistId}
+              onChange={(e) => setForm({ ...form, artistId: e.target.value })}
+              className="create-publication-form-input"
+            />
+          */}
+
           <textarea
             placeholder="Description"
             value={form.description}
@@ -78,4 +86,4 @@ const OrderForm: React.FC = () => {
   );
 };
 
-export default observer(OrderForm);
+export default OrderForm;

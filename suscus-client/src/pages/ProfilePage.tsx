@@ -41,23 +41,24 @@ const ProfilePage = () => {
     <div className="profile-page">
       <div className="profile-page-block">
         <div className="profile-header">
-          <h2>Profile Page </h2>
           <button onClick={handlerLogoutClick}>logout</button>
         </div>
         <div className="profile-page-content">
-          <div className="profile-top-block">
-            {user?.avatar ? (
-              <img className="profile-avatar" src={user.avatar} alt="avatar" />
-            ) : (
-              ""
-            )}
-            {user?.username ? user.username : "no data"}
+          <div>
+            <div className="profile-top-block">
+              {user?.avatar ? (
+                <img
+                  className="profile-avatar"
+                  src={user.avatar}
+                  alt="avatar"
+                />
+              ) : (
+                ""
+              )}
 
-            <div>
-              <button onClick={handlerGetMyPublicationsClick}>
-                MyPortfolio
-              </button>
-              <div>
+              <div className="profile-top-block-right-column">
+                {user?.username ? user.username : "no data"}
+
                 {user.role === "user" ? (
                   <button onClick={handlerBeArtistClick}>BeArtist</button>
                 ) : (
@@ -65,9 +66,15 @@ const ProfilePage = () => {
                 )}
               </div>
             </div>
-          </div>
 
-          <div>{user.role === "artist" ? <CreatePublicationForm /> : ""}</div>
+            <div className="profile-page-buttons">
+              <button onClick={handlerGetMyPublicationsClick}>
+                MyPortfolio
+              </button>
+
+              {user.role === "artist" ? <CreatePublicationForm /> : ""}
+            </div>
+          </div>
 
           <div className="profile-gallery-block">
             {publications ? <GalleryList publications={publications} /> : ""}

@@ -37,7 +37,9 @@ const SearchForm: React.FC<SearchFormProps> = ({ setSearch }) => {
         />
       </form>
 
-      <CategoriesList setSearchCategories={setSelectedCategories} />
+      <div className="search-categories">
+        <CategoriesList setSearchCategories={setSelectedCategories} />
+      </div>
     </div>
   );
 };

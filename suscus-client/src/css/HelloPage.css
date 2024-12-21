@@ -1,3 +1,21 @@
 .hello-page-block {
   background-color: #1c1d21;
 }
+.hello-page-block-right-column {
+  margin: 0 240px;
+  width: 600px;
+}
+.hello-page-block-title {
+  font-size: 70px;
+  font-weight: 900;
+}
+.hello-page-block-subtitle {
+  margin-top: 12px;
+}
+.hello-page-block-info {
+  margin-top: 50px;
+}
+.hello-page-button {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
