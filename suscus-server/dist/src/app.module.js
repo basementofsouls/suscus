@@ -17,6 +17,7 @@ const orders_module_1 = require("./orders/orders.module");
 const comments_module_1 = require("./comments/comments.module");
 const categories_module_1 = require("./categories/categories.module");
 const config_1 = require("@nestjs/config");
+const chat_module_1 = require("./Chat/chat.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -32,6 +33,7 @@ exports.AppModule = AppModule = __decorate([
             orders_module_1.OrdersModule,
             comments_module_1.CommentsModule,
             categories_module_1.СategoriesModule,
+            chat_module_1.ChatModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

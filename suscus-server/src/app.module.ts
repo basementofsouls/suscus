@@ -8,6 +8,7 @@ import { OrdersModule } from './orders/orders.module';
 import { CommentsModule } from './comments/comments.module';
 import { СategoriesModule } from './categories/categories.module';
 import { ConfigModule } from '@nestjs/config';
+import { ChatModule } from './Chat/chat.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ConfigModule } from '@nestjs/config';
     OrdersModule,
     CommentsModule,
     СategoriesModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],

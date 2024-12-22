@@ -13,6 +13,7 @@ import PublicationPage from "./pages/PublicationPage";
 import ArtistPage from "./pages/ArtistPage";
 import SettingsPage from "./pages/SettingsPage";
 import OrdersPage from "./pages/OrdersPage";
+import ChatPage from "./pages/ChatPage";
 
 function App() {
   const { store } = useContext(Context);
@@ -54,6 +55,7 @@ function App() {
                     path="/publication/:id"
                     element={<PublicationPage />}
                   />
+                  <Route path="/chat" element={<ChatPage />} />
                   <Route path="/artist/:id" element={<ArtistPage />} />
                   <Route path="/orders" element={<OrdersPage />} />
                   <Route path="/settings" element={<SettingsPage />} />
