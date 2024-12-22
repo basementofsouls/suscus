@@ -2,13 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import "../css/OrderPage.css";
 import OrderService from "../services/order.service";
 import { Context } from "../main";
+import { Order } from "../types/types";
 
 const OrdersPage = () => {
   const { store } = useContext(Context);
 
-  const [asritstOrders, setArtistOrders] = useState([]);
-  const [myOrders, setMyOrders] = useState([]);
-  const [editingOrderId, setEditingOrderId] = useState(null);
+  const [asritstOrders, setArtistOrders] = useState<Order[]>([]);
+  const [myOrders, setMyOrders] = useState<Order[]>([]);
+  const [editingOrderId, setEditingOrderId] = useState<number>(0);
   const [newStatus, setNewStatus] = useState("");
 
   const statuses = ["готов", "в работе", "новый", "отказ"];
@@ -30,18 +31,18 @@ const OrdersPage = () => {
     fetchArtistOrders();
   }, []);
 
-  const handleStatusClick = (orderId: string, currentStatus: string) => {
+  const handleStatusClick = (orderId: number, currentStatus: string) => {
     setEditingOrderId(orderId);
     setNewStatus(currentStatus);
   };
 
   const handleStatusChange = async (
-    orderId: string,
+    orderId: number,
     selectedStatus: string
   ) => {
     try {
-      setArtistOrders((prevOrders: any) =>
-        prevOrders.map((order) =>
+      setArtistOrders((prevOrders: Order[]) =>
+        prevOrders.map((order: Order) =>
           order.id === orderId ? { ...order, status: selectedStatus } : order
         )
       );
@@ -50,17 +51,17 @@ const OrdersPage = () => {
         status: selectedStatus,
       });
 
-      setEditingOrderId(null);
+      setEditingOrderId(0);
     } catch (error) {
       console.error("Ошибка обновления статуса:", error);
     }
   };
 
   const handleOutsideClick = () => {
-    setEditingOrderId(null);
+    setEditingOrderId(0);
   };
 
-  const handleDeleteClick = async (id: string) => {
+  const handleDeleteClick = async (id: number) => {
     const { data } = await OrderService.deleteOrder(id);
     if (data.id) {
       setMyOrders(myOrders.filter((e) => e.id != data.id));
@@ -76,7 +77,7 @@ const OrdersPage = () => {
               <h3>Работник</h3>
               <div className="order-list-column">
                 {asritstOrders
-                  ? asritstOrders.map((e: any) => {
+                  ? asritstOrders.map((e: Order) => {
                       return (
                         <div
                           key={e.id}
@@ -133,7 +134,7 @@ const OrdersPage = () => {
 
             <div className="order-list-column">
               {myOrders
-                ? myOrders.map((e: any) => {
+                ? myOrders.map((e: Order) => {
                     return (
                       <div key={e.id} className="order-list-item">
                         <div className="order-list-item-info">
@@ -142,7 +143,7 @@ const OrdersPage = () => {
                             <p>Status: {e.status}</p>
                             <p>Description:</p>
                             <p className="order-list-item-description">
-                              {e.description.slice(0, 200)}
+                              {e.description ? e.description.slice(0, 200) : ""}
                             </p>
                           </div>
                           <div

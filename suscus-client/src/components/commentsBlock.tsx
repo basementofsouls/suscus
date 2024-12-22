@@ -1,30 +1,39 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../css/CommentsBlock.css";
 import CommentsService from "../services/comment.service";
 import { Context } from "../main";
+import { PulicationComment } from "../types/types";
 
-const CommentsBlock = ({ publicationId }) => {
+type CommentsBlockType = {
+  publicationId: string;
+};
+
+const CommentsBlock: React.FC<CommentsBlockType> = ({ publicationId }) => {
   const { store } = useContext(Context);
-  const [comments, setComments] = useState<Array<any>>([]);
+  const [comments, setComments] = useState<PulicationComment[]>([]);
   const [newComment, setNewComment] = useState({
     publicationId: publicationId,
     content: "",
   });
-  const [changeComment, setChangeComment] = useState("");
+  const [changeComment, setChangeComment] = useState<PulicationComment>(
+    {} as PulicationComment
+  );
   const [changeCommentId, setChangeCommentId] = useState(-1);
 
-  const handleChangeComment = (id) => {
+  const handleChangeComment = (id: number) => {
     setChangeComment(comments.filter((e) => e.id == id)[0]);
     setChangeCommentId(id);
   };
 
   const handlerUpdateComment = async () => {
-    if (changeComment.content.length == 0) {
+    if (changeComment?.content?.length == 0) {
       alert("Комментарий должен соджержать символы");
     } else {
       const { data } = await CommentsService.updateComment(changeComment);
       const newComments = comments;
-      newComments[comments.findIndex((e) => e.id == changeCommentId)] = data;
+      newComments[
+        comments.findIndex((e: PulicationComment) => e.id == changeCommentId)
+      ] = data;
       setComments(newComments);
       setChangeCommentId(-1);
     }
@@ -40,7 +49,7 @@ const CommentsBlock = ({ publicationId }) => {
     }
   };
 
-  const handleDeleteComment = async (id: any) => {
+  const handleDeleteComment = async (id: string) => {
     const { data } = await CommentsService.deleteComment(id);
     setComments(comments.filter((e) => e.id != data.id));
   };
@@ -81,7 +90,7 @@ const CommentsBlock = ({ publicationId }) => {
       </div>
       <div className="comments-block-list">
         {comments.length > 0
-          ? comments.map((e: any) => {
+          ? comments.map((e: PulicationComment) => {
               return (
                 <div key={e.id} className="comments-block-comment">
                   <div className="comments-block-comment-row">
@@ -103,7 +112,7 @@ const CommentsBlock = ({ publicationId }) => {
                         )}
                         <p
                           onClick={() => {
-                            handleDeleteComment(e.id);
+                            handleDeleteComment(`${e.id}`);
                           }}
                         >
                           X

@@ -44,9 +44,6 @@ function App() {
           {store.isAuth && <SideBar />}
           <div className="content">
             <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/registration" element={<RegistrationPage />} />
-
               {store.isAuth ? (
                 <>
                   <Route path="/gallery" element={<MainPage />} />
@@ -62,7 +59,10 @@ function App() {
                   <Route path="*" element={<MainPage />} />
                 </>
               ) : (
-                ""
+                <>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/registration" element={<RegistrationPage />} />
+                </>
               )}
               <Route path="*" element={<HelloPage />} />
             </Routes>

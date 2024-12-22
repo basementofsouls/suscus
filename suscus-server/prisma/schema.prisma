@@ -1,3 +1,5 @@
+//npx prisma migrate dev --name add_chat_and_messages
+
 generator client {
   provider = "prisma-client-js"
 }

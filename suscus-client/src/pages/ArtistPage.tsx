@@ -1,13 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import "../css/AtritstPage.css";
 import PublicationService from "../services/publication.service";
-import { Publication } from "../models/response/Publicatinos.response";
 import GalleryList from "../components/GalleryList";
 import { useNavigate, useParams } from "react-router-dom";
 import UserService from "../services/user.service";
 import OrderForm from "../components/orderForm";
 import { Context } from "../main";
-import { User } from "../types/types";
+import { Publication, User } from "../types/types";
 
 const ArtistPage = () => {
   const { store } = useContext(Context);
@@ -22,7 +21,7 @@ const ArtistPage = () => {
   const handlerGetMyPublicationsClick = async () => {
     if (id) {
       const resp = await PublicationService.searchPublications(1, {
-        artist_id: id,
+        artist_id: parseInt(id),
       });
       setPublications(resp.data);
     }

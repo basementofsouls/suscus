@@ -36,7 +36,8 @@ const OrderForm: React.FC<OrderFormProto> = ({ id }) => {
     }
 
     try {
-      const response = await OrderService.createOrder(formData);
+      await OrderService.createOrder(formData);
+      //const response = await OrderService.createOrder(formData);
       //console.log("Order created successfully:", response.data);
       //alert("Order created successfully!");
       handleChangePopUpState();

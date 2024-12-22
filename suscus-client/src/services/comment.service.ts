@@ -17,7 +17,9 @@ export default class CommentsService {
       .put<any>(`comments/update/`, { data })
       .then((response) => response);
   }
-  static async deleteComment(id): Promise<Promise<AxiosResponse<any>>> {
+  static async deleteComment(
+    id: number | string
+  ): Promise<Promise<AxiosResponse<any>>> {
     return $api
       .delete<any>(`comments/delete?id=${id}`)
       .then((response) => response);

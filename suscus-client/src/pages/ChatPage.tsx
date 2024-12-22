@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { io } from "socket.io-client";
-import axios from "axios";
 import ChatService from "../services/chat.service";
+import { Chat, Message, User } from "../types/types";
+import { Context } from "../main";
 
-const socket = io("http://localhost:3000");
+const socket = io(
+  import.meta.env.VITE_CHAT_WEBSOCKET_URL || "http://localhost:3000"
+);
 
 const ChatPage = () => {
-  const [chats, setChats] = useState([]); // Список чатов
-  const [currentChat, setCurrentChat] = useState(null); // Текущий чат
-  const [messages, setMessages] = useState([]); // Сообщения текущего чата
+  const { store } = useContext(Context);
+  const [chats, setChats] = useState<Chat[]>([]); // Список чатов
+  const [currentChat, setCurrentChat] = useState<Chat>({} as Chat); // Текущий чат
+  const [messages, setMessages] = useState<Message[]>([]); // Сообщения текущего чата
   const [text, setText] = useState("");
-  const [user, setUser] = useState({ id: 1, name: "Client" }); // Текущий пользователь
+  const [user] = useState<User>(store.user); // Текущий пользователь
 
   const [newChat, setNewChat] = useState({ clientId: "", artistId: "" }); // Данные для создания нового чата
 
@@ -31,7 +35,7 @@ const ChatPage = () => {
     };
   }, [currentChat]);
 
-  const openChat = (chat) => {
+  const openChat = (chat: Chat) => {
     setCurrentChat(chat);
 
     // Загрузка истории сообщений
@@ -41,15 +45,15 @@ const ChatPage = () => {
 
     // Подключаемся к чату через WebSocket
     socket.emit("joinChat", {
-      clientId: chat.client_id,
+      clientId: store.user.id,
       artistId: chat.artist_id,
     });
   };
 
   const createChat = async () => {
-    if (!newChat.clientId || !newChat.artistId) return;
+    if (!newChat.artistId) return;
     await ChatService.createChat({
-      clientId: parseInt(newChat.clientId),
+      clientId: store.user.id,
       artistId: parseInt(newChat.artistId),
     }).then((res) => {
       setChats((prev) => [...prev, res.data]);
@@ -76,7 +80,7 @@ const ChatPage = () => {
       >
         <h3>Чаты</h3>
         <ul>
-          {chats.map((chat) => (
+          {chats.map((chat: Chat) => (
             <li
               key={chat.id}
               style={{
@@ -94,15 +98,6 @@ const ChatPage = () => {
         {/* Создание нового чата */}
         <div style={{ marginTop: "20px" }}>
           <h4>Создать чат</h4>
-          <input
-            type="number"
-            placeholder="ID клиента"
-            value={newChat.clientId}
-            onChange={(e) =>
-              setNewChat({ ...newChat, clientId: e.target.value })
-            }
-            style={{ width: "100%", marginBottom: "5px" }}
-          />
           <input
             type="number"
             placeholder="ID артиста"
@@ -131,12 +126,33 @@ const ChatPage = () => {
                 padding: "10px",
               }}
             >
-              {messages.map((msg, index) => (
-                <div key={index}>
-                  <strong>
-                    {msg.sender_id === user.id ? "Вы" : "Другой"}:
-                  </strong>{" "}
-                  {msg.text}
+              {messages.map((msg: any, index) => (
+                <div
+                  key={index}
+                  style={{
+                    padding: "10px",
+                  }}
+                >
+                  <p
+                    style={{
+                      display: "flex",
+                      gap: "8px",
+                    }}
+                  >
+                    <p>
+                      <strong>
+                        {msg.sender_id === user.id ? "Вы" : "Другой"}
+                      </strong>{" "}
+                    </p>
+                    <p
+                      style={{
+                        opacity: "0.5",
+                      }}
+                    >
+                      {msg.created_at}
+                    </p>
+                  </p>
+                  <p>{msg.text}</p>
                 </div>
               ))}
             </div>
@@ -147,7 +163,12 @@ const ChatPage = () => {
                 onChange={(e) => setText(e.target.value)}
                 style={{ width: "80%", marginRight: "10px" }}
               />
-              <button onClick={sendMessage}>Отправить</button>
+              <button
+                onClick={sendMessage}
+                className={`${text.length > 0 ? "" : "unactive"}`}
+              >
+                Отправить
+              </button>
             </div>
           </>
         ) : (

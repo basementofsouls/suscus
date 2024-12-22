@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import GalleryList from "../components/GalleryList";
 import "../css/MainPage.css";
 import PublicationService from "../services/publication.service";
-import { Publication } from "../models/response/Publicatinos.response";
 import SearchForm from "../components/SearchForm";
+import { Publication } from "../types/types";
 
 const MainPage = () => {
   const [publications, setPublications] = useState<Publication[]>(

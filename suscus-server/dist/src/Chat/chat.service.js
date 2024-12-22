@@ -17,20 +17,25 @@ let ChatService = class ChatService {
         this.prisma = prisma;
     }
     async findOrCreateChat(clientId, artistId) {
-        let chat = await this.prisma.chats.findFirst({
-            where: { client_id: clientId, artist_id: artistId },
-            include: { messages: true },
-        });
-        if (!chat) {
-            chat = await this.prisma.chats.create({
-                data: {
-                    client_id: clientId,
-                    artist_id: artistId,
-                },
+        try {
+            let chat = await this.prisma.chats.findFirst({
+                where: { client_id: clientId, artist_id: artistId },
                 include: { messages: true },
             });
+            if (!chat) {
+                chat = await this.prisma.chats.create({
+                    data: {
+                        client_id: clientId,
+                        artist_id: artistId,
+                    },
+                    include: { messages: true },
+                });
+            }
+            return chat;
         }
-        return chat;
+        catch (e) {
+            return e;
+        }
     }
     async getUserChats(userId) {
         try {

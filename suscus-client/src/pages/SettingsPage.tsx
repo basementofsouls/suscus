@@ -22,7 +22,7 @@ const SettingsPage = () => {
     fetchCategory();
   }, []);
 
-  const handleChangeCategory = (id) => {
+  const handleChangeCategory = (id: number) => {
     setChangeCategory(categorys.filter((e) => e.id == id)[0]);
     setChangeCategoryId(id);
   };

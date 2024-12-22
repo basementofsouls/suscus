@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom"; // Импорт useParams
 import "../css/PublicationPage.css";
-import { Publication } from "../models/response/Publicatinos.response";
 import PublicationService from "../services/publication.service";
 import CommentsBlock from "../components/commentsBlock";
 import { Context } from "../main";
+import { Publication } from "../types/types";
 
 const PublicationPage = () => {
   const { store } = useContext(Context);
@@ -56,7 +56,7 @@ const PublicationPage = () => {
             </div>
             <div className="publication-page-column">
               <div className="publication-page-comments">
-                <CommentsBlock publicationId={id} />
+                {id ? <CommentsBlock publicationId={id} /> : ""}
               </div>
             </div>
           </div>

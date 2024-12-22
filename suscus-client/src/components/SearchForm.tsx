@@ -8,14 +8,14 @@ export interface SearchFormProps {
 }
 
 const SearchForm: React.FC<SearchFormProps> = ({ setSearch }) => {
-  const searchRef = useRef(null);
+  const searchRef = useRef<HTMLInputElement>(null);
   const [selectedCategories, setSelectedCategories] = useState<Array<number>>(
     []
   );
   const [title, setTitle] = useState("");
 
-  const handleOnChangeSearch = async (e: any) => {
-    setTitle(searchRef?.current?.value);
+  const handleOnChangeSearch = async () => {
+    if (searchRef?.current?.value) setTitle(searchRef?.current?.value);
   };
 
   useEffect(() => {

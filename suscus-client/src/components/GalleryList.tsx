@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import "../css/GallryList.css";
-import { Publication } from "../models/response/Publicatinos.response";
+import { Publication } from "../types/types";
 
 interface GalleryListProps {
   publications: Publication[];

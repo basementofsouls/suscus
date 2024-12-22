@@ -23,17 +23,17 @@ export default class PublicationService {
     const params = new URLSearchParams();
 
     // Добавляем номер страницы
-    params.append("page", page.toString());
+    if (page) params.append("page", page.toString());
 
     // Добавляем категории как запятую
-    if (filter.categories?.length) {
+    if (filter?.categories?.length) {
       params.append("categories", filter.categories.join(","));
     }
     // Добавляем фильтры, если они присутствуют
-    if (filter.artist_id) {
+    if (filter?.artist_id) {
       params.append("artist_id", filter.artist_id.toString());
     }
-    if (filter.title) {
+    if (filter?.title) {
       params.append("title", filter.title);
     }
 

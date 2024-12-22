@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import "../css/ProfilePage.css";
 import { Context } from "../main";
 import PublicationService from "../services/publication.service";
-import { Publication } from "../models/response/Publicatinos.response";
 import CreatePublicationForm from "../components/CreatePublicationForm";
 import { observer } from "mobx-react-lite";
 import GalleryList from "../components/GalleryList";
+import { Publication } from "../types/types";
 
 const ProfilePage = () => {
   const { store } = useContext(Context);

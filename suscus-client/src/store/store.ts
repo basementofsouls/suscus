@@ -1,13 +1,13 @@
 import { makeAutoObservable } from "mobx";
-import IUser from "../models/IUser";
 import axios from "axios";
 import { AuthResponse } from "../models/response/auth.response.model";
 import { API_URL } from "../http/http";
 import AuthService from "../services/auth.service";
 import UserService from "../services/user.service";
+import { User } from "../types/types";
 
 export default class Store {
-  user = {} as IUser;
+  user = {} as User;
   isAuth = false;
   isLoading = true;
 
@@ -19,7 +19,7 @@ export default class Store {
     this.isAuth = bool;
   }
 
-  setUser(user: IUser) {
+  setUser(user: User) {
     this.user = user;
   }
 
@@ -73,7 +73,7 @@ export default class Store {
       await AuthService.logout();
       localStorage.removeItem("access_token");
       this.setAuth(false);
-      this.setUser({} as IUser);
+      this.setUser({} as User);
     } catch (e: any) {
       console.log(e.response?.data?.message);
     } finally {
