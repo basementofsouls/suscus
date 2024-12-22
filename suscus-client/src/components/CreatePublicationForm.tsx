@@ -11,6 +11,7 @@ const CreatePublicationForm: React.FC = () => {
 
   const [form, setForm] = useState({
     title: "",
+    description: "",
     file: null as File | null,
   });
 
@@ -31,6 +32,9 @@ const CreatePublicationForm: React.FC = () => {
       if (form.file) {
         formData.append("file", form.file);
       }
+      if (form.description) {
+        formData.append("description", form.description);
+      }
       if (categories.length > 0) {
         formData.append("categories", JSON.stringify(categories));
       }
@@ -46,27 +50,79 @@ const CreatePublicationForm: React.FC = () => {
       <div onClick={handleChangePopUpState} className="button-purple">
         +
       </div>
-      <dialog className="popup" ref={dialogRef}>
-        <form onSubmit={handleSubmit} className="create-publication-form">
+      <dialog className="create-publication-popup popup" ref={dialogRef}>
+        <div className="popup-header">
+          <h3>Add Publication</h3>
           <div onClick={handleChangePopUpState}>X</div>
-          <input
-            type="title"
-            placeholder="title"
-            value={form.title}
-            onChange={(e) => setForm({ ...form, title: e.target.value })}
-            className="create-publication-form-input"
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) =>
-              setForm({ ...form, file: e.target.files?.[0] || null })
-            }
-            className="create-publication-form-input"
-          />
-          <button type="submit">Create</button>
-        </form>
-        <CategoriesList setSearchCategories={setCategories} />
+        </div>
+        <div className="create-publication-content">
+          <form onSubmit={handleSubmit} className="create-publication-form">
+            <div className="publication-form-row">
+              <div>
+                <h3 className="publication-form-title">Title</h3>
+                <input
+                  type="title"
+                  placeholder="title"
+                  value={form.title}
+                  onChange={(e) =>
+                    setForm({ ...form, title: e.target.value.slice(0, 50) })
+                  }
+                  className="create-publication-form-input"
+                />
+              </div>
+              <div>
+                <h3 className="publication-form-title">Image</h3>
+                <input
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (
+                      file &&
+                      (file.type === "image/png" || file.type === "image/jpeg")
+                    ) {
+                      setForm({ ...form, file: e.target.files?.[0] || null });
+                    } else {
+                      alert("Можно загружать только файлы PNG или JPG.");
+                      e.target.value = ""; // Сбрасываем выбранный файл
+                    }
+                  }}
+                  className="create-publication-form-input"
+                />
+              </div>
+            </div>
+            <div>
+              <h3 className="publication-form-title">Description</h3>
+              <textarea
+                placeholder="description"
+                value={form.description}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    description: e.target.value.slice(0, 200),
+                  })
+                }
+                className="create-publication-form-text-area"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className={`${
+                form.description.length == 0 ||
+                form.title.length == 0 ||
+                form.file == null
+                  ? "unactive"
+                  : ""
+              }`}
+            >
+              Create
+            </button>
+          </form>
+          <div className="create-publication-form-categories">
+            <CategoriesList setSearchCategories={setCategories} />
+          </div>
+        </div>
       </dialog>
     </>
   );

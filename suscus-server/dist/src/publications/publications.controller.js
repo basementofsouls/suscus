@@ -31,8 +31,9 @@ let PublicationsController = class PublicationsController {
         return this.pubService.createPublication({
             title: body.title,
             image_url: link,
+            description: body.description,
             artist_id: req.user.id,
-            categories: JSON.parse(body.categories),
+            categories: body.categories ? JSON.parse(body.categories) : '',
         });
     }
     updatePublication(req, body) {

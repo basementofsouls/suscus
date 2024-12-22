@@ -5,6 +5,10 @@ import { PrismaService } from 'prisma/prisma.service';
 export class OrdersService {
   constructor(private prisma: PrismaService) {}
 
+  getOrderById(id: any): any {
+    return this.prisma.orders.findFirst({ where: { id: parseInt(id) } });
+  }
+
   getOrders(user_id: any): any {
     return this.prisma.orders.findMany({ where: { user_id } });
   }
@@ -26,8 +30,20 @@ export class OrdersService {
   }
 
   updateOrder(data: any) {
-    console.log(data);
+    return this.prisma.orders.update({
+      where: { id: data.id },
+      data: { status: data.status },
+    });
+  }
 
-    return null;
+  deleteOrder(id) {
+    try {
+      const resp = this.prisma.orders.delete({
+        where: { id: parseInt(id) },
+      });
+      return resp;
+    } catch (e: any) {
+      return e;
+    }
   }
 }

@@ -29,7 +29,7 @@ const OrderForm: React.FC<OrderFormProto> = ({ id }) => {
 
     // Формирование FormData для отправки файла и данных
     const formData = new FormData();
-    if (form.artistId) formData.append("artistId", form.artistId.toString());
+    if (form.artistId) formData.append("artist_id", form.artistId.toString());
     formData.append("description", form.description);
     if (form.file) {
       formData.append("file", form.file);
@@ -51,10 +51,12 @@ const OrderForm: React.FC<OrderFormProto> = ({ id }) => {
       <div className="button-purple" onClick={handleChangePopUpState}>
         Create Order
       </div>
-      <dialog className="popup" ref={dialogRef}>
-        <form onSubmit={handleSubmit} className="create-publication-form">
+      <dialog className="popup create-order-popup" ref={dialogRef}>
+        <div className="popup-header">
+          <h3>Order</h3>
           <div onClick={handleChangePopUpState}>X</div>
-
+        </div>
+        <form onSubmit={handleSubmit} className="create-publication-form">
           {/*
             <input
               type="text"
@@ -74,12 +76,30 @@ const OrderForm: React.FC<OrderFormProto> = ({ id }) => {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) =>
-              setForm({ ...form, file: e.target.files?.[0] || null })
-            }
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (
+                file &&
+                (file.type === "image/png" || file.type === "image/jpeg")
+              ) {
+                setForm({ ...form, file: e.target.files?.[0] || null });
+              } else {
+                alert("Можно загружать только файлы PNG или JPG.");
+                e.target.value = ""; // Сбрасываем выбранный файл
+              }
+            }}
             className="create-publication-form-input"
           />
-          <button type="submit">Submit Order</button>
+          <button
+            type="submit"
+            className={`${
+              form.description.length == 0 || form.file == null
+                ? "unactive"
+                : ""
+            }`}
+          >
+            Submit Order
+          </button>
         </form>
       </dialog>
     </>

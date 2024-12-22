@@ -7,24 +7,23 @@ export declare class OrdersController {
     getOrders(req: any, query: any): any;
     getArtistOrders(req: any, query: any): any;
     createOrder(req: any, file: Express.Multer.File, body: {
-        artistId: string;
+        artist_id: string;
         description: string;
     }): Promise<{
-        id: number;
-        created_at: Date | null;
-        updated_at: Date | null;
         artist_id: number;
         description: string | null;
+        id: number;
         user_id: number;
         reference: string | null;
         status: string;
+        created_at: Date | null;
+        updated_at: Date | null;
     } | {
         message: string;
     }>;
     updareOrders(req: any, body: {
-        publication: {
-            title: string;
-            url: string;
-        };
+        id: string;
+        status: string;
     }): any;
+    deletePublications(req: any, query: any): Promise<any>;
 }

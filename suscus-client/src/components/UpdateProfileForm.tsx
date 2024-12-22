@@ -35,25 +35,53 @@ const UpdateProfileForm: React.FC = () => {
           type="username"
           placeholder="username"
           value={form.username}
-          onChange={(e) => setForm({ ...form, username: e.target.value })}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              username: e.target.value.replace(" ", "").slice(0, 50),
+            })
+          }
           className="update-profile-form-input"
         />
         <input
           type="password"
           placeholder="password"
           value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              password: e.target.value.replace(" ", "").slice(0, 50),
+            })
+          }
           className="update-profile-form-input"
         />
         <input
           type="file"
-          accept="image/*"
-          onChange={(e) =>
-            setForm({ ...form, file: e.target.files?.[0] || null })
-          }
+          accept="image/png, image/jpeg"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (
+              file &&
+              (file.type === "image/png" || file.type === "image/jpeg")
+            ) {
+              setForm({ ...form, file });
+            } else {
+              alert("Можно загружать только файлы PNG или JPG.");
+              e.target.value = ""; // Сбрасываем выбранный файл
+            }
+          }}
           className="update-profile-form-input"
         />
-        <button type="submit">Сохранить</button>
+        <button
+          type="submit"
+          className={`${
+            form.password.length < 6 || form.username.length == 0
+              ? "unactive"
+              : ""
+          }`}
+        >
+          Сохранить
+        </button>
       </form>
     </>
   );

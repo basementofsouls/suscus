@@ -22,7 +22,7 @@ export class CommentsService {
       data: {
         user_id: data.user,
         publication_id: data.publicationId,
-        content: data.text,
+        content: data.content,
       },
     });
   }

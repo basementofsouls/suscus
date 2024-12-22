@@ -1,6 +1,56 @@
+.create-publication-popup {
+  background-color: #f5f5f5;
+  width: 700px;
+}
 .create-publication-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
   width: 200px;
+}
+.popup-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+  margin-bottom: 24px;
+}
+.create-publication-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.create-publication-form-input {
+  color: black;
+}
+.publication-form-title {
+}
+.create-publication-form-categories {
+  width: 150px;
+}
+.publication-form-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 12px;
+}
+.create-publication-form-text-area {
+  width: 500px; /* Полная ширина контейнера */
+  height: 120px; /* Высота блока */
+  padding: 10px; /* Отступ внутри текстового блока */
+  border: 1px solid #ccc; /* Граница */
+  border-radius: 5px; /* Закругленные углы */
+  font-size: 16px; /* Размер шрифта */
+  resize: none; /* Отключить возможность изменения размера */
+  box-sizing: border-box; /* Учитывать padding в ширине */
+}
+
+.create-publication-form-text-area:focus {
+  outline: none; /* Убрать стандартную подсветку */
+  border-color: #007bff; /* Цвет границы при фокусе */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Эффект подсветки */
+}
+.create-order-popup {
+  background-color: #f5f5f5;
+  width: 300px;
 }

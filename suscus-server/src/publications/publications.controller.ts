@@ -41,6 +41,7 @@ export class PublicationsController {
     @Body()
     body: {
       title: string;
+      description: string;
       categories: string;
     },
   ) {
@@ -49,8 +50,9 @@ export class PublicationsController {
     return this.pubService.createPublication({
       title: body.title,
       image_url: link,
+      description: body.description,
       artist_id: req.user.id,
-      categories: JSON.parse(body.categories),
+      categories: body.categories ? JSON.parse(body.categories) : '',
     });
   }
 

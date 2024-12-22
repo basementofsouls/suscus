@@ -16,6 +16,9 @@ let OrdersService = class OrdersService {
     constructor(prisma) {
         this.prisma = prisma;
     }
+    getOrderById(id) {
+        return this.prisma.orders.findFirst({ where: { id: parseInt(id) } });
+    }
     getOrders(user_id) {
         return this.prisma.orders.findMany({ where: { user_id } });
     }
@@ -34,8 +37,21 @@ let OrdersService = class OrdersService {
         });
     }
     updateOrder(data) {
-        console.log(data);
-        return null;
+        return this.prisma.orders.update({
+            where: { id: data.id },
+            data: { status: data.status },
+        });
+    }
+    deleteOrder(id) {
+        try {
+            const resp = this.prisma.orders.delete({
+                where: { id: parseInt(id) },
+            });
+            return resp;
+        }
+        catch (e) {
+            return e;
+        }
     }
 };
 exports.OrdersService = OrdersService;

@@ -21,10 +21,12 @@ const ProfilePage = () => {
   );
 
   const handlerGetMyPublicationsClick = async () => {
-    const resp = await PublicationService.searchPublications(1, {
-      artist_id: store.user.id,
-    });
-    setPublications(resp.data);
+    if (store.user.id) {
+      const resp = await PublicationService.searchPublications(1, {
+        artist_id: store.user.id,
+      });
+      setPublications(resp.data);
+    }
   };
 
   const handlerBeArtistClick = async () => {
@@ -58,12 +60,6 @@ const ProfilePage = () => {
 
               <div className="profile-top-block-right-column">
                 {user?.username ? user.username : "no data"}
-
-                {user.role === "user" ? (
-                  <button onClick={handlerBeArtistClick}>BeArtist</button>
-                ) : (
-                  ""
-                )}
               </div>
             </div>
 
@@ -72,7 +68,7 @@ const ProfilePage = () => {
                 MyPortfolio
               </button>
 
-              {user.role != "user" ? (
+              {user.role === "user" ? (
                 <button onClick={handlerBeArtistClick}>BeArtist</button>
               ) : (
                 ""

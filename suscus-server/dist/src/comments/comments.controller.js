@@ -27,7 +27,7 @@ let CommentsController = class CommentsController {
         return this.commentsService.createComment({
             user: parseInt(req.user.id),
             publicationId: parseInt(body.data.publicationId),
-            text: body.data.text,
+            content: body.data.content,
         });
     }
     updareComment(req, body) {

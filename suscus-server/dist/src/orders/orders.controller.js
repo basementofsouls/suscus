@@ -30,24 +30,33 @@ let OrdersController = class OrdersController {
         return this.ordersService.getArtistOrders(req.user.id);
     }
     async createOrder(req, file, body) {
-        const { artistId, description } = body;
-        if (req.user.id == artistId) {
+        const { artist_id, description } = body;
+        if (req.user.id == artist_id) {
             return { message: 'Вы не можете сделать заказ сами у себя' };
         }
         const link = await this.fileService.uploadFile(file);
         return this.ordersService.createOrder({
             user_id: parseInt(req.user.id),
-            artist_id: parseInt(artistId),
+            artist_id: parseInt(artist_id),
             description: description,
             image_url: link,
         });
     }
     updareOrders(req, body) {
         return this.ordersService.updateOrder({
-            title: body.publication.title,
-            image_url: body.publication.url,
-            artist_id: req.user.id,
+            id: body.id,
+            status: body.status,
         });
+    }
+    async deletePublications(req, query) {
+        const publication = await this.ordersService.getOrderById(query.id);
+        if (publication &&
+            (req.user.role == 'moderator' || publication.user_id == req.user.id)) {
+            return this.ordersService.deleteOrder(query.id);
+        }
+        else {
+            return { message: 'Не доступа' };
+        }
     }
 };
 exports.OrdersController = OrdersController;
@@ -91,6 +100,15 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Object)
 ], OrdersController.prototype, "updareOrders", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Delete)('delete'),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], OrdersController.prototype, "deletePublications", null);
 exports.OrdersController = OrdersController = __decorate([
     (0, common_1.Controller)('orders'),
     __metadata("design:paramtypes", [orders_service_1.OrdersService,

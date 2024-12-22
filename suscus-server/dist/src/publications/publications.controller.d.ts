@@ -7,15 +7,16 @@ export declare class PublicationsController {
     getMyPublications(query: any): any;
     createPublication(req: any, file: Express.Multer.File, body: {
         title: string;
+        description: string;
         categories: string;
     }): Promise<{
         id: number;
-        created_at: Date | null;
-        updated_at: Date | null;
         artist_id: number;
         title: string;
         image_url: string;
         description: string | null;
+        created_at: Date | null;
+        updated_at: Date | null;
     }>;
     updatePublication(req: any, body: {
         data: {

@@ -9,6 +9,7 @@ import {
   Put,
   UseInterceptors,
   UploadedFile,
+  Delete,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -44,10 +45,10 @@ export class OrdersController {
   async createOrder(
     @Request() req,
     @UploadedFile() file: Express.Multer.File,
-    @Body() body: { artistId: string; description: string },
+    @Body() body: { artist_id: string; description: string },
   ) {
-    const { artistId, description } = body;
-    if (req.user.id == artistId) {
+    const { artist_id, description } = body;
+    if (req.user.id == artist_id) {
       return { message: 'Вы не можете сделать заказ сами у себя' };
     }
 
@@ -55,7 +56,7 @@ export class OrdersController {
 
     return this.ordersService.createOrder({
       user_id: parseInt(req.user.id),
-      artist_id: parseInt(artistId),
+      artist_id: parseInt(artist_id),
       description: description,
       image_url: link,
     });
@@ -65,12 +66,26 @@ export class OrdersController {
   @Put('update')
   updareOrders(
     @Request() req,
-    @Body() body: { publication: { title: string; url: string } },
+    @Body() body: { id: string; status: string },
   ): any {
     return this.ordersService.updateOrder({
-      title: body.publication.title,
-      image_url: body.publication.url,
-      artist_id: req.user.id,
+      id: body.id,
+      status: body.status,
     });
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete('delete')
+  async deletePublications(@Request() req, @Query() query: any) {
+    const publication = await this.ordersService.getOrderById(query.id);
+    //Проверка существует ли публикация и (роль = модератои или публикация принадлежит пользователю сделавшему запрос)\
+    if (
+      publication &&
+      (req.user.role == 'moderator' || publication.user_id == req.user.id)
+    ) {
+      return this.ordersService.deleteOrder(query.id);
+    } else {
+      return { message: 'Не доступа' };
+    }
   }
 }

@@ -4,15 +4,15 @@ export declare class СategoriesService {
     constructor(prisma: PrismaService);
     getAllCategories(): Promise<{
         id: number;
-        name: string;
         created_at: Date | null;
         updated_at: Date | null;
+        name: string;
     }[]>;
     getCurrentCategories(id: number): Promise<{
         id: number;
-        name: string;
         created_at: Date | null;
         updated_at: Date | null;
+        name: string;
     }>;
     getPublicationCategories(query: any): Promise<{
         id: number;
@@ -23,20 +23,20 @@ export declare class СategoriesService {
     }[]>;
     createCategorie(data: any): Promise<{
         id: number;
-        name: string;
         created_at: Date | null;
         updated_at: Date | null;
+        name: string;
     }>;
     updateCategorie(data: any): Promise<{
         id: number;
-        name: string;
         created_at: Date | null;
         updated_at: Date | null;
+        name: string;
     }>;
     deleteCategorie(id: any): Promise<{
         id: number;
-        name: string;
         created_at: Date | null;
         updated_at: Date | null;
+        name: string;
     }>;
 }

@@ -5,9 +5,11 @@ const SideBar = () => {
   return (
     <nav className="sidebar">
       <div className="sidebar-notification">
-        <Link to="/">
-          <img src="/ico/notification.svg" className="navbar-ico" />
-        </Link>
+        {/*
+          <Link to="/">
+            <img src="/ico/notification.svg" className="navbar-ico" />
+          </Link>
+        */}
       </div>
       <ul className="main-navigation">
         <li>

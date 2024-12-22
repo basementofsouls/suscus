@@ -91,12 +91,12 @@ const PublicationPage = () => {
                 )}
               </div>
               {changeDiscription ? (
-                <input
+                <textarea
                   value={publication.description}
                   onChange={(e) => {
                     setPublication({
                       ...publication,
-                      description: e.target.value,
+                      description: e.target.value.slice(0, 200),
                     });
                   }}
                 />

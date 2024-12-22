@@ -8,7 +8,7 @@ const CommentsBlock = ({ publicationId }) => {
   const [comments, setComments] = useState<Array<any>>([]);
   const [newComment, setNewComment] = useState({
     publicationId: publicationId,
-    text: "",
+    content: "",
   });
   const [changeComment, setChangeComment] = useState("");
   const [changeCommentId, setChangeCommentId] = useState(-1);
@@ -19,16 +19,24 @@ const CommentsBlock = ({ publicationId }) => {
   };
 
   const handlerUpdateComment = async () => {
-    const { data } = await CommentsService.updateComment(changeComment);
-    const newComments = comments;
-    newComments[comments.findIndex((e) => e.id == changeCommentId)] = data;
-    setComments(newComments);
-    setChangeCommentId(-1);
+    if (changeComment.content.length == 0) {
+      alert("Комментарий должен соджержать символы");
+    } else {
+      const { data } = await CommentsService.updateComment(changeComment);
+      const newComments = comments;
+      newComments[comments.findIndex((e) => e.id == changeCommentId)] = data;
+      setComments(newComments);
+      setChangeCommentId(-1);
+    }
   };
 
   const handlerCreateComment = async () => {
-    const { data } = await CommentsService.createComment(newComment);
-    setComments([...comments, data]);
+    if (newComment.content.length == 0) {
+      alert("Комментарий должен соджержать символы");
+    } else {
+      const { data } = await CommentsService.createComment(newComment);
+      setComments([...comments, data]);
+    }
   };
 
   const handleDeleteComment = async (id: any) => {
@@ -53,11 +61,22 @@ const CommentsBlock = ({ publicationId }) => {
         <input
           type="text"
           placeholder="comment"
+          value={newComment.content}
           onChange={(e) => {
-            setNewComment({ ...newComment, text: e.target.value });
+            setNewComment({
+              ...newComment,
+              content: e.target.value.slice(0, 200),
+            });
           }}
         ></input>
-        <div onClick={handlerCreateComment}>Create</div>
+        <div
+          onClick={handlerCreateComment}
+          className={`button-purple ${
+            newComment.content.length == 0 ? "unactive" : ""
+          }`}
+        >
+          Create
+        </div>
       </div>
       <div className="comments-block-list">
         {comments.length > 0
@@ -100,7 +119,7 @@ const CommentsBlock = ({ publicationId }) => {
                         onChange={(e) => {
                           setChangeComment({
                             ...changeComment,
-                            content: e.target.value,
+                            content: e.target.value.slice(0, 200),
                           });
                         }}
                         value={`${changeComment?.content}`}

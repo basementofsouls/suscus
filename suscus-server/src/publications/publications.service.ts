@@ -77,7 +77,7 @@ export class PublicationsService {
         artist_id: data.artist_id,
         title: data.title,
         image_url: data.image_url,
-        description: data.description ? data.cdescriptionategory_id : null,
+        description: data.description ? data.description : null,
       },
     });
     if (data.categories.length > 0) {

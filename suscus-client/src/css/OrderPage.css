@@ -7,15 +7,25 @@
   flex-direction: row;
 
   justify-content: space-around;
+  padding-top: 48px;
 }
 .order-list-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   border-radius: 11px;
   padding: 10px;
+  overflow-y: auto;
+  height: 600px;
+  width: 400px;
 }
-.order-list-order {
+.order-list-item {
   border: solid 1px #9c6fe4;
   border-radius: 11px;
   padding: 8px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .order-image {
   width: 200px;

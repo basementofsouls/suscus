@@ -19,4 +19,14 @@ export default class OrderService {
       })
       .then((response) => response);
   }
+
+  static async updateOrderStatus(data: any): Promise<AxiosResponse<any>> {
+    return $api.put<any>("orders/update", data).then((response) => response);
+  }
+
+  static async deleteOrder(id: any): Promise<AxiosResponse<any>> {
+    return $api
+      .delete<any>(`orders/delete?id=${id}`)
+      .then((response) => response);
+  }
 }

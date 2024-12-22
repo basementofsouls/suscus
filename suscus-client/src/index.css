@@ -107,6 +107,12 @@ dialog {
   border-radius: 8px;
 }
 
+.unactive {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5;
+}
+
 ::-webkit-scrollbar {
   width: 2px;
 }

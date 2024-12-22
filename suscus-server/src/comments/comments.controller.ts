@@ -27,12 +27,12 @@ export class CommentsController {
   createComment(
     @Request() req,
     @Body()
-    body: { data: { publicationId: string; text: string } },
+    body: { data: { publicationId: string; content: string } },
   ): any {
     return this.commentsService.createComment({
       user: parseInt(req.user.id),
       publicationId: parseInt(body.data.publicationId),
-      text: body.data.text,
+      content: body.data.content,
     });
   }
 

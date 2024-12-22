@@ -13,8 +13,12 @@ export default class PublicationService {
   }
 
   static async searchPublications(
-    page: number,
-    filter: { artist_id?: number; title?: string; categories: number[] }
+    page?: number,
+    filter?: {
+      artist_id?: number;
+      title?: string;
+      categories?: number[];
+    }
   ): Promise<AxiosResponse<any>> {
     const params = new URLSearchParams();
 
