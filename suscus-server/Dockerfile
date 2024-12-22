@@ -14,6 +14,8 @@ RUN npm install
 COPY . .
 
 # Генерация Prisma Client
+RUN npx prisma 
+
 RUN npx prisma generate
 
 # Открываем порт, на котором будет работать сервер

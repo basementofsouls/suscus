@@ -8,10 +8,10 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.enableCors({
-    origin: 'http://localhost:5173', // Замените на ваш фронтенд URL
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: ['http://localhost:3001', 'http://localhost:5173'], // Укажите разрешенные домены
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true, // Добавьте эту строку для включения credentials
+    credentials: true, // Если вы используете cookies
   });
 
   await app.listen(process.env.PORT ?? 3000);
