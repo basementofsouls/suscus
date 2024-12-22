@@ -37,6 +37,17 @@ let ChatService = class ChatService {
             return e;
         }
     }
+    async findById(id) {
+        try {
+            return await this.prisma.chats.findMany({
+                where: { id },
+                include: { messages: true },
+            });
+        }
+        catch (e) {
+            return e;
+        }
+    }
     async getUserChats(userId) {
         try {
             return await this.prisma.chats.findMany({

@@ -11,14 +11,13 @@ const socket = io(
 const ChatPage = () => {
   const { store } = useContext(Context);
   const [chats, setChats] = useState<Chat[]>([]); // Список чатов
-  const [currentChat, setCurrentChat] = useState<Chat>({} as Chat); // Текущий чат
+  const [currentChat, setCurrentChat] = useState<Chat | null>(null); // Текущий чат
   const [messages, setMessages] = useState<Message[]>([]); // Сообщения текущего чата
   const [text, setText] = useState("");
   const [user] = useState<User>(store.user); // Текущий пользователь
 
-  const [newChat, setNewChat] = useState({ clientId: "", artistId: "" }); // Данные для создания нового чата
-
   useEffect(() => {
+    // Получаем список чатов
     ChatService.getChats().then((res) => {
       setChats(res.data);
     });
@@ -30,6 +29,7 @@ const ChatPage = () => {
       }
     });
 
+    // Удаляем подписку на событие при размонтировании компонента
     return () => {
       socket.off("newMessage");
     };
@@ -44,21 +44,7 @@ const ChatPage = () => {
     });
 
     // Подключаемся к чату через WebSocket
-    socket.emit("joinChat", {
-      clientId: store.user.id,
-      artistId: chat.artist_id,
-    });
-  };
-
-  const createChat = async () => {
-    if (!newChat.artistId) return;
-    await ChatService.createChat({
-      clientId: store.user.id,
-      artistId: parseInt(newChat.artistId),
-    }).then((res) => {
-      setChats((prev) => [...prev, res.data]);
-      setNewChat({ clientId: "", artistId: "" });
-    });
+    socket.emit("joinChat", { chatId: chat.id });
   };
 
   const sendMessage = () => {
@@ -68,6 +54,7 @@ const ChatPage = () => {
         senderId: user.id,
         text,
       });
+
       setText("");
     }
   };
@@ -94,23 +81,6 @@ const ChatPage = () => {
             </li>
           ))}
         </ul>
-
-        {/* Создание нового чата */}
-        <div style={{ marginTop: "20px" }}>
-          <h4>Создать чат</h4>
-          <input
-            type="number"
-            placeholder="ID артиста"
-            value={newChat.artistId}
-            onChange={(e) =>
-              setNewChat({ ...newChat, artistId: e.target.value })
-            }
-            style={{ width: "100%", marginBottom: "5px" }}
-          />
-          <button onClick={createChat} style={{ width: "100%" }}>
-            Создать чат
-          </button>
-        </div>
       </div>
 
       {/* Окно чата */}
@@ -126,32 +96,32 @@ const ChatPage = () => {
                 padding: "10px",
               }}
             >
-              {messages.map((msg: any, index) => (
+              {messages.map((msg: Message, index) => (
                 <div
                   key={index}
                   style={{
                     padding: "10px",
                   }}
                 >
-                  <p
+                  <div
                     style={{
                       display: "flex",
                       gap: "8px",
+                      alignItems: "center",
                     }}
                   >
-                    <p>
-                      <strong>
-                        {msg.sender_id === user.id ? "Вы" : "Другой"}
-                      </strong>{" "}
-                    </p>
-                    <p
+                    <strong>
+                      {msg.sender_id === user.id ? "Вы" : "Другой"}
+                    </strong>
+                    <span
                       style={{
                         opacity: "0.5",
+                        fontSize: "0.9rem",
                       }}
                     >
-                      {msg.created_at}
-                    </p>
-                  </p>
+                      {new Date(msg.created_at).toLocaleString()}
+                    </span>
+                  </div>
                   <p>{msg.text}</p>
                 </div>
               ))}

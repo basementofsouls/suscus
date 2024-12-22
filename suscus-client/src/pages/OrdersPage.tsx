@@ -3,6 +3,7 @@ import "../css/OrderPage.css";
 import OrderService from "../services/order.service";
 import { Context } from "../main";
 import { Order } from "../types/types";
+import ChatService from "../services/chat.service";
 
 const OrdersPage = () => {
   const { store } = useContext(Context);
@@ -34,6 +35,13 @@ const OrdersPage = () => {
   const handleStatusClick = (orderId: number, currentStatus: string) => {
     setEditingOrderId(orderId);
     setNewStatus(currentStatus);
+  };
+
+  const createChat = async (artistId: any, clientId: any) => {
+    await ChatService.createChat({
+      clientId: parseInt(clientId),
+      artistId: parseInt(artistId),
+    });
   };
 
   const handleStatusChange = async (
@@ -114,6 +122,13 @@ const OrdersPage = () => {
                                 </span>
                               )}
                             </p>
+                            <div
+                              onClick={() => {
+                                createChat(e.user_id, store.user.id);
+                              }}
+                            >
+                              chat
+                            </div>
                           </div>
                           <img
                             className="order-image"
@@ -145,6 +160,13 @@ const OrdersPage = () => {
                             <p className="order-list-item-description">
                               {e.description ? e.description.slice(0, 200) : ""}
                             </p>
+                          </div>
+                          <div
+                            onClick={() => {
+                              createChat(store.user.id, e.artist_id);
+                            }}
+                          >
+                            chat
                           </div>
                           <div
                             className="button-purple"

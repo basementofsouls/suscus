@@ -3,6 +3,7 @@ export declare class ChatService {
     private prisma;
     constructor(prisma: PrismaService);
     findOrCreateChat(clientId: number, artistId: number): Promise<any>;
+    findById(id: number): Promise<any>;
     getUserChats(userId: number): Promise<any>;
     saveMessage(chatId: number, senderId: number, text: string): Promise<{
         id: number;

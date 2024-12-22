@@ -28,6 +28,17 @@ export class ChatService {
     }
   }
 
+  async findById(id: number) {
+    try {
+      return await this.prisma.chats.findMany({
+        where: { id },
+        include: { messages: true },
+      });
+    } catch (e) {
+      return e;
+    }
+  }
+
   async getUserChats(userId: number) {
     try {
       return await this.prisma.chats.findMany({

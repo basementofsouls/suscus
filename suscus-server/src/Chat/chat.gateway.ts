@@ -17,13 +17,14 @@ export class ChatGateway {
 
   @SubscribeMessage('joinChat')
   async handleJoinChat(
-    @MessageBody()
-    { clientId, artistId }: { clientId: number; artistId: number },
+    @MessageBody() { chatId }: { chatId: number },
     @ConnectedSocket() client: Socket,
   ) {
-    const chat = await this.chatService.findOrCreateChat(clientId, artistId);
-    client.join(`chat_${chat.id}`);
-    this.server.to(`chat_${chat.id}`).emit('chatJoined', chat);
+    const chat = await this.chatService.findById(chatId);
+    if (chat.length > 0) {
+      client.join(`chat_${chatId}`);
+      this.server.to(`chat_${chatId}`).emit('chatJoined', { chatId });
+    }
   }
 
   @SubscribeMessage('sendMessage')

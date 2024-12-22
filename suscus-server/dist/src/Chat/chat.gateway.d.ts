@@ -4,9 +4,8 @@ export declare class ChatGateway {
     private chatService;
     server: Server;
     constructor(chatService: ChatService);
-    handleJoinChat({ clientId, artistId }: {
-        clientId: number;
-        artistId: number;
+    handleJoinChat({ chatId }: {
+        chatId: number;
     }, client: Socket): Promise<void>;
     handleMessage({ chatId, senderId, text, }: {
         chatId: number;

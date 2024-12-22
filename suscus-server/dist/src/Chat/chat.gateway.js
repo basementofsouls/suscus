@@ -20,10 +20,12 @@ let ChatGateway = class ChatGateway {
     constructor(chatService) {
         this.chatService = chatService;
     }
-    async handleJoinChat({ clientId, artistId }, client) {
-        const chat = await this.chatService.findOrCreateChat(clientId, artistId);
-        client.join(`chat_${chat.id}`);
-        this.server.to(`chat_${chat.id}`).emit('chatJoined', chat);
+    async handleJoinChat({ chatId }, client) {
+        const chat = await this.chatService.findById(chatId);
+        if (chat.length > 0) {
+            client.join(`chat_${chatId}`);
+            this.server.to(`chat_${chatId}`).emit('chatJoined', { chatId });
+        }
     }
     async handleMessage({ chatId, senderId, text, }) {
         const message = await this.chatService.saveMessage(chatId, senderId, text);
