@@ -15,9 +15,9 @@ export declare class СategoriesController {
     }): any;
     deleteCategorie(req: any, query: any): Promise<{
         id: number;
-        name: string;
         created_at: Date | null;
         updated_at: Date | null;
+        name: string;
     } | {
         message: string;
     }>;

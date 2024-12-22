@@ -61,7 +61,12 @@ const ProfilePage = () => {
               )}
 
               <div className="profile-top-block-right-column">
-                {user?.username ? user.username : "no data"}
+                <p className="profile-name">
+                  {user?.username ? user.username : "no username"}
+                </p>
+                <p className="profile-email">
+                  {user?.email ? user.email : "no email"}
+                </p>
               </div>
             </div>
 
