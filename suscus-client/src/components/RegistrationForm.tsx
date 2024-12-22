@@ -17,8 +17,8 @@ const RegistrationForm: React.FC = () => {
       if (store.isAuth) {
         navigate("/gallery");
       }
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      alert(error.message || "Ошибка регистрации");
     }
   };
 

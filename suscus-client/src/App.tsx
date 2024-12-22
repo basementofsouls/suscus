@@ -32,7 +32,7 @@ function App() {
     ) {
       window.location.href = "/home";
     }
-  }, [store.isAuth]);
+  }, [store]);
 
   if (store.isLoading) {
     return <div>Loading</div>;

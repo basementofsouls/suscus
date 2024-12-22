@@ -66,9 +66,13 @@ const ProfilePage = () => {
             </div>
 
             <div className="profile-page-buttons">
-              <button onClick={handlerGetMyPublicationsClick}>
-                MyPortfolio
-              </button>
+              {user.role === "artist" ? (
+                <button onClick={handlerGetMyPublicationsClick}>
+                  MyPortfolio
+                </button>
+              ) : (
+                ""
+              )}
 
               {user.role === "user" ? (
                 <button onClick={handlerBeArtistClick}>BeArtist</button>

@@ -25,8 +25,8 @@ let AuthController = class AuthController {
         const emailExist = await this.usersService.findByEmail(body.email);
         if (emailExist) {
             return response
-                .send({ error: 'Аккаунт с такой почтой существует' })
-                .status(404);
+                .status(400)
+                .send({ error: 'Аккаунт с такой почтой существует' });
         }
         const user = await this.usersService.createUser(body.username, body.email, body.password);
         if (user) {
@@ -39,8 +39,8 @@ let AuthController = class AuthController {
             return response.send({ user, access_token });
         }
         return response
-            .send({ error: 'Неудачная попытка регистрации' })
-            .status(404);
+            .status(400)
+            .send({ error: 'Неудачная попытка регистрации' });
     }
     async login(body, response) {
         const { user, access_token, refresh_token } = await this.authService.login(body.email, body.password);

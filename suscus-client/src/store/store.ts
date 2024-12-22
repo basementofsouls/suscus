@@ -53,12 +53,17 @@ export default class Store {
   async registration(email: string, password: string, username: string) {
     try {
       const resp = await AuthService.registration(email, password, username);
+      if (resp.status !== 200 && resp.status !== 201) {
+        console.log(resp);
+        throw new Error(resp.response.data.error || "Registration failed");
+      }
       localStorage.setItem("access_token", resp.data.access_token);
 
       this.setAuth(true);
       this.setUser(resp.data.user);
     } catch (e: any) {
-      console.log(e.response?.data?.error);
+      console.error(e.message);
+      throw e;
     }
   }
 

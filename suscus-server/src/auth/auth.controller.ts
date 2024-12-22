@@ -28,8 +28,8 @@ export class AuthController {
 
     if (emailExist) {
       return response
-        .send({ error: 'Аккаунт с такой почтой существует' })
-        .status(404);
+        .status(400)
+        .send({ error: 'Аккаунт с такой почтой существует' });
     }
     const user = await this.usersService.createUser(
       body.username,
@@ -52,8 +52,8 @@ export class AuthController {
     }
 
     return response
-      .send({ error: 'Неудачная попытка регистрации' })
-      .status(404);
+      .status(400)
+      .send({ error: 'Неудачная попытка регистрации' });
   }
 
   @HttpCode(HttpStatus.OK) @Post('login') async login(
