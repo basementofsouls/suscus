@@ -119,7 +119,9 @@ const ChatPage = () => {
                         fontSize: "0.9rem",
                       }}
                     >
-                      {new Date(msg.created_at).toLocaleString()}
+                      {msg.created_at
+                        ? new Date(msg.created_at).toLocaleString()
+                        : "Дата неизвестна"}
                     </span>
                   </div>
                   <p>{msg.text}</p>
