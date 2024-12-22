@@ -20,9 +20,13 @@ export class СategoriesService {
   }
 
   async createCategorie(data: any) {
-    return await this.prisma.categories.create({
-      data: { name: data.name },
-    });
+    try {
+      return await this.prisma.categories.create({
+        data: { name: data.name },
+      });
+    } catch (e) {
+      return e;
+    }
   }
 
   async updateCategorie(data: any) {

@@ -17,11 +17,11 @@ const LoginForm: React.FC = () => {
       if (store.isAuth) {
         navigate("/gallery");
       } else {
-        alert("Error during login.");
+        alert("Ошибка авторищзации");
       }
     } catch (error) {
       console.error(error);
-      alert("Error during login.");
+      alert("Ошибка авторищзации");
     }
   };
 

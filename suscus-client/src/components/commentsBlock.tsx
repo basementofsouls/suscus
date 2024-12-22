@@ -35,6 +35,7 @@ const CommentsBlock = ({ publicationId }) => {
       alert("Комментарий должен соджержать символы");
     } else {
       const { data } = await CommentsService.createComment(newComment);
+      newComment.content = "";
       setComments([...comments, data]);
     }
   };
@@ -75,7 +76,7 @@ const CommentsBlock = ({ publicationId }) => {
             newComment.content.length == 0 ? "unactive" : ""
           }`}
         >
-          Create
+          comment
         </div>
       </div>
       <div className="comments-block-list">
@@ -86,7 +87,7 @@ const CommentsBlock = ({ publicationId }) => {
                   <div className="comments-block-comment-row">
                     <p>id:{e.user_id}</p>
                     {e.user_id == store.user.id ||
-                    store.user.role == "moderator" ? (
+                    store.user.role == "manager" ? (
                       <div className="buttons-row">
                         {store.user.id == e.user_id &&
                         changeCommentId != e.id ? (

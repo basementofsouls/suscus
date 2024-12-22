@@ -35,7 +35,7 @@ export class СategoriesController {
     @Body() body: { data: { name: string } },
   ): any {
     console.log(body.data);
-    if (req.user.role == 'moderator') {
+    if (req.user.role == 'manager') {
       return this.сategoriesService.createCategorie(body.data);
     } else {
       return { message: 'Нет доступа' };
@@ -48,7 +48,7 @@ export class СategoriesController {
     @Request() req,
     @Body() body: { id: string; name: string },
   ): any {
-    if (req.user.role == 'moderator') {
+    if (req.user.role == 'manager') {
       return this.сategoriesService.updateCategorie(body);
     } else {
       return { emssage: 'Нет доступа' };
@@ -62,7 +62,7 @@ export class СategoriesController {
       parseInt(query.id),
     );
 
-    if (comment && req.user.role == 'moderator') {
+    if (comment && req.user.role == 'manager') {
       return this.сategoriesService.deleteCategorie(query.id);
     } else {
       return { message: 'Не доступа' };

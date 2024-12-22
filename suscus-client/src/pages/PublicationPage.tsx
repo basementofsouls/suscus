@@ -84,7 +84,7 @@ const PublicationPage = () => {
                 )}
 
                 {publication.artist_id == store.user.id ||
-                store.user.role == "moderator" ? (
+                store.user.role == "manager" ? (
                   <p onClick={handlerDeletePublication}>Удалить</p>
                 ) : (
                   ""

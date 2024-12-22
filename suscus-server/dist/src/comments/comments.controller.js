@@ -39,7 +39,7 @@ let CommentsController = class CommentsController {
     async deleteComment(req, query) {
         const commet = await this.commentsService.getComment(query.id);
         if (commet[0] &&
-            (req.user.role == 'moderator' || req.user.id == commet[0].user_id)) {
+            (req.user.role == 'manager' || req.user.id == commet[0].user_id)) {
             return this.commentsService.deleteComment(query);
         }
         else {

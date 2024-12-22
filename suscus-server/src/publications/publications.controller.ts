@@ -80,7 +80,7 @@ export class PublicationsController {
     //Проверка существует ли публикация и (роль = модератои или публикация принадлежит пользователю сделавшему запрос)\
     if (
       publication[0] &&
-      (req.user.role == 'moderator' || publication[0].artist_id == req.user.id)
+      (req.user.role == 'manager' || publication[0].artist_id == req.user.id)
     ) {
       return this.pubService.deletePublication(query);
     } else {

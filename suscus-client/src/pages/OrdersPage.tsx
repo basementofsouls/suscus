@@ -71,59 +71,63 @@ const OrdersPage = () => {
     <div className="order-page" onClick={handleOutsideClick}>
       <div className="order-page-block">
         <div className="order-list">
-          <div>
-            <h3>Работник</h3>
-            <div className="order-list-column">
-              {asritstOrders
-                ? asritstOrders.map((e: any) => {
-                    return (
-                      <div
-                        key={e.id}
-                        className="order-list-item"
-                        onClick={(event) => event.stopPropagation()} // Останавливаем всплытие клика
-                      >
-                        <div>
-                          <p>User ID: {e.user_id}</p>
-                          <p>Description</p>
-                          <p>{e.description}</p>
-                          <p>
-                            Status:{" "}
-                            {editingOrderId === e.id ? (
-                              <select
-                                value={newStatus}
-                                onChange={(event) =>
-                                  handleStatusChange(e.id, event.target.value)
-                                }
-                                onClick={(event) => event.stopPropagation()} // Останавливаем всплытие клика
-                              >
-                                {statuses.map((status) => (
-                                  <option key={status} value={status}>
-                                    {status}
-                                  </option>
-                                ))}
-                              </select>
-                            ) : (
-                              <span
-                                onClick={() =>
-                                  handleStatusClick(e.id, e.status)
-                                }
-                              >
-                                {e.status}
-                              </span>
-                            )}
-                          </p>
+          {store.user.role == "artist" ? (
+            <div>
+              <h3>Работник</h3>
+              <div className="order-list-column">
+                {asritstOrders
+                  ? asritstOrders.map((e: any) => {
+                      return (
+                        <div
+                          key={e.id}
+                          className="order-list-item"
+                          onClick={(event) => event.stopPropagation()} // Останавливаем всплытие клика
+                        >
+                          <div>
+                            <p>User ID: {e.user_id}</p>
+                            <p>Description</p>
+                            <p>{e.description}</p>
+                            <p>
+                              Status:{" "}
+                              {editingOrderId === e.id ? (
+                                <select
+                                  value={newStatus}
+                                  onChange={(event) =>
+                                    handleStatusChange(e.id, event.target.value)
+                                  }
+                                  onClick={(event) => event.stopPropagation()} // Останавливаем всплытие клика
+                                >
+                                  {statuses.map((status) => (
+                                    <option key={status} value={status}>
+                                      {status}
+                                    </option>
+                                  ))}
+                                </select>
+                              ) : (
+                                <span
+                                  onClick={() =>
+                                    handleStatusClick(e.id, e.status)
+                                  }
+                                >
+                                  {e.status}
+                                </span>
+                              )}
+                            </p>
+                          </div>
+                          <img
+                            className="order-image"
+                            src={e.reference}
+                            alt="reference"
+                          />
                         </div>
-                        <img
-                          className="order-image"
-                          src={e.reference}
-                          alt="reference"
-                        />
-                      </div>
-                    );
-                  })
-                : ""}
+                      );
+                    })
+                  : ""}
+              </div>
             </div>
-          </div>
+          ) : (
+            ""
+          )}
           <div>
             <h3>Заказчик</h3>
 

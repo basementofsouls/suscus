@@ -54,7 +54,7 @@ const SettingsPage = () => {
         <div className="settings-page-content">
           <UpdateProfileForm />
           <div className="settings-block">
-            {store.user.role == "moderator" ? (
+            {store.user.role == "manager" ? (
               <div>
                 <CategoryForm />
                 <div className="categories-list">

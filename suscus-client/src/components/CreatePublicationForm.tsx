@@ -39,6 +39,7 @@ const CreatePublicationForm: React.FC = () => {
         formData.append("categories", JSON.stringify(categories));
       }
       await PublicationService.createPublication(formData);
+      handleChangePopUpState();
     } catch (error) {
       console.error(error);
       alert("Error during login.");

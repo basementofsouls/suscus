@@ -28,7 +28,7 @@ let СategoriesController = class СategoriesController {
     }
     createCategorie(req, body) {
         console.log(body.data);
-        if (req.user.role == 'moderator') {
+        if (req.user.role == 'manager') {
             return this.сategoriesService.createCategorie(body.data);
         }
         else {
@@ -36,7 +36,7 @@ let СategoriesController = class СategoriesController {
         }
     }
     updareCategorie(req, body) {
-        if (req.user.role == 'moderator') {
+        if (req.user.role == 'manager') {
             return this.сategoriesService.updateCategorie(body);
         }
         else {
@@ -45,7 +45,7 @@ let СategoriesController = class СategoriesController {
     }
     async deleteCategorie(req, query) {
         const comment = await this.сategoriesService.getCurrentCategories(parseInt(query.id));
-        if (comment && req.user.role == 'moderator') {
+        if (comment && req.user.role == 'manager') {
             return this.сategoriesService.deleteCategorie(query.id);
         }
         else {

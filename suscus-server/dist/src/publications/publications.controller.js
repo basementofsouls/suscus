@@ -47,7 +47,7 @@ let PublicationsController = class PublicationsController {
             id: query.id,
         });
         if (publication[0] &&
-            (req.user.role == 'moderator' || publication[0].artist_id == req.user.id)) {
+            (req.user.role == 'manager' || publication[0].artist_id == req.user.id)) {
             return this.pubService.deletePublication(query);
         }
         else {
