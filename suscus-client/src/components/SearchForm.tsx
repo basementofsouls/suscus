@@ -20,7 +20,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ setSearch }) => {
 
   useEffect(() => {
     setSearch({
-      title: title,
+      title: title.trim(),
       categories: selectedCategories,
     });
   }, [title, selectedCategories]);
