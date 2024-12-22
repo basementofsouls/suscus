@@ -113,6 +113,13 @@ dialog {
   opacity: 0.5;
 }
 
+.button-logout {
+  background-color: rgba(255, 99, 88, 0.1);
+  border: 1px solid #ff6358;
+  border-radius: 12px;
+  padding: 12px 52px;
+}
+
 ::-webkit-scrollbar {
   width: 2px;
 }

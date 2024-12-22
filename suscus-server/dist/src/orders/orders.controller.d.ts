@@ -10,14 +10,14 @@ export declare class OrdersController {
         artist_id: string;
         description: string;
     }): Promise<{
+        id: number;
+        created_at: Date | null;
+        updated_at: Date | null;
         artist_id: number;
         description: string | null;
-        id: number;
         user_id: number;
         reference: string | null;
         status: string;
-        created_at: Date | null;
-        updated_at: Date | null;
     } | {
         message: string;
     }>;

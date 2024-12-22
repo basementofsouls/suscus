@@ -54,10 +54,11 @@ export default class Store {
     try {
       const resp = await AuthService.registration(email, password, username);
       localStorage.setItem("access_token", resp.data.access_token);
+
       this.setAuth(true);
       this.setUser(resp.data.user);
     } catch (e: any) {
-      console.log(e.response?.data?.message);
+      console.log(e.response?.data?.error);
     }
   }
 

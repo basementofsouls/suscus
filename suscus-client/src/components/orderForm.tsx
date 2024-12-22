@@ -92,11 +92,7 @@ const OrderForm: React.FC<OrderFormProto> = ({ id }) => {
           />
           <button
             type="submit"
-            className={`${
-              form.description.length == 0 || form.file == null
-                ? "unactive"
-                : ""
-            }`}
+            className={`${form.description.length == 0 ? "unactive" : ""}`}
           >
             Submit Order
           </button>

@@ -19,11 +19,11 @@ export declare class CommentsController {
     }): any;
     deleteComment(req: any, query: any): Promise<{
         id: number;
-        user_id: number;
-        publication_id: number;
-        content: string;
         created_at: Date | null;
         updated_at: Date | null;
+        publication_id: number;
+        user_id: number;
+        content: string;
     } | {
         message: string;
     }>;

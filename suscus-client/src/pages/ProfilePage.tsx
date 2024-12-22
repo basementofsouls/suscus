@@ -43,7 +43,9 @@ const ProfilePage = () => {
     <div className="profile-page">
       <div className="profile-page-block">
         <div className="profile-header">
-          <button onClick={handlerLogoutClick}>logout</button>
+          <div onClick={handlerLogoutClick} className="button-logout">
+            logout
+          </div>
         </div>
         <div className="profile-page-content">
           <div>

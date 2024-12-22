@@ -75,7 +75,7 @@ const UpdateProfileForm: React.FC = () => {
         <button
           type="submit"
           className={`${
-            form.password.length < 6 || form.username.length == 0
+            form.password.length > 0 && form.password.length < 6
               ? "unactive"
               : ""
           }`}

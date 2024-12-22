@@ -16,12 +16,9 @@ const RegistrationForm: React.FC = () => {
 
       if (store.isAuth) {
         navigate("/gallery");
-      } else {
-        alert("Error during login.");
       }
     } catch (error) {
       console.error(error);
-      alert("Error during login.");
     }
   };
 

@@ -24,6 +24,13 @@ export class AuthController {
     @Body() body: { username: string; email: string; password: string },
     @Res() response: Response,
   ) {
+    const emailExist = await this.usersService.findByEmail(body.email);
+
+    if (emailExist) {
+      return response
+        .send({ error: 'Аккаунт с такой почтой существует' })
+        .status(404);
+    }
     const user = await this.usersService.createUser(
       body.username,
       body.email,

@@ -22,6 +22,12 @@ let AuthController = class AuthController {
         this.usersService = usersService;
     }
     async register(body, response) {
+        const emailExist = await this.usersService.findByEmail(body.email);
+        if (emailExist) {
+            return response
+                .send({ error: 'Аккаунт с такой почтой существует' })
+                .status(404);
+        }
         const user = await this.usersService.createUser(body.username, body.email, body.password);
         if (user) {
             const { access_token, refresh_token } = await this.authService.login(body.email, body.password);

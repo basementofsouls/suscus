@@ -7,23 +7,23 @@ export declare class OrdersService {
     getArtistOrders(user_id: any): any;
     createOrder(data: any): import(".prisma/client").Prisma.Prisma__ordersClient<{
         id: number;
-        user_id: number;
-        artist_id: number;
-        reference: string | null;
-        description: string | null;
-        status: string;
         created_at: Date | null;
         updated_at: Date | null;
+        artist_id: number;
+        description: string | null;
+        user_id: number;
+        reference: string | null;
+        status: string;
     }, never, import("@prisma/client/runtime/library").DefaultArgs>;
     updateOrder(data: any): import(".prisma/client").Prisma.Prisma__ordersClient<{
         id: number;
-        user_id: number;
-        artist_id: number;
-        reference: string | null;
-        description: string | null;
-        status: string;
         created_at: Date | null;
         updated_at: Date | null;
+        artist_id: number;
+        description: string | null;
+        user_id: number;
+        reference: string | null;
+        status: string;
     }, never, import("@prisma/client/runtime/library").DefaultArgs>;
     deleteOrder(id: any): any;
 }
