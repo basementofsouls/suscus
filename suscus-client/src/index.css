@@ -60,14 +60,31 @@ button {
   display: inline-block;
 }
 
+.button-delete{
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #a40000;
+  font-size: 1em;
+  font-weight: 500;
+  line-height: 10px;
+  font-family: inherit;
+  background-color: #ff080829;
+  color: #ffffff;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  display: inline-block;
+}
+
 button:hover,
 .button:hover,
-.button-purple:hover {
+.button-purple:hover,
+.button-delete:hover {
   opacity: 0.8;
 }
 .button,
 button:active,
-.button-purple:active {
+.button-purple:active
+.button-delete:active {
   opacity: 0.5;
 }
 

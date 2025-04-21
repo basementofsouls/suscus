@@ -23,8 +23,12 @@ let ChatController = class ChatController {
     getUserChats(req) {
         return this.chatService.getUserChats(req.user.id);
     }
+    markAllMessagesAsRead(body, req) {
+        return this.chatService.markAllAsRead(body.chatId, req.user.id);
+    }
     getChatMessages(chatId) {
-        return this.chatService.getChatMessages(chatId);
+        return this.chatService.getChatMessages(Number(chatId));
+        ;
     }
     createChat(body) {
         return this.chatService.findOrCreateChat(body.clientId, body.artistId);
@@ -39,6 +43,15 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Object)
 ], ChatController.prototype, "getUserChats", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
+    (0, common_1.Post)('messages/read'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], ChatController.prototype, "markAllMessagesAsRead", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Get)('messages'),

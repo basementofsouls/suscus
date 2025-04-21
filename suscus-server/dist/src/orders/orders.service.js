@@ -20,10 +20,28 @@ let OrdersService = class OrdersService {
         return this.prisma.orders.findFirst({ where: { id: parseInt(id) } });
     }
     getOrders(user_id) {
-        return this.prisma.orders.findMany({ where: { user_id } });
+        return this.prisma.orders.findMany({
+            where: { user_id },
+            include: {
+                user: { select: { username: true } },
+                artist: { select: { username: true } },
+            },
+        });
+    }
+    async updateOrderStatus(orderId, newStatus) {
+        return this.prisma.orders.update({
+            where: { id: orderId },
+            data: { status: newStatus, updated_at: new Date() },
+        });
     }
     getArtistOrders(user_id) {
-        return this.prisma.orders.findMany({ where: { artist_id: user_id } });
+        return this.prisma.orders.findMany({
+            where: { artist_id: user_id },
+            include: {
+                user: { select: { username: true } },
+                artist: { select: { username: true } },
+            },
+        });
     }
     createOrder(data) {
         return this.prisma.orders.create({
@@ -32,14 +50,8 @@ let OrdersService = class OrdersService {
                 user_id: data.user_id,
                 reference: data.image_url,
                 description: data.description,
-                status: 'created',
+                status: 'Новый',
             },
-        });
-    }
-    updateOrder(data) {
-        return this.prisma.orders.update({
-            where: { id: data.id },
-            data: { status: data.status },
         });
     }
     deleteOrder(id) {

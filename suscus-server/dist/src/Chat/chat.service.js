@@ -20,7 +20,11 @@ let ChatService = class ChatService {
         try {
             let chat = await this.prisma.chats.findFirst({
                 where: { client_id: clientId, artist_id: artistId },
-                include: { messages: true },
+                include: {
+                    messages: true,
+                    client: true,
+                    artist: true,
+                },
             });
             if (!chat) {
                 chat = await this.prisma.chats.create({
@@ -28,57 +32,90 @@ let ChatService = class ChatService {
                         client_id: clientId,
                         artist_id: artistId,
                     },
-                    include: { messages: true },
+                    include: {
+                        messages: true,
+                        client: true,
+                        artist: true,
+                    },
                 });
             }
             return chat;
         }
         catch (e) {
-            return e;
+            throw new Error('Ошибка при создании или поиске чата: ' + e.message);
         }
     }
     async findById(id) {
         try {
-            return await this.prisma.chats.findMany({
+            return await this.prisma.chats.findUnique({
                 where: { id },
                 include: { messages: true },
             });
         }
         catch (e) {
-            return e;
+            throw new Error('Ошибка при получении чата: ' + e.message);
         }
     }
-    async getUserChats(userId) {
+    async markAllAsRead(chatId, userId) {
         try {
-            return await this.prisma.chats.findMany({
+            return await this.prisma.messages.updateMany({
                 where: {
-                    OR: [{ client_id: userId }, { artist_id: userId }],
+                    chat_id: chatId,
+                    sender_id: { not: userId },
+                    read_at: null,
                 },
-                include: { messages: true },
+                data: {
+                    read_at: new Date(),
+                },
             });
         }
         catch (e) {
-            return e;
+            throw new Error('Ошибка при массовой пометке как прочитанных: ' + e.message);
+        }
+    }
+    async getUserChats(userId) {
+        console.log("Получаем чаты для пользователя с ID:", userId);
+        try {
+            const chats = await this.prisma.chats.findMany({
+                where: {
+                    OR: [{ client_id: userId }, { artist_id: userId }],
+                },
+                include: {
+                    messages: true,
+                    client: true,
+                    artist: true,
+                },
+            });
+            console.log("Найденные чаты:", JSON.stringify(chats, null, 2));
+            return chats;
+        }
+        catch (e) {
+            throw new Error("Ошибка при получении чатов пользователя: " + e.message);
         }
     }
     async saveMessage(chatId, senderId, text) {
-        return this.prisma.messages.create({
-            data: {
-                chat_id: chatId,
-                sender_id: senderId,
-                text,
-            },
-        });
+        try {
+            return await this.prisma.messages.create({
+                data: {
+                    chat_id: chatId,
+                    sender_id: senderId,
+                    text,
+                },
+            });
+        }
+        catch (e) {
+            throw new Error('Ошибка при сохранении сообщения: ' + e.message);
+        }
     }
     async getChatMessages(chatId) {
         try {
-            return this.prisma.messages.findMany({
-                where: { chat_id: parseInt(chatId) },
+            return await this.prisma.messages.findMany({
+                where: { chat_id: chatId },
                 orderBy: { created_at: 'asc' },
             });
         }
         catch (e) {
-            return e;
+            throw new Error('Ошибка при получении сообщений чата: ' + e.message);
         }
     }
 };

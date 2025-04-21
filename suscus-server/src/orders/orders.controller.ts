@@ -61,18 +61,29 @@ export class OrdersController {
       image_url: link,
     });
   }
-
+  
   @UseGuards(AuthGuard)
-  @Put('update')
-  updareOrders(
-    @Request() req,
-    @Body() body: { id: string; status: string },
-  ): any {
-    return this.ordersService.updateOrder({
-      id: body.id,
-      status: body.status,
-    });
+@Put('update')
+async updateOrderStatus(
+  @Request() req,
+  @Body() body: { id: number; status: string },
+) {
+  const { id, status } = body;
+  const order = await this.ordersService.getOrderById(id);
+
+  // Проверяем, что заказ существует
+  if (!order) {
+    return { message: 'Заказ не найден' };
   }
+
+  // Разрешаем изменение только автору заказа или художнику
+  if (order.user_id !== req.user.id && order.artist_id !== req.user.id) {
+    return { message: 'Нет доступа к изменению этого заказа' };
+  }
+
+  return this.ordersService.updateOrderStatus(id, status);
+}
+
 
   @UseGuards(AuthGuard)
   @Delete('delete')

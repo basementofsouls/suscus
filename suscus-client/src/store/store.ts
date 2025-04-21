@@ -5,9 +5,11 @@ import { API_URL } from "../http/http";
 import AuthService from "../services/auth.service";
 import UserService from "../services/user.service";
 import { User } from "../types/types";
+import { Order } from "../types/types";
 
 export default class Store {
   user = {} as User;
+  artistOrders: Order[] = [];
   isAuth = false;
   isLoading = true;
 
@@ -25,6 +27,17 @@ export default class Store {
 
   setLoading(bool: boolean) {
     this.isLoading = bool;
+  }
+
+  setArtistOrders(orders: Order[]) {
+    this.artistOrders = orders;
+  }
+
+  updateOrderStatus(orderId: number, newStatus: string) {
+    const updatedOrders = this.artistOrders.map(order =>
+      order.id === orderId ? { ...order, status: newStatus } : order
+    );
+    this.setArtistOrders(updatedOrders);  // Обновляем список заказов
   }
 
   async login(email: string, password: string) {

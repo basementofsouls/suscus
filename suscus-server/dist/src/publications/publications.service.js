@@ -62,6 +62,11 @@ let PublicationsService = class PublicationsService {
                 where: filters,
                 include: {
                     publication_categories: true,
+                    users: {
+                        select: {
+                            username: true,
+                        },
+                    },
                 },
             });
             return publications;
@@ -74,10 +79,12 @@ let PublicationsService = class PublicationsService {
     async createPublication(data) {
         const publication = await this.prisma.publications.create({
             data: {
-                artist_id: data.artist_id,
                 title: data.title,
                 image_url: data.image_url,
                 description: data.description ? data.description : null,
+                users: {
+                    connect: { id: data.artist_id }
+                }
             },
         });
         if (data.categories.length > 0) {

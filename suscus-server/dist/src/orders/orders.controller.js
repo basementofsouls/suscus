@@ -42,11 +42,16 @@ let OrdersController = class OrdersController {
             image_url: link,
         });
     }
-    updareOrders(req, body) {
-        return this.ordersService.updateOrder({
-            id: body.id,
-            status: body.status,
-        });
+    async updateOrderStatus(req, body) {
+        const { id, status } = body;
+        const order = await this.ordersService.getOrderById(id);
+        if (!order) {
+            return { message: 'Заказ не найден' };
+        }
+        if (order.user_id !== req.user.id && order.artist_id !== req.user.id) {
+            return { message: 'Нет доступа к изменению этого заказа' };
+        }
+        return this.ordersService.updateOrderStatus(id, status);
     }
     async deletePublications(req, query) {
         const publication = await this.ordersService.getOrderById(query.id);
@@ -98,8 +103,8 @@ __decorate([
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Object)
-], OrdersController.prototype, "updareOrders", null);
+    __metadata("design:returntype", Promise)
+], OrdersController.prototype, "updateOrderStatus", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
     (0, common_1.Delete)('delete'),

@@ -1,0 +1,204 @@
+@charset "UTF-8";
+/* Цвет для нового */
+/* Цвет для в работе */
+/* Цвет для на удержании */
+/* Цвет для готов */
+/* Цвет для отказ */
+.order-page {
+  background-color: #1c1d21;
+  padding: 40px;
+  min-height: 100vh;
+}
+
+.order-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-title {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.order-sections {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.order-column {
+  flex: 1; /* Каждая колонка будет занимать равную ширину */
+  display: flex;
+  flex-direction: column;
+  max-height: 86vh; /* Ограничение высоты колонок */
+  padding-right: 10px;
+  /* Область прокрутки для списка заказов */
+}
+.order-column .section-title {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+.order-column .order-list {
+  flex-grow: 1; /* Растягиваем список заказов, чтобы занял всё доступное место */
+  overflow-y: auto; /* Прокрутка по вертикали */
+  gap: 20px;
+  padding-right: 10px;
+}
+.order-column .order-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: #26272c;
+  border: 1px solid #9c6fe4;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 1vh;
+}
+.order-column .order-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+.order-column .order-card .order-info {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
+  width: 25vw;
+  /* Контейнер для меток */
+}
+.order-column .order-card .order-info .labels-container {
+  /* Селект */
+}
+.order-column .order-card .order-info .labels-container .label-group {
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  padding: 5px; /* Добавим немного отступа внутри коробки */
+  background: #2c2f36; /* Темный фон для коробки */
+  border-radius: 12px; /* Закругленные углы */
+  border-left: 1px solid #eaddfe; /* Легкая граница в фиолетовом */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Легкая тень для выделения */
+  transition: all 0.3s ease-in-out; /* Плавный переход */
+}
+.order-column .order-card .order-info .labels-container .label-group:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Увеличенная тень */
+  border-color: #d9743d;
+}
+.order-column .order-card .order-info .labels-container .label-group .order-stat {
+  font-weight: bold;
+  font-size: 18px;
+}
+.order-column .order-card .order-info .labels-container .label-group .order-stat.status-new {
+  color: #0000FF; /* Новый */
+  text-shadow: 0px 0px 0.5px #9999ff, 0.5px 0.5px 0px #9999ff, -1px -1px 0px #9999ff, 1px -1px 0px #9999ff, -1px 1px 0px #9999ff;
+}
+.order-column .order-card .order-info .labels-container .label-group .order-stat.status-in-progress {
+  color: #FFA500; /* В работе */
+  text-shadow: 0px 0px 1px #ffdb99, 1px 1px 0px #ffdb99, -1px -1px 0px #ffdb99, 1px -1px 0px #ffdb99, -1px 1px 0px #ffdb99;
+}
+.order-column .order-card .order-info .labels-container .label-group .order-stat.status-on-hold {
+  color: #800080; /* На удержании */
+  text-shadow: 0px 0px 1px #ff9999, 1px 1px 0px #ff9999, -1px -1px 0px #ff9999, 1px -1px 0px #ff9999, -1px 1px 0px #ff9999;
+}
+.order-column .order-card .order-info .labels-container .label-group .order-stat.status-ready {
+  color: #008000; /* Готов */
+  text-shadow: 0px 0px 1px #1aff1a, 1px 1px 0px #1aff1a, -1px -1px 0px #1aff1a, 1px -1px 0px #1aff1a, -1px 1px 0px #1aff1a;
+}
+.order-column .order-card .order-info .labels-container .label-group .order-stat.status-rejected {
+  color: #FF0000; /* Отказ */
+  text-shadow: 0px 0px 1px #ff9999, 1px 1px 0px #ff9999, -1px -1px 0px #ff9999, 1px -1px 0px #ff9999, -1px 1px 0px #ff9999;
+}
+.order-column .order-card .order-info .labels-container .status-text {
+  cursor: pointer;
+  font-size: 18px;
+  padding: 5px;
+  transition: all 0.3s ease-in-out;
+}
+.order-column .order-card .order-info .labels-container .status-text:hover {
+  color: #d9743d;
+}
+.order-column .order-card .order-info .labels-container .custom-select {
+  font-size: 18px;
+  padding: 10px;
+  padding-right: 35px; /* Место для иконки стрелки */
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative; /* Для позиционирования стрелки */
+}
+.order-column .order-card .order-info .labels-container .custom-select:focus {
+  border-color: #793dd9; /* Изменение цвета границы при фокусе */
+  box-shadow: 0 0 0 2px rgba(156, 111, 228, 0.5); /* Легкая тень вокруг select */
+}
+.order-column .order-card .order-info .labels-container .custom-select option {
+  background-color: #2c2f36;
+  color: #ccc;
+  padding: 10px;
+  border-radius: 8px;
+}
+.order-column .order-card .order-info p {
+  max-width: 25vw;
+  word-wrap: break-word;
+  margin: 0;
+}
+.order-column .order-card .order-info .order-label {
+  font-weight: bold;
+  color: #ccc;
+}
+.order-column .order-card .order-info .order-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.order-column .order-card .order-info .order-buttons .button-chat {
+  background: #9c6fe4;
+  width: 10vw;
+  height: 4vh;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.3s ease;
+}
+.order-column .order-card .order-info .order-buttons .button-chat:hover {
+  background: #793dd9;
+}
+.order-column .order-card .order-info .order-buttons .button-delete {
+  background: #e63946;
+  width: 10vw;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.3s ease;
+}
+.order-column .order-card .order-info .order-buttons .button-delete:hover {
+  background: #c5283d;
+}
+.order-column .order-card .order-image {
+  position: relative; /* Убедитесь, что родитель имеет relative */
+  padding: 16px;
+  max-width: 17vw;
+  border-radius: 10px;
+  height: -moz-fit-content;
+  height: fit-content;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+.order-column .order-card .order-image:hover {
+  transform: scale(1.2);
+}/*# sourceMappingURL=OrderPage.css.map */

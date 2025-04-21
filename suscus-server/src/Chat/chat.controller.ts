@@ -21,9 +21,20 @@ export class ChatController {
   }
 
   @UseGuards(AuthGuard)
+@Post('messages/read')
+markAllMessagesAsRead(
+  @Body() body: { chatId: number },
+  @Request() req
+) {
+  return this.chatService.markAllAsRead(body.chatId, req.user.id);
+}
+
+
+  @UseGuards(AuthGuard)
   @Get('messages')
   getChatMessages(@Query('chatId') chatId: string): any {
-    return this.chatService.getChatMessages(chatId);
+    return this.chatService.getChatMessages(Number(chatId));
+    ;
   }
 
   @UseGuards(AuthGuard)

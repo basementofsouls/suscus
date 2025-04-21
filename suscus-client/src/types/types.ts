@@ -85,7 +85,8 @@ export type Message = {
   chat_id: number;
   sender_id: number;
   text: string;
-  created_at?: Date;
+  created_at: Date | string;
+  read_at: Date | string | null;
   chat?: Chat;
   sender?: User;
 };

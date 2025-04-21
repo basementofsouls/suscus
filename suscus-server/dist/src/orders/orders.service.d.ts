@@ -4,8 +4,7 @@ export declare class OrdersService {
     constructor(prisma: PrismaService);
     getOrderById(id: any): any;
     getOrders(user_id: any): any;
-    getArtistOrders(user_id: any): any;
-    createOrder(data: any): import(".prisma/client").Prisma.Prisma__ordersClient<{
+    updateOrderStatus(orderId: number, newStatus: string): Promise<{
         id: number;
         created_at: Date | null;
         updated_at: Date | null;
@@ -14,8 +13,9 @@ export declare class OrdersService {
         user_id: number;
         reference: string | null;
         status: string;
-    }, never, import("@prisma/client/runtime/library").DefaultArgs>;
-    updateOrder(data: any): import(".prisma/client").Prisma.Prisma__ordersClient<{
+    }>;
+    getArtistOrders(user_id: number): any;
+    createOrder(data: any): import(".prisma/client").Prisma.Prisma__ordersClient<{
         id: number;
         created_at: Date | null;
         updated_at: Date | null;

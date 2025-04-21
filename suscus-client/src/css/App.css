@@ -4,9 +4,10 @@
 .app-wrapper {
   display: flex;
 }
+
 .content {
   flex: 1;
-  max-width: 1840px;
+  max-width: 100vw;
   height: 100vh;
   overflow-y: hidden;
 }

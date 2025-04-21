@@ -10,11 +10,32 @@ export class OrdersService {
   }
 
   getOrders(user_id: any): any {
-    return this.prisma.orders.findMany({ where: { user_id } });
+    return this.prisma.orders.findMany({
+      where: { user_id },
+      include: {
+        user: { select: { username: true } },   // Получаем имя клиента (пользователя)
+        artist: { select: { username: true } }, // Получаем имя художника (пользователя)
+      },
+    });
   }
 
-  getArtistOrders(user_id: any): any {
-    return this.prisma.orders.findMany({ where: { artist_id: user_id } });
+  async updateOrderStatus(orderId: number, newStatus: string) {
+    return this.prisma.orders.update({
+      where: { id: orderId },
+      data: { status: newStatus, updated_at: new Date() },
+    });
+  }
+  
+  
+
+  getArtistOrders(user_id: number): any {
+    return this.prisma.orders.findMany({
+      where: { artist_id: user_id },
+      include: {
+        user: { select: { username: true } },   // Имя клиента
+        artist: { select: { username: true } }, // Имя художника
+      },
+    });
   }
 
   createOrder(data: any) {
@@ -24,15 +45,8 @@ export class OrdersService {
         user_id: data.user_id,
         reference: data.image_url,
         description: data.description,
-        status: 'created',
+        status: 'Новый',
       },
-    });
-  }
-
-  updateOrder(data: any) {
-    return this.prisma.orders.update({
-      where: { id: data.id },
-      data: { status: data.status },
     });
   }
 

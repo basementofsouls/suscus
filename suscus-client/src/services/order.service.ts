@@ -3,11 +3,15 @@ import $api from "../http/http";
 
 export default class OrderService {
   static async getMyOrders(): Promise<AxiosResponse<any>> {
-    return $api.get<any>("orders/my").then((response) => response);
+    return $api.get<any>("orders/my", {
+      params: { includeUser: true }, // добавляем параметр для получения данных пользователя
+    }).then((response) => response);
   }
-
+  
   static async getArtistOrders(): Promise<AxiosResponse<any>> {
-    return $api.get<any>("orders/artist").then((response) => response);
+    return $api.get<any>("orders/artist", {
+      params: { includeArtist: true }, // добавляем параметр для получения данных художника
+    }).then((response) => response);
   }
 
   static async createOrder(formData: any): Promise<AxiosResponse<any>> {
@@ -18,6 +22,10 @@ export default class OrderService {
         },
       })
       .then((response) => response);
+  }
+
+  static async getOrderById(id: number) {
+    return $api.get(`/orders/${id}`);
   }
 
   static async updateOrderStatus(data: any): Promise<AxiosResponse<any>> {

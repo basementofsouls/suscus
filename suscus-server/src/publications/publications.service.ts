@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
@@ -61,6 +62,11 @@ export class PublicationsService {
         where: filters,
         include: {
           publication_categories: true, // Включаем категории в результат (если нужно)
+          users: {
+            select: {
+              username: true, // Добавляем username артиста
+            },
+          },
         },
       });
 
@@ -71,13 +77,16 @@ export class PublicationsService {
     }
   }
 
+
   async createPublication(data: any) {
     const publication = await this.prisma.publications.create({
       data: {
-        artist_id: data.artist_id,
         title: data.title,
         image_url: data.image_url,
         description: data.description ? data.description : null,
+        users: {
+          connect: {id : data.artist_id}
+        }
       },
     });
     if (data.categories.length > 0) {
@@ -93,7 +102,7 @@ export class PublicationsService {
     return publication;
   }
 
-  async updatePublication(data) {
+  async updatePublication(data:any) {
     return await this.prisma.publications.update({
       where: { id: data.id },
       data: { description: data.description },

@@ -22,7 +22,7 @@ let ChatGateway = class ChatGateway {
     }
     async handleJoinChat({ chatId }, client) {
         const chat = await this.chatService.findById(chatId);
-        if (chat.length > 0) {
+        if (chat.messages.length > 0) {
             client.join(`chat_${chatId}`);
             this.server.to(`chat_${chatId}`).emit('chatJoined', { chatId });
         }

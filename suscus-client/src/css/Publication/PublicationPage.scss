@@ -1,0 +1,174 @@
+
+  html, body {
+    overflow-x: hidden; /* Убираем горизонтальный скроллинг */
+    overflow-y: visible;
+  }
+  
+  .publication-page {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 12px;
+    background-color: #22222222;
+    min-height: 100vh;
+  }
+  
+  .publication-page-header {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .publication-page-block {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    max-width: 90vw;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .publication-page-column {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .publication-page-image {
+    width: auto;
+    max-height: 60vh;
+    max-width: 45vw;
+    border-radius: 12px;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  
+  .publication-page-image:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  .publication-page-comments {
+    width: 100%;
+    max-width: 40vw;
+    background: #ffffff23;
+    color:#ffffffed;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Разрешаем вертикальный скроллинг в блоке комментариев */
+    max-height: 600px; /* Устанавливаем максимальную высоту для комментариев */
+  }
+  
+  .publication-page-footer {
+    display: flex;
+    flex-direction: column; /* Элементы футера идут друг под другом */
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #ffffff23;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    position: relative;
+  }
+  
+  .publication-page-footer-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between; /* Разделяем элементы футера */
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  .publication-page-footer-row a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #7bb8fa;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .publication-page-footer-row a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+  }
+  
+  .publication-page-footer-row div, .publication-page-footer-row p {
+    cursor: pointer;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .publication-page-footer-row div:hover,
+  .publication-page-footer-row p:hover {
+    color: #ff4d4d;
+  }
+  
+  /* Стили для описания публикации */
+  .publication-page-description {
+    border-radius: 6px;
+    font-size: 17px;
+    color: #f5f5f5;
+    font-weight: 500;
+    line-height: 1.5;
+    min-width: 50vw;
+    max-width: 50vw;
+    word-wrap: break-word;
+    padding: 2px;
+  }
+  
+  @media (max-width: 768px) {
+    .publication-page-footer {
+      padding: 10px;
+      min-height: 60px; /* Немного уменьшили высоту на мобильных */
+    }
+  
+    .publication-page-footer-row {
+      flex-direction: column; /* Для мобильных экранов контент будет выстраиваться по вертикали */
+      align-items: center; /* Выравнивание по центру */
+    }
+  }
+  
+  
+  textarea {
+    width: 50vw;
+    height: 80px;
+    padding: 12px;
+    border: 1px solid #f950ff;
+    background-color: rgba(240, 248, 255, 0.356);
+    border-radius: 6px;
+    font-size: 16px;
+    resize: none;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+  textarea:focus {
+    border-color: #007bff;
+  }
+  
+  /* Медиа-запросы для адаптивности */
+  @media (max-width: 768px) {
+    .publication-page {
+      padding: 15px;
+    }
+  
+    .publication-page-block {
+      flex-direction: column;
+      align-items: center;
+      padding: 15px;
+    }
+  
+    .publication-page-image {
+      max-width: 100%;
+    }
+  }
+  

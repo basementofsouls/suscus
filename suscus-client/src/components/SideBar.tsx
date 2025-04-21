@@ -1,41 +1,41 @@
-import { Link } from "react-router-dom";
-import "../css/Sidebar.css";
+import { NavLink } from "react-router-dom";
+import "../css/Sidebar/Sidebar.css";
 
 const SideBar = () => {
   return (
     <nav className="sidebar">
       <div className="sidebar-notification">
-        {/*
-          <Link to="/">
+        {/* 
+          <NavLink to="/">
             <img src="/ico/notification.svg" className="navbar-ico" />
-          </Link>
+          </NavLink>
         */}
       </div>
       <ul className="main-navigation">
         <li>
-          <Link to="/gallery">
+          <NavLink to="/gallery" className={({ isActive }) => (isActive ? "active" : "")}>
             <img src="/ico/home.svg" className="navbar-ico" />
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/profile">
+          <NavLink to="/profile" className={({ isActive }) => (isActive ? "active" : "")}>
             <img src="/ico/profile.svg" className="navbar-ico" />
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/chat">
+          <NavLink to="/chat" className={({ isActive }) => (isActive ? "active" : "")}>
             <img src="/ico/bxs_chat.svg" className="navbar-ico" />
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/orders">
+          <NavLink to="/orders" className={({ isActive }) => (isActive ? "active" : "")}>
             <img src="/ico/blank.svg" className="navbar-ico" />
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/settings">
+          <NavLink to="/settings" className={({ isActive }) => (isActive ? "active" : "")}>
             <img src="/ico/gear.svg" className="navbar-ico" />
-          </Link>
+          </NavLink>
         </li>
       </ul>
     </nav>

@@ -16,7 +16,7 @@
   border-radius: 11px;
   padding: 10px;
   overflow-y: auto;
-  height: 600px;
+  height: 90vh;
   width: 400px;
 }
 .order-list-item {
@@ -27,8 +27,19 @@
   flex-direction: row;
   justify-content: space-between;
 }
+.order-list-item-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 .order-image {
   width: 200px;
   height: 200px;
   object-fit: cover;
+
+}
+.order-buttons{
+  display: flex;
+  flex-direction: row;
+  gap:8px;
 }

@@ -1,11 +1,15 @@
 .hello-page-block {
   background-color: #1c1d21;
+  height: 80vh;
+  width: 100vw;
+  align-content: center;
 }
 .hello-page-block-right-column {
   margin: 0 240px;
-  width: 600px;
+  width: 35vw;
 }
 .hello-page-block-title {
+  width:50vw;
   font-size: 70px;
   font-weight: 900;
 }

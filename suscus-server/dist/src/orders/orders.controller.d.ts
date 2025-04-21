@@ -21,9 +21,20 @@ export declare class OrdersController {
     } | {
         message: string;
     }>;
-    updareOrders(req: any, body: {
-        id: string;
+    updateOrderStatus(req: any, body: {
+        id: number;
         status: string;
-    }): any;
+    }): Promise<{
+        id: number;
+        created_at: Date | null;
+        updated_at: Date | null;
+        artist_id: number;
+        description: string | null;
+        user_id: number;
+        reference: string | null;
+        status: string;
+    } | {
+        message: string;
+    }>;
     deletePublications(req: any, query: any): Promise<any>;
 }

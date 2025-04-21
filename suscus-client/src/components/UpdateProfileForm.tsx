@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext,useEffect } from "react";
 import "../css/UpdateProfileForm.css";
 import { observer } from "mobx-react-lite";
 import { Context } from "../main";
@@ -9,7 +9,17 @@ const UpdateProfileForm: React.FC = () => {
     username: "",
     password: "",
     file: null as File | null,
+    preview:''
   });
+
+   useEffect(() => {
+    const user = store.user;
+    setForm((prev) => ({
+      ...prev,
+      username: user?.username || "",
+      preview: user?.avatar || ""
+    }));
+  }, [store.user]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -55,23 +65,41 @@ const UpdateProfileForm: React.FC = () => {
           }
           className="update-profile-form-input"
         />
-        <input
-          type="file"
-          accept="image/png, image/jpeg"
-          onChange={(e) => {
-            const file = e.target.files?.[0];
-            if (
-              file &&
-              (file.type === "image/png" || file.type === "image/jpeg")
-            ) {
-              setForm({ ...form, file });
-            } else {
-              alert("Можно загружать только файлы PNG или JPG.");
-              e.target.value = ""; // Сбрасываем выбранный файл
-            }
-          }}
-          className="update-profile-form-input"
-        />
+        <div className="image-upload-container">
+                    <input
+                      type="file"
+                      accept="image/png, image/jpeg"
+                      id="file-upload"
+                      style={{ display: "none" }}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (
+                          file &&
+                          (file.type === "image/png" || file.type === "image/jpeg")
+                        ) {
+                          setForm({
+                            ...form,
+                            file,
+                            preview: URL.createObjectURL(file),
+                          });
+                        } else {
+                          alert("Можно загружать только файлы PNG или JPG.");
+                          e.target.value = "";
+                        }
+                      }}
+                    />
+                    <label htmlFor="file-upload" className="custom-upload">
+                      {form.preview ? (
+                        <img
+                          src={form.preview}
+                          alt="Preview"
+                          className="image-preview"
+                        />
+                      ) : (
+                        <div className="plus-icon">+</div>
+                      )}
+                    </label>
+                  </div>
         <button
           type="submit"
           className={`${

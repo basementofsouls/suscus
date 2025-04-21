@@ -8,21 +8,32 @@ const CreatePublicationForm: React.FC = () => {
   const [categories, setCategories] = useState<Array<number>>([]);
   const [OpenPopUp, isOpenPopUp] = useState<boolean>(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const initialForm = {
+    title: "",
+    description: "",
+    file: null as File | null,
+    preview: "",
+  };
+  
 
   const [form, setForm] = useState({
     title: "",
     description: "",
     file: null as File | null,
+    preview: ''
   });
 
   const handleChangePopUpState = () => {
     if (OpenPopUp) {
       dialogRef.current?.close();
+      setForm(initialForm);       // Сброс формы при закрытии
+      setCategories([]);          // Сброс категорий
     } else {
       dialogRef.current?.showModal();
     }
     isOpenPopUp(!OpenPopUp);
   };
+  
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -71,26 +82,45 @@ const CreatePublicationForm: React.FC = () => {
                   className="create-publication-form-input"
                 />
               </div>
-              <div>
-                <h3 className="publication-form-title">Image</h3>
-                <input
-                  type="file"
-                  accept="image/png, image/jpeg"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (
-                      file &&
-                      (file.type === "image/png" || file.type === "image/jpeg")
-                    ) {
-                      setForm({ ...form, file: e.target.files?.[0] || null });
-                    } else {
-                      alert("Можно загружать только файлы PNG или JPG.");
-                      e.target.value = ""; // Сбрасываем выбранный файл
-                    }
-                  }}
-                  className="create-publication-form-input"
-                />
-              </div>
+                <div>
+                  <h3 className="publication-form-title">Image</h3>
+                  <div className="image-upload-container">
+                    <input
+                      type="file"
+                      accept="image/png, image/jpeg"
+                      id="file-upload"
+                      style={{ display: "none" }}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (
+                          file &&
+                          (file.type === "image/png" || file.type === "image/jpeg")
+                        ) {
+                          setForm({
+                            ...form,
+                            file,
+                            preview: URL.createObjectURL(file),
+                          });
+                        } else {
+                          alert("Можно загружать только файлы PNG или JPG.");
+                          e.target.value = "";
+                        }
+                      }}
+                    />
+                    <label htmlFor="file-upload" className="custom-upload">
+                      {form.preview ? (
+                        <img
+                          src={form.preview}
+                          alt="Preview"
+                          className="image-preview"
+                        />
+                      ) : (
+                        <div className="plus-icon">+</div>
+                      )}
+                    </label>
+                  </div>
+                </div>
+
             </div>
             <div>
               <h3 className="publication-form-title">Description</h3>

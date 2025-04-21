@@ -46,7 +46,6 @@ export class PublicationsController {
     },
   ) {
     const link = await this.fileService.uploadFile(file);
-
     return this.pubService.createPublication({
       title: body.title,
       image_url: link,

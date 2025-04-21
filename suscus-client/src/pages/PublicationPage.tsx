@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom"; // Импорт useParams
-import "../css/PublicationPage.css";
+import "../css/Publication/PublicationPage.css";
 import PublicationService from "../services/publication.service";
 import CommentsBlock from "../components/commentsBlock";
 import { Context } from "../main";
@@ -10,16 +10,14 @@ const PublicationPage = () => {
   const { store } = useContext(Context);
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>(); // Получение параметра id из маршрута
-  const [publication, setPublication] = useState<Publication>(
-    {} as Publication
-  );
-
+  const [publication, setPublication] = useState<Publication>({} as Publication);
   const [changeDiscription, setChangeDiscription] = useState(false);
 
   const handlerUpdatePublication = async () => {
     await PublicationService.updatePublication(publication);
     setChangeDiscription(false);
   };
+  
   const handlerDeletePublication = async () => {
     if (id) await PublicationService.deletePublication(id);
     navigate("/gallery");
@@ -31,8 +29,6 @@ const PublicationPage = () => {
         // Если id существует и это число
         const resp = await PublicationService.getPublicationById(Number(id));
         setPublication(resp.data[0]);
-
-        //подгрузка комментариев
       }
     };
 
@@ -44,7 +40,7 @@ const PublicationPage = () => {
       {publication ? (
         <>
           <div className="publication-page-header">
-            <p>{publication.title}</p>
+            <p className="publication-title">{publication.title}</p>
           </div>
           <div className="publication-page-block">
             <div className="publication-page-column">
@@ -63,11 +59,12 @@ const PublicationPage = () => {
           <div>
             <div className="publication-page-footer">
               <div className="publication-page-footer-row">
-                <Link to={`${"/artist/" + publication.artist_id}`}>
-                  Artist Profile
+                <Link to={`${"/artist/" + publication.artist_id}`} className="publication-artist-link">
+                  {publication.users?.username} 
                 </Link>
                 {publication.artist_id == store.user.id ? (
                   <div
+                    className="publication-edit-button"
                     onClick={() => {
                       setChangeDiscription(true);
                     }}
@@ -78,20 +75,20 @@ const PublicationPage = () => {
                   ""
                 )}
                 {changeDiscription ? (
-                  <p onClick={handlerUpdatePublication}>Сохранить</p>
+                  <p className="publication-save-button" onClick={handlerUpdatePublication}>Сохранить</p>
                 ) : (
                   ""
                 )}
 
-                {publication.artist_id == store.user.id ||
-                store.user.role == "manager" ? (
-                  <p onClick={handlerDeletePublication}>Удалить</p>
+                {publication.artist_id == store.user.id || store.user.role == "manager" ? (
+                  <p className="publication-delete-button" onClick={handlerDeletePublication}>Удалить</p>
                 ) : (
                   ""
                 )}
               </div>
               {changeDiscription ? (
                 <textarea
+                  className="publication-edit-description"
                   value={publication.description}
                   onChange={(e) => {
                     setPublication({
@@ -102,8 +99,7 @@ const PublicationPage = () => {
                 />
               ) : (
                 <p className="publication-page-description">
-                  {publication?.description?.slice(0, 200) ||
-                    "Описание недоступно"}
+                  {publication?.description?.slice(0, 200) || "Описание недоступно"}
                 </p>
               )}
               <p></p>
@@ -111,7 +107,7 @@ const PublicationPage = () => {
           </div>
         </>
       ) : (
-        "No publication found"
+        <p className="no-publication-found">No publication found</p>
       )}
     </div>
   );

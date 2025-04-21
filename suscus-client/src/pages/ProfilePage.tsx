@@ -80,7 +80,7 @@ const ProfilePage = () => {
               )}
 
               {user.role === "user" ? (
-                <button onClick={handlerBeArtistClick}>BeArtist</button>
+                <button onClick={handlerBeArtistClick}>Be Artist</button>
               ) : (
                 ""
               )}

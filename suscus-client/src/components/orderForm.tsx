@@ -11,13 +11,23 @@ const OrderForm: React.FC<OrderFormProto> = ({ id }) => {
     artistId: id,
     description: "",
     file: null as File | null, // Поле для файла
+    preview: "", 
   });
   const [OpenPopUp, isOpenPopUp] = useState<boolean>(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const initialForm = {
+    artistId: id,
+    description: "",
+    file: null as File | null, // Поле для файла
+    preview: "", 
+  };
+  
+
 
   const handleChangePopUpState = () => {
     if (OpenPopUp) {
       dialogRef.current?.close();
+      setForm(initialForm);       // Сброс формы при закрытии
     } else {
       dialogRef.current?.showModal();
     }
@@ -50,47 +60,58 @@ const OrderForm: React.FC<OrderFormProto> = ({ id }) => {
   return (
     <>
       <div className="button-purple" onClick={handleChangePopUpState}>
-        Create Order
+        Make an Order
       </div>
-      <dialog className="popup create-order-popup" ref={dialogRef}>
+      <dialog className="create-order-popup" ref={dialogRef}>
         <div className="popup-header">
           <h3>Order</h3>
           <div onClick={handleChangePopUpState}>X</div>
         </div>
         <form onSubmit={handleSubmit} className="create-publication-form">
-          {/*
-            <input
-              type="text"
-              placeholder="Artist ID"
-              value={form.artistId}
-              onChange={(e) => setForm({ ...form, artistId: e.target.value })}
-              className="create-publication-form-input"
-            />
-          */}
-
           <textarea
             placeholder="Description"
             value={form.description}
             onChange={(e) => setForm({ ...form, description: e.target.value })}
             className="create-publication-form-input"
           ></textarea>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (
-                file &&
-                (file.type === "image/png" || file.type === "image/jpeg")
-              ) {
-                setForm({ ...form, file: e.target.files?.[0] || null });
-              } else {
-                alert("Можно загружать только файлы PNG или JPG.");
-                e.target.value = ""; // Сбрасываем выбранный файл
-              }
-            }}
-            className="create-publication-form-input"
-          />
+         <div>
+                  <h3 className="publication-form-title">Image</h3>
+                  <div className="image-upload-container">
+                    <input
+                      type="file"
+                      accept="image/png, image/jpeg"
+                      id="file-upload"
+                      style={{ display: "none" }}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (
+                          file &&
+                          (file.type === "image/png" || file.type === "image/jpeg")
+                        ) {
+                          setForm({
+                            ...form,
+                            file,
+                            preview: URL.createObjectURL(file),
+                          });
+                        } else {
+                          alert("Можно загружать только файлы PNG или JPG.");
+                          e.target.value = "";
+                        }
+                      }}
+                    />
+                    <label htmlFor="file-upload" className="custom-upload">
+                      {form.preview ? (
+                        <img
+                          src={form.preview}
+                          alt="Preview"
+                          className="image-preview"
+                        />
+                      ) : (
+                        <div className="plus-icon">+</div>
+                      )}
+                    </label>
+                  </div>
+                </div>
           <button
             type="submit"
             className={`${form.description.length == 0 ? "unactive" : ""}`}

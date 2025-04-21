@@ -1,31 +1,76 @@
 .gallery-list {
-  width: 100%;
-  max-height: 100%;
+  --grid-layout-gap: 10px;
+  --grid-column-count: 5; /* Количество колонок (можно изменить) */
+  --grid-item--min-width: 200px;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--grid-item--min-width), 1fr));
+  grid-auto-rows: 10px; /* Устанавливаем минимальную высоту строки */
+  gap: var(--grid-layout-gap);
+  
+  width: 100%;       
+  max-height: 95vh;
   overflow-y: scroll;
-
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-
   justify-content: center;
+  align-content: start; /* Плотное прилегание */
 }
+
 .gallery-item {
-  position: relative;
   background-color: rgb(31, 31, 31);
   border-radius: 8px;
-  width: 216px;
-  height: 300px;
+  width: 100%;
+  position: relative;
+  overflow: hidden; /* Обрезаем изображение по границам */
+  display: flex;
+  align-items: center; /* Центрируем по вертикали */
+  justify-content: center; /* Центрируем по горизонтали */
 }
+
+/* Чередуем высоту через grid-row-end */
+.gallery-item:nth-child(1n) {
+  grid-row-end: span 14 /* Примерная высота 200px */
+}
+.gallery-item:nth-child(2n) {
+  grid-row-end: span 16; /* Примерная высота 200px */
+}
+.gallery-item:nth-child(3n) {
+  grid-row-end: span 18; /* Примерная высота 240px */
+}
+.gallery-item:nth-child(4n) {
+  grid-row-end: span 14; /* Примерная высота 280px */
+}
+.gallery-item:nth-child(5n) {
+  grid-row-end: span 16; /* Примерная высота 280px */
+}
+.gallery-item:nth-child(6n) {
+  grid-row-end: span 14; /* Примерная высота 280px */
+}
+
 .gallery-image {
-  object-fit: cover;
-  height: 300px;
-  width: 216px;
   border-radius: 8px;
-}
-.gallery-item-title {
-  color: white;
-  font-size: 22px;
+  width: 150%; /* Делаем шире контейнера */
+  height: 100%;
   position: absolute;
-  bottom: 10px;
-  left: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Центрируем по X и Y */
+  object-fit: cover; /* Заполняем контейнер без искажений */
 }
+
+.gallery-item-title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.6); /* Затемненный фон */
+  color: white;
+  font-size: 16px;
+  text-align: left;
+  font-weight: bold;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+
+

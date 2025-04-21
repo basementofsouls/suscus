@@ -19,24 +19,50 @@ let CommentsService = class CommentsService {
     async getComment(id) {
         return await this.prisma.comments.findMany({
             where: { id: parseInt(id) },
+            include: {
+                users: { select: { username: true } }
+            },
         });
     }
     async getComments(query) {
         return await this.prisma.comments.findMany({
             where: { publication_id: parseInt(query.id) },
+            include: {
+                users: { select: { username: true } }
+            },
         });
     }
     async createComment(data) {
-        return await this.prisma.comments.create({
+        const comment = await this.prisma.comments.create({
             data: {
                 user_id: data.user,
                 publication_id: data.publicationId,
                 content: data.content,
             },
+            include: {
+                users: { select: { username: true } }
+            },
         });
+        return comment;
     }
     async updateComment(data) {
-        return await this.prisma.comments.update({ where: { id: data.id }, data });
+        const updateData = {};
+        if (data.content) {
+            updateData.content = data.content;
+        }
+        if (data.publication_id) {
+            updateData.publication_id = data.publication_id;
+        }
+        updateData.updated_at = new Date().toISOString();
+        return await this.prisma.comments.update({
+            where: {
+                id: data.id,
+            },
+            data: updateData,
+            include: {
+                users: { select: { username: true } }
+            },
+        });
     }
     async deleteComment(query) {
         return await this.prisma.comments.delete({

@@ -5,6 +5,7 @@ import PublicationService from "../services/publication.service";
 import SearchForm from "../components/SearchForm";
 import { Publication } from "../types/types";
 
+
 const MainPage = () => {
   const [publications, setPublications] = useState<Publication[]>(
     [] as Publication[]
