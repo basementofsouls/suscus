@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import { Context } from "../main";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import "../css/Chat/ChatPage.css";
 
 const socket = io(import.meta.env.VITE_CHAT_WEBSOCKET_URL || "http://localhost:3000");
@@ -101,6 +102,12 @@ const ChatPage = () => {
     }
   }, [messages]);
   
+  const ShareIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 20">
+      <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7a2.5 2.5 0 0 0 0-1.39l7.02-4.11A2.994 2.994 0 1 0 14 5.91L7 10a3 3 0 0 0 0 4l7 4.09a3 3 0 1 0 1.05-1.64l-7.02-4.11a2.5 2.5 0 0 0 0-1.39l7.13-4.19A2.99 2.99 0 1 0 18 16.08z"/>
+    </svg>
+  );
+  
   const openChat = (chat: Chat) => {
     if (currentChat?.id === chat.id) return;
   
@@ -148,6 +155,65 @@ const ChatPage = () => {
   
     socket.emit("joinChat", { chatId: chat.id });
   };
+  
+  const parseStyledText = (text: string) => {
+    const escapeHtml = (str: string) =>
+      str.replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;");
+  
+    const escaped = escapeHtml(text);
+  
+    const withBold = escaped.replace(/\*(.*?)\*/g, "<strong>$1</strong>");
+    const withItalic = withBold.replace(/_(.*?)_/g, "<em>$1</em>");
+    
+    return withItalic;
+  };
+  
+  
+  const renderMessageText = (text: string) => {
+    const isShare = text.startsWith("::share::");
+    const cleanedText = isShare ? text.replace("::share::", "") : text;
+  
+    const publicationRegex = /https?:\/\/[^ ]*\/publication\/(\d+)/g;
+    const parts = [];
+    let lastIndex = 0;
+    let match;
+  
+    while ((match = publicationRegex.exec(cleanedText)) !== null) {
+      const [url, id] = match;
+      const start = match.index;
+  
+      if (start > lastIndex) {
+        const styled = parseStyledText(cleanedText.slice(lastIndex, start));
+        parts.push(<span key={lastIndex} dangerouslySetInnerHTML={{ __html: styled }} />);
+      }
+  
+      parts.push(
+        <Link key={start} to={`/publication/${id}`} className="message-link">
+          {ShareIcon()} {url}
+        </Link>
+      );
+  
+      lastIndex = start + url.length;
+    }
+  
+    if (lastIndex < cleanedText.length) {
+      const styled = parseStyledText(cleanedText.slice(lastIndex));
+      parts.push(<span key={lastIndex} dangerouslySetInnerHTML={{ __html: styled }} />);
+    }
+  
+    const content = parts.map((part, i) => <span key={i}>{part}<br /></span>);
+  
+    return isShare ? (
+      <div className="shared-container">
+        <strong>🔗 Поделились публикацией:</strong>
+        <div className="shared-body">{content}</div>
+      </div>
+    ) : content;
+  };
+  
+  
   
   const sendMessage = () => {
     if (currentChat && text.trim()) {
@@ -227,7 +293,9 @@ const ChatPage = () => {
                         )}
                       </span>
                       {lastMessage && (
-                        <span className="chat-last-message">{lastMessage.text}</span>
+                        <span className="chat-last-message">
+                        {lastMessage.text.length > 25 ? `${lastMessage.text.slice(0, 25)}...` : lastMessage.text}
+                      </span>
                       )}
                     </div>
                   </div>
@@ -256,7 +324,10 @@ const ChatPage = () => {
                         {msg.created_at ? new Date(msg.created_at).toLocaleString() : "Дата неизвестна"}
                       </span>
                     </div>
-                    <p>{msg.text}</p>
+                    <div className="message-text">
+                            {renderMessageText(msg.text)}
+                          </div>
+
                   </div>
                 ))
               ) : (
@@ -267,7 +338,8 @@ const ChatPage = () => {
             <div className="message-input">
             <input
               type="text"
-              value={text}    
+              value={text}
+              maxLength={250}    
               onChange={(e) => setText(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
             />

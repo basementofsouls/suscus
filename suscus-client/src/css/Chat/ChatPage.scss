@@ -60,6 +60,30 @@
         }
       }
     }
+
+    .message-link {
+      display: flex;
+      align-items: center;
+      gap:6px;
+      padding: 10px 10px;
+      border-radius: 8px;
+      background-color: rgba(241, 187, 255, 0.1);
+      color: #f1bbff;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: inset 0 0 6px rgba(241, 187, 255, 0.4);
+      transition: all 0.2s ease;
+      border-bottom: 2px solid transparent;
+    }
+    
+    .message-link:hover {
+      color: #ec83ff;
+      background-color: rgba(241, 187, 255, 0.2);
+      box-shadow: inset 0 0 10px rgba(236, 131, 255, 0.5);
+      border-bottom: 2px solid #ec83ff;
+    }
+    
     .chat-item {
       display: flex;
       align-items: center;

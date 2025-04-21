@@ -1,6 +1,7 @@
 @charset "UTF-8";
 html, body {
-  overflow-x: hidden; /* Убираем горизонтальный скроллинг */
+  overflow-x: hidden;
+  /* Убираем горизонтальный скроллинг */
   overflow-y: visible;
 }
 
@@ -9,11 +10,14 @@ html, body {
   flex-direction: column;
   align-items: start;
   padding: 12px;
-  background-color: rgba(34, 34, 34, 0.1333333333);
+  background-color: #222222;
   min-height: 100vh;
 }
 
 .publication-page-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 2vw;
   font-size: 28px;
   font-weight: bold;
   color: white;
@@ -46,8 +50,7 @@ html, body {
   max-height: 60vh;
   max-width: 45vw;
   border-radius: 12px;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
@@ -56,24 +59,107 @@ html, body {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: #dedede;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+}
+
+.shared-container {
+  background: #ed87ff6d;
+  border-left: 3px solid #ed87ff6d;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 5px 0;
+  font-size: 0.95rem;
+}
+
+.shared-container strong {
+  display: inline-block;
+  margin-bottom: 5px;
+  font-style: italic;
+  color: #fff;
+}
+
+.shared-body a.message-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 10px;
+  padding-right: 5vw;
+  border-radius: 8px;
+  background-color: rgba(241, 187, 255, 0.1);
+  color: #f1bbff;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: inset 0 0 6px rgba(241, 187, 255, 0.4);
+  transition: all 0.2s ease;
+}
+
+.shared-body a.message-link svg {
+  margin-right: 5px;
+}
+
+.message-link:hover {
+  color: #ec83ff;
+  background-color: rgba(241, 187, 255, 0.2);
+  box-shadow: inset 0 0 10px rgba(236, 131, 255, 0.5);
+  border-bottom: 2px solid #ec83ff;
+}
+
+.chat-select-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+}
+
+.chat-select-list li {
+  padding: 10px;
+  color: #222222;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.chat-select-list li:hover {
+  background-color: #f5f5f5;
+}
+
 .publication-page-comments {
   width: 100%;
   max-width: 40vw;
-  background: rgba(255, 255, 255, 0.137254902);
-  color: rgba(255, 255, 255, 0.9294117647);
+  background: #ffffff23;
+  color: #ffffffed;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  overflow-y: auto; /* Разрешаем вертикальный скроллинг в блоке комментариев */
-  max-height: 600px; /* Устанавливаем максимальную высоту для комментариев */
+  overflow-y: auto;
+  /* Разрешаем вертикальный скроллинг в блоке комментариев */
+  max-height: 600px;
+  /* Устанавливаем максимальную высоту для комментариев */
 }
 
 .publication-page-footer {
   display: flex;
-  flex-direction: column; /* Элементы футера идут друг под другом */
+  flex-direction: column;
+  /* Элементы футера идут друг под другом */
   padding: 20px;
   margin-top: 20px;
-  background-color: rgba(255, 255, 255, 0.137254902);
+  background-color: #ffffff23;
   border-radius: 12px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   width: 100%;
@@ -83,7 +169,8 @@ html, body {
 .publication-page-footer-row {
   width: 100%;
   display: flex;
-  justify-content: space-between; /* Разделяем элементы футера */
+  justify-content: space-between;
+  /* Разделяем элементы футера */
   align-items: center;
   flex-wrap: wrap;
   gap: 15px;
@@ -99,7 +186,6 @@ html, body {
 
 .publication-page-footer-row a:hover {
   text-decoration: underline;
-  color: #0056b3;
 }
 
 .publication-page-footer-row div, .publication-page-footer-row p {
@@ -126,16 +212,37 @@ html, body {
   padding: 2px;
 }
 
+.share-btn {
+  display: flex;
+  align-items: center;
+  background-color: #f1bbff;
+  gap: 6px;
+  /* пространство между иконкой и текстом */
+}
+
+.share-btn button:hover {
+  background-color: #e16aff;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
 @media (max-width: 768px) {
   .publication-page-footer {
     padding: 10px;
-    min-height: 60px; /* Немного уменьшили высоту на мобильных */
+    min-height: 60px;
+    /* Немного уменьшили высоту на мобильных */
   }
   .publication-page-footer-row {
-    flex-direction: column; /* Для мобильных экранов контент будет выстраиваться по вертикали */
-    align-items: center; /* Выравнивание по центру */
+    flex-direction: column;
+    /* Для мобильных экранов контент будет выстраиваться по вертикали */
+    align-items: center;
+    /* Выравнивание по центру */
   }
 }
+
 textarea {
   width: 50vw;
   height: 80px;
@@ -166,4 +273,4 @@ textarea:focus {
   .publication-page-image {
     max-width: 100%;
   }
-}/*# sourceMappingURL=PublicationPage.css.map */
+}
