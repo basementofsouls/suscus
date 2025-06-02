@@ -14,7 +14,6 @@ import ArtistPage from "./pages/ArtistPage";
 import SettingsPage from "./pages/SettingsPage";
 import OrdersPage from "./pages/OrdersPage";
 import ChatPage from "./pages/ChatPage";
-import { StoreProvider } from "./components/Context";
 
 function App() {
   const { store } = useContext(Context);
@@ -34,7 +33,7 @@ function App() {
     ) {
       window.location.href = "/home";
     }
-  }, [store]);
+  }, [store.isAuth]);
 
   if (store.isLoading) {
     return <div>Loading</div>;

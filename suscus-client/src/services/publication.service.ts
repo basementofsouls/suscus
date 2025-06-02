@@ -38,7 +38,7 @@ export default class PublicationService {
     }
 
     // Выполняем запрос с параметрами
-    return $api.get<any>(`publications/search?${params.toString()}`);
+    return await $api.get<any>(`publications/search?${params.toString()}`);
   }
 
   static async getPublicationById(id: number): Promise<AxiosResponse<any>> {

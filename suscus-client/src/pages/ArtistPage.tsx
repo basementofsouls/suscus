@@ -61,7 +61,12 @@ const ArtistPage = () => {
               ) : (
                 ""
               )}
+              <div className="profile-top-block-right-column">
               {artist?.username ? artist.username : "no data"}
+              <p className="profile-email">
+                  {artist?.email ? artist.email : "no email"}
+                </p>
+                </div>
             </div>
 
             <div className="artist-page-buttons">
@@ -70,7 +75,7 @@ const ArtistPage = () => {
           </div>
 
           <div className="artist-gallery-block">
-            {publications ? <GalleryList publications={publications} /> : ""}
+            {publications ? <GalleryList publications={publications} className="gallery-list-artist" /> : ""}
           </div>
         </div>
       </div>

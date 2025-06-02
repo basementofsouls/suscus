@@ -31,7 +31,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ setSearch }) => {
         <input
           ref={searchRef}
           type="search"
-          placeholder="search"
+          placeholder="Search..."
           onChange={handleOnChangeSearch}
           className="search-form-input"
         />

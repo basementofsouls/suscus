@@ -11,12 +11,12 @@ const RegistrationPage = () => {
           <div className="login-page-form-top">
             <h1 className="login-page-form-title">Registration</h1>
             <p className="login-page-form-subtitle">
-              Enter your account details
+              Enter your personal data
             </p>
           </div>
           <RegistrationForm />
           <Link to="/login">
-            <p className="link-gray">sign in </p>
+            <p className="link-gray">Already with Us? Sign in. </p>
           </Link>
         </div>
       </div>

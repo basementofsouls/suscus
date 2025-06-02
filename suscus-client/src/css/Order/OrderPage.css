@@ -34,7 +34,8 @@
   flex: 1; /* Каждая колонка будет занимать равную ширину */
   display: flex;
   flex-direction: column;
-  max-height: 86vh; /* Ограничение высоты колонок */
+  max-height: 82vh; /* Ограничение высоты колонок */
+  max-width: 44vw;
   padding-right: 10px;
   /* Область прокрутки для списка заказов */
 }
@@ -94,28 +95,27 @@
   border-color: #d9743d;
 }
 .order-column .order-card .order-info .labels-container .label-group .order-stat {
-  font-weight: bold;
+  font-weight: 400;
   font-size: 18px;
 }
 .order-column .order-card .order-info .labels-container .label-group .order-stat.status-new {
-  color: #0000FF; /* Новый */
-  text-shadow: 0px 0px 0.5px #9999ff, 0.5px 0.5px 0px #9999ff, -1px -1px 0px #9999ff, 1px -1px 0px #9999ff, -1px 1px 0px #9999ff;
+  color: rgba(103, 180, 242, 0.9411764706);
 }
 .order-column .order-card .order-info .labels-container .label-group .order-stat.status-in-progress {
-  color: #FFA500; /* В работе */
-  text-shadow: 0px 0px 1px #ffdb99, 1px 1px 0px #ffdb99, -1px -1px 0px #ffdb99, 1px -1px 0px #ffdb99, -1px 1px 0px #ffdb99;
+  color: rgba(245, 200, 117, 0.8352941176); /* В работе */
+  text-shadow: 0px 0px 1px rgba(255, 255, 255, 0.8352941176), 1px 1px 0px rgba(255, 255, 255, 0.8352941176), -1px -1px 0px rgba(255, 255, 255, 0.8352941176), 1px -1px 0px rgba(255, 255, 255, 0.8352941176), -1px 1px 0px rgba(255, 255, 255, 0.8352941176);
 }
 .order-column .order-card .order-info .labels-container .label-group .order-stat.status-on-hold {
-  color: #800080; /* На удержании */
-  text-shadow: 0px 0px 1px #ff9999, 1px 1px 0px #ff9999, -1px -1px 0px #ff9999, 1px -1px 0px #ff9999, -1px 1px 0px #ff9999;
+  color: rgba(185, 65, 185, 0.8745098039); /* На удержании */
+  text-shadow: 0px 0px 1px rgba(221, 159, 159, 0.831372549), 1px 1px 0px rgba(221, 159, 159, 0.831372549), -1px -1px 0px rgba(221, 159, 159, 0.831372549), 1px -1px 0px rgba(221, 159, 159, 0.831372549), -1px 1px 0px rgba(221, 159, 159, 0.831372549);
 }
 .order-column .order-card .order-info .labels-container .label-group .order-stat.status-ready {
-  color: #008000; /* Готов */
-  text-shadow: 0px 0px 1px #1aff1a, 1px 1px 0px #1aff1a, -1px -1px 0px #1aff1a, 1px -1px 0px #1aff1a, -1px 1px 0px #1aff1a;
+  color: rgba(84, 196, 84, 0.8980392157); /* Готов */
+  text-shadow: 0px 0px 1px rgba(198, 235, 198, 0.8980392157), 1px 1px 0px rgba(198, 235, 198, 0.8980392157), -1px -1px 0px rgba(198, 235, 198, 0.8980392157), 1px -1px 0px rgba(198, 235, 198, 0.8980392157), -1px 1px 0px rgba(198, 235, 198, 0.8980392157);
 }
 .order-column .order-card .order-info .labels-container .label-group .order-stat.status-rejected {
-  color: #FF0000; /* Отказ */
-  text-shadow: 0px 0px 1px #ff9999, 1px 1px 0px #ff9999, -1px -1px 0px #ff9999, 1px -1px 0px #ff9999, -1px 1px 0px #ff9999;
+  color: rgba(168, 59, 59, 0.831372549); /* Отказ */
+  text-shadow: 0px 0px 1px rgba(221, 159, 159, 0.831372549), 1px 1px 0px rgba(221, 159, 159, 0.831372549), -1px -1px 0px rgba(221, 159, 159, 0.831372549), 1px -1px 0px rgba(221, 159, 159, 0.831372549), -1px 1px 0px rgba(221, 159, 159, 0.831372549);
 }
 .order-column .order-card .order-info .labels-container .status-text {
   cursor: pointer;

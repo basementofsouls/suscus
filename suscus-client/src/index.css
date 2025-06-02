@@ -115,8 +115,10 @@ input:-webkit-autofill:active {
 
 .link-gray,
 .link-gray:visited {
-  color: gray;
-  opacity: 0.5;
+  color: rgba(128, 174, 255, 0.913);
+  margin-top: 1vh;
+  text-decoration: underline;
+  font-family: monospace;
 }
 
 dialog {

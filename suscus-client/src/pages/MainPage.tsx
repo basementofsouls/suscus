@@ -10,6 +10,9 @@ const MainPage = () => {
   const [publications, setPublications] = useState<Publication[]>(
     [] as Publication[]
   );
+
+
+
   const [search, setSearch] = useState<any>({});
 
   useEffect(() => {
@@ -18,6 +21,7 @@ const MainPage = () => {
       setPublications(resp.data);
     };
     getPublications();
+    console.log("load data")
   }, [search]);
 
   return (
